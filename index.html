@@ -336,7 +336,7 @@ html[data-scale="85"]{zoom:.85}html[data-scale="95"]{zoom:.95}html[data-scale="1
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.9.2</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.9.3</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn" type="button" data-act="openSettings" aria-label="Настройки">
@@ -1436,7 +1436,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.9.2</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.9.3</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1489,7 +1489,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.9.2 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.9.3 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1516,7 +1516,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.9.2) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.9.3) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1878,7 +1878,7 @@ render();
 /* ---------- connect ---------- */
 
 /* ================= сетевой режим: Firebase, вход, роли ================= */
-var BAKED_CFG={"apiKey": "AIzaSyDSdKCJuPXxppmyftxR9VRI3_dsNNN_6tI", "authDomain": "agrotorg-b730e.firebaseapp.com", "projectId": "agrotorg-b730e", "storageBucket": "agrotorg-b730e.firebasestorage.app", "messagingSenderId": "126692618640", "appId": "1:126692618640:web:c5812b4f72c7a1e39ec315"}, cfgFixed=false, cfgSeeded=false, ME=null, USERS=[], FS=null, AUTH=null, FBCFG=null, UNSUB=[], BOOT=false;
+var BAKED_CFG={"apiKey": "AIzaSyDSdKCJuPXxppmyftxR9VRI3_dsNNN_6tI", "authDomain": "agrotorg-b730e.firebaseapp.com", "projectId": "agrotorg-b730e", "storageBucket": "agrotorg-b730e.firebasestorage.app", "messagingSenderId": "126692618640", "appId": "1:126692618640:web:c5812b4f72c7a1e39ec315"}, pubTitle=null, cfgFixed=false, cfgSeeded=false, ME=null, USERS=[], FS=null, AUTH=null, FBCFG=null, UNSUB=[], BOOT=false;
 var LS_FB='agrotorg.fbcfg';
 var ROLES={admin:'Администратор',keeper:'Кладовщик',viewer:'Только просмотр'};
 function loginEmail(l){return String(l).trim().toLowerCase()+'@agrotorg.app'}
@@ -1913,7 +1913,7 @@ function screenConfig(msg){
   };
 }
 function screenLogin(msg){
-  authShow('<h1>'+esc(appTitle())+'</h1><p>Войдите под своим логином.</p>'+
+  authShow('<h1 id="aTitle">'+esc((function(){try{return localStorage.getItem('agrotorg.title')||''}catch(e){return ''}})()||'\u00a0')+'</h1><p>Войдите под своим логином.</p>'+
    '<div class="field"><label for="aLogin">Логин</label><input id="aLogin" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"></div>'+
    '<div class="field"><label for="aPass">Пароль</label><input id="aPass" type="password" autocomplete="current-password"></div>'+
    '<div class="err" id="authErr">'+esc(msg||'')+'</div><button class="btn" type="button" id="aGo">Войти</button>'+
@@ -1927,6 +1927,7 @@ function screenLogin(msg){
   document.getElementById('aGo').onclick=go;
   document.getElementById('aPass').onkeydown=function(e){if(e.key==='Enter')go()};
   var af=document.getElementById('aFirst');if(af)af.onclick=screenBoot;
+  FS.doc('public/app').get().then(function(s){var t=s.exists&&s.data().title; if(!t)t=appTitle(); try{localStorage.setItem('agrotorg.title',t)}catch(e){} var h=document.getElementById('aTitle'); if(h)h.textContent=t; document.title=t}).catch(function(){var h=document.getElementById('aTitle'); if(h&&!h.textContent.trim())h.textContent=appTitle()});
   document.getElementById('aCfg').onclick=function(){if(confirm('Сменить подключение к базе на этом телефоне?')){try{localStorage.removeItem(LS_FB)}catch(e){}location.reload()}};
 }
 function screenBoot(){
@@ -1965,7 +1966,7 @@ function startFirebase(cfg){
 function onUser(u){
   if(BOOT) return;
   unsubAll();
-  if(!u){closeNotice();noticeShown=false;cfgReady=false;ME=null;USERS=[];moves=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
+  if(!u){pubTitle=null;closeNotice();noticeShown=false;cfgReady=false;ME=null;USERS=[];moves=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
   FS.doc('users/'+u.uid).get().then(function(s){
     if(!s.exists) return screenWait('Вы вошли, но доступ ещё не выдан. Попросите администратора добавить ваш логин в разделе «Настройки → Сотрудники».',true);
     var d=s.data(); if(d.active===false) return screenWait('Ваш доступ закрыт администратором.',true);
@@ -1985,6 +1986,7 @@ function startData(){
     cfg=s.exists?normCfg(s.data()):clone(DEFAULTS);
     if(!s.exists&&ME.role==='admin'&&!cfgSeeded){cfgSeeded=true;FS.doc('config/main').set(JSON.parse(JSON.stringify(normCfg(DEFAULTS)))).catch(function(){})}
     cfgReady=true; try{localStorage.setItem('agrotorg.title',cfg.title)}catch(e){}
+    if(ME.role==='admin'&&pubTitle!==cfg.title){pubTitle=cfg.title;FS.doc('public/app').set({title:cfg.title}).catch(function(){})}
     if(s.exists&&ME.role==='admin'&&!cfgFixed){var raw0=s.data(); if(!raw0.title||!raw0.notice){cfgFixed=true;FS.doc('config/main').set(JSON.parse(JSON.stringify(normCfg(raw0)))).catch(function(){})}}
     renderHeader(); maybeNotice(); noticeShown=true;
     if(loaded&&!S.settings) render();
