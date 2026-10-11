@@ -329,11 +329,14 @@ html[data-size="big"] input[type=password]{min-height:56px;font-size:18px}
 .staffrow .sf-ac{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .staffrow.off .nm{text-decoration:line-through;color:var(--muted)}
 .staffrow select{min-height:44px;width:auto;max-width:100%}
+html[data-scale="85"]{zoom:.85}html[data-scale="100"]{zoom:1}html[data-scale="115"]{zoom:1.15}
+@media (max-width:700px){html[data-scale="auto"]{zoom:.85}}
+@media (min-width:900px){.shell,.tabs .in{max-width:900px}.sheet .wrap{max-width:760px}.nbox{max-width:520px}button,[data-act]{cursor:pointer}.btn:hover{filter:brightness(1.08)}}
 </style>
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.8.2</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.9.1</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn" type="button" data-act="openSettings" aria-label="Настройки">
@@ -408,11 +411,12 @@ function normCfg(d){
   return c;
 }
 var cfg=clone(DEFAULTS), moves=[], D=derive([]), loaded=false, db=null, dbState='connecting', busy=false;
-var UI={theme:'auto',size:'big',dense:false};
-try{var u0=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u0.theme) UI.theme=u0.theme; if(u0.size) UI.size=u0.size; UI.dense=!!u0.dense;}catch(e){}
+var UI={theme:'auto',size:'big',dense:false,scale:'auto'};
+try{var u0=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u0.theme) UI.theme=u0.theme; if(u0.size) UI.size=u0.size; if(u0.scale) UI.scale=u0.scale; UI.dense=!!u0.dense;}catch(e){}
 function applyUI(save){
   var h=document.documentElement;
   if(UI.theme==='light'||UI.theme==='dark') h.setAttribute('data-theme',UI.theme); else h.removeAttribute('data-theme');
+  h.setAttribute('data-scale',UI.scale||'auto');
   h.setAttribute('data-size',UI.size==='normal'?'normal':'big');
   if(UI.dense) h.setAttribute('data-dense','1'); else h.removeAttribute('data-dense');
   if(save){try{localStorage.setItem('agro.ui',JSON.stringify(UI))}catch(e){}}
@@ -1432,7 +1436,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.8.2</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.9.1</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1485,7 +1489,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.8.2 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.9.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1512,7 +1516,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.8.2) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.9.1) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1590,6 +1594,7 @@ function uiGroupHtml(){
   return '<section class="group"><h2 class="lbl">Оформление (только на этом телефоне)</h2>'+
     seg('Тема','theme',[['auto','Авто'],['light','Светлая'],['dark','Тёмная']],UI.theme)+
     seg('Размер кнопок и полей','size',[['normal','Обычный'],['big','Крупный']],UI.size==='normal'?'normal':'big')+
+    seg('Масштаб страницы','scale',[['auto','Авто'],['85','85%'],['100','100%'],['115','115%']],UI.scale||'auto')+
     seg('Список ячеек','dense',[['0','Обычный'],['1','Плотный']],UI.dense?'1':'0')+'</section>';
 }
 function parseList(s,min,max){
