@@ -1562,7 +1562,7 @@ function renderSheet(){
   '<div class="field"><label for="dSec">Секций в ряду (до 99)</label><input id="dSec" type="number" inputmode="numeric" data-d="sections" value="'+esc(d.sections)+'"></div>'+
   '<div class="field"><label for="dFl">Этажи, куда можно класть товар</label><input id="dFl" type="text" data-d="floors" value="'+esc(d.floors)+'"></div>'+
   '<div class="field"><label for="dWarn">Предупреждать о сроке за, дней</label><input id="dWarn" type="number" inputmode="numeric" data-d="warnDays" value="'+esc(d.warnDays)+'"></div></div></section>'+
-  shelfGroupHtml(d)+uiGroupHtml()+accountGroupHtml()+staffGroupHtml()+importGroupHtml()+'<button class="btn" type="button" style="width:100%" data-act="saveSettings"'+(canSave()?'':' disabled')+'>Сохранить</button></div></div>';
+  shelfGroupHtml(d)+uiGroupHtml()+accountGroupHtml()+staffGroupHtml()+importGroupHtml()+bkGroupHtml2()+'<button class="btn" type="button" style="width:100%" data-act="saveSettings"'+(canSave()?'':' disabled')+'>Сохранить</button></div></div>';
 }
 function shelfGroupHtml(d){
   var rows=d.shelf.map(function(x,i){
@@ -1701,6 +1701,8 @@ document.addEventListener('click',function(e){
     case 'myPass': return changePass();
     case 'logout': return doLogout();
     case 'impPick': return impInput.click();
+    case 'bkSave2': return bkSave2();
+    case 'bkAuto2': if(el.dataset.v==='0'){AUTO2.on=false}else{AUTO2.on=true;AUTO2.days=Number(el.dataset.v)} au2Save(); return renderSheet();
     case 'pf': S.pf=el.dataset.id; S.logLimit=50; return render();
     case 'inProduct': if(F.product!==el.dataset.id) F.planId=''; F.product=el.dataset.id; F.placed=0; return render();
     case 'inCell': F.cell=el.dataset.cell; var ci=$('#inCell'); if(ci) ci.value=F.cell; return updateIn();
@@ -2074,6 +2076,37 @@ function impLoad(file){
   };
   r.readAsText(file);
 }
+
+/* ----- резервная копия в файл (Загрузки) ----- */
+var LS_BK2='agrotorg.net.lastBackup', LS_AU2='agrotorg.net.auto', AUTO2={on:true,days:7};
+try{var a0=JSON.parse(localStorage.getItem(LS_AU2)||'null'); if(a0){AUTO2.on=a0.on!==false; if([3,7,14].indexOf(a0.days)>=0) AUTO2.days=a0.days}}catch(e){}
+function au2Save(){try{localStorage.setItem(LS_AU2,JSON.stringify(AUTO2))}catch(e){}}
+function lastBk2(){try{var t=localStorage.getItem(LS_BK2);return t?new Date(t):null}catch(e){return null}}
+function bkDays2(){var t=lastBk2();return t?Math.floor((Date.now()-t.getTime())/864e5):999}
+function bkSave2(auto){
+  if(!moves.length&&!auto) return toast('В базе пока нет записей',true);
+  var data={app:'agrotorg',version:1,exported:new Date().toISOString(),by:ME?ME.name:'',config:cfg,moves:moves.map(function(m){return Object.assign({},m)})};
+  var d=new Date(), name='Агроторг-копия-'+d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'.json';
+  var blob=new Blob([JSON.stringify(data,null,1)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);
+  try{localStorage.setItem(LS_BK2,new Date().toISOString())}catch(e){}
+  toast((auto===true?'Автокопия сохранена в «Загрузки»: ':'Копия сохранена в «Загрузки»: ')+name);
+  if(S.settings) renderSheet();
+}
+function bkGroupHtml2(){
+  var lb=lastBk2();
+  var seg=[['0','Выкл'],['3','3 дня'],['7','7 дней'],['14','14 дней']].map(function(o){var cur=AUTO2.on?String(AUTO2.days):'0';return '<button type="button" data-act="bkAuto2" data-v="'+o[0]+'" aria-pressed="'+(cur===o[0])+'">'+o[1]+'</button>'}).join('');
+  return '<section class="group"><h2 class="lbl">Резервная копия в файл</h2>'+
+    '<p class="note" style="margin:0 0 10px">Все данные хранятся в общей базе. Копия сохраняется файлом в папку «Загрузки» (Downloads) этого телефона. Эти файлы не удаляйте. Из такого файла можно восстановить данные кнопкой «Загрузить файл копии».</p>'+
+    '<button class="btn sm" type="button" data-act="bkSave2">Сохранить копию сейчас</button>'+
+    '<p class="note" style="margin:8px 0 0">Последняя копия на этом телефоне: <b>'+(lb?dtFull(lb.toISOString()):'ещё не сохранялась')+'</b></p>'+
+    '<div class="uirow" style="margin-top:12px"><span class="small">Автокопия в «Загрузки»: сохраняется сама при первом касании экрана, когда подошёл срок</span><div class="seg" role="group" style="margin:0">'+seg+'</div></div></section>';
+}
+document.addEventListener('click',function(e){
+  if(!AUTO2.on||!ME||ME.role!=='admin'||!loaded||!moves.length) return;
+  if(bkDays2()>=AUTO2.days){ try{localStorage.setItem(LS_BK2,new Date().toISOString())}catch(x){} setTimeout(function(){bkSave2(true)},0) }
+},true);
 function boot(){
   if(BAKED_CFG) return startFirebase(BAKED_CFG);
   var raw=null; try{raw=localStorage.getItem(LS_FB)}catch(e){}
