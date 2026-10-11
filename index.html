@@ -310,7 +310,7 @@ html[data-dense="1"] .code{font-size:15px}
 .rpt .em{color:#555}
 .rpt p{margin:4px 0}
 
-#noticeRoot{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.55);display:none;place-items:center;padding:16px;overflow:auto}
+#noticeRoot{position:fixed;inset:0;z-index:110;background:rgba(0,0,0,.55);display:none;place-items:center;padding:16px;overflow:auto}
 .nbox{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:14px}
 .nbox h2{margin:0;font-size:20px}
 .ntext{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;font-size:19px;max-height:60vh;overflow:auto}
@@ -336,7 +336,7 @@ html[data-scale="85"]{zoom:.85}html[data-scale="95"]{zoom:.95}html[data-scale="1
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.9.3</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.9.4</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn" type="button" data-act="openSettings" aria-label="Настройки">
@@ -1436,7 +1436,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.9.3</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.9.4</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1489,7 +1489,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.9.3 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.9.4 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1516,7 +1516,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.9.3) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.9.4) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1927,7 +1927,7 @@ function screenLogin(msg){
   document.getElementById('aGo').onclick=go;
   document.getElementById('aPass').onkeydown=function(e){if(e.key==='Enter')go()};
   var af=document.getElementById('aFirst');if(af)af.onclick=screenBoot;
-  FS.doc('public/app').get().then(function(s){var t=s.exists&&s.data().title; if(!t)t=appTitle(); try{localStorage.setItem('agrotorg.title',t)}catch(e){} var h=document.getElementById('aTitle'); if(h)h.textContent=t; document.title=t}).catch(function(){var h=document.getElementById('aTitle'); if(h&&!h.textContent.trim())h.textContent=appTitle()});
+  FS.doc('public/app').get().then(function(s){var pd=s.exists?s.data():{}; var t=pd.title; if(!t)t=appTitle(); if(pd.notice&&pd.notice.on&&String(pd.notice.text||'').trim()&&!noticeShown) showNotice(pd.notice.text); try{localStorage.setItem('agrotorg.title',t)}catch(e){} var h=document.getElementById('aTitle'); if(h)h.textContent=t; document.title=t}).catch(function(){var h=document.getElementById('aTitle'); if(h&&!h.textContent.trim())h.textContent=appTitle()});
   document.getElementById('aCfg').onclick=function(){if(confirm('Сменить подключение к базе на этом телефоне?')){try{localStorage.removeItem(LS_FB)}catch(e){}location.reload()}};
 }
 function screenBoot(){
@@ -1986,7 +1986,7 @@ function startData(){
     cfg=s.exists?normCfg(s.data()):clone(DEFAULTS);
     if(!s.exists&&ME.role==='admin'&&!cfgSeeded){cfgSeeded=true;FS.doc('config/main').set(JSON.parse(JSON.stringify(normCfg(DEFAULTS)))).catch(function(){})}
     cfgReady=true; try{localStorage.setItem('agrotorg.title',cfg.title)}catch(e){}
-    if(ME.role==='admin'&&pubTitle!==cfg.title){pubTitle=cfg.title;FS.doc('public/app').set({title:cfg.title}).catch(function(){})}
+    var pk=JSON.stringify([cfg.title,cfg.notice]); if(ME.role==='admin'&&pubTitle!==pk){pubTitle=pk;FS.doc('public/app').set({title:cfg.title,notice:{on:!!cfg.notice.on,text:String(cfg.notice.text||'')}}).catch(function(){})}
     if(s.exists&&ME.role==='admin'&&!cfgFixed){var raw0=s.data(); if(!raw0.title||!raw0.notice){cfgFixed=true;FS.doc('config/main').set(JSON.parse(JSON.stringify(normCfg(raw0)))).catch(function(){})}}
     renderHeader(); maybeNotice(); noticeShown=true;
     if(loaded&&!S.settings) render();
@@ -2137,12 +2137,15 @@ var noticeShown=false, cfgReady=false;
 function curTitle(){return cfgReady?cfg.title:appTitle()}
 function appTitle(){try{return localStorage.getItem('agrotorg.title')||'Агроторг (учёт Бабыра)'}catch(e){return 'Агроторг (учёт Бабыра)'}}
 function closeNotice(){var r=document.getElementById('noticeRoot');r.style.display='none';r.innerHTML=''}
-function maybeNotice(){
-  if(noticeShown||!ME||!cfg.notice||!cfg.notice.on||!String(cfg.notice.text||'').trim()) return;
+function showNotice(text){
   noticeShown=true;
   var r=document.getElementById('noticeRoot');
-  r.innerHTML='<div class="nbox" role="dialog" aria-modal="true" aria-labelledby="nTitle"><h2 id="nTitle">Объявление</h2><div class="ntext">'+esc(cfg.notice.text)+'</div><button class="btn sm" type="button" id="nOk">Прочитано, закрыть</button></div>';
+  r.innerHTML='<div class="nbox" role="dialog" aria-modal="true" aria-labelledby="nTitle"><h2 id="nTitle">Объявление</h2><div class="ntext">'+esc(text)+'</div><button class="btn sm" type="button" id="nOk">Прочитано, закрыть</button></div>';
   r.style.display='grid'; var b=document.getElementById('nOk'); b.onclick=closeNotice; b.focus();
+}
+function maybeNotice(){
+  if(noticeShown||!ME||!cfg.notice||!cfg.notice.on||!String(cfg.notice.text||'').trim()) return;
+  showNotice(cfg.notice.text);
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('noticeRoot').style.display==='grid')closeNotice()});
 function titleGroupHtml(d){
@@ -2151,7 +2154,7 @@ function titleGroupHtml(d){
     '<div class="field"><label for="dTitle">Название программы</label><input id="dTitle" type="text" maxlength="60" data-d="title" value="'+esc(d.title)+'"></div>'+
     '<div class="field" style="margin-top:12px"><label for="dNotice">Объявление для сотрудников</label><textarea id="dNotice" rows="5" maxlength="2000" data-d="noticeText" placeholder="Текст появится в окне при каждом входе">'+esc(d.noticeText)+'</textarea></div>'+
     '<div class="uirow" style="margin-top:10px"><span class="small">Окно при входе</span><div class="seg" role="group" style="margin:0">'+seg+'</div></div>'+
-    '<p class="note" style="margin:8px 0 0">Сотрудник видит окно при каждом входе и закрывает его кнопкой. Менять название и текст может только администратор (кнопка «Сохранить» внизу).</p></section>';
+    '<p class="note" style="margin:8px 0 0">Окно показывается сразу при открытии сайта, ещё до ввода логина и пароля, и закрывается кнопкой. Поэтому текст видит любой, у кого есть ссылка: не пишите в нём ничего конфиденциального. Менять название и текст может только администратор (кнопка «Сохранить» внизу).</p></section>';
 }
 
 function boot(){
