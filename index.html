@@ -325,7 +325,7 @@ html[data-size="big"] input[type=password]{min-height:56px;font-size:18px}
 .authbox .err{color:var(--bad,#B3261E);font-size:14px;font-weight:600}
 .staffrow{display:grid;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
 .staffrow .sf-nm{font-weight:600}
-.staffrow .sf-mt{color:var(--muted);font-size:13px}
+.staffrow .sf-on{color:#1a7f4b;font-weight:600}.staffrow .sf-off{color:var(--muted)}\n.staffrow .sf-mt{color:var(--muted);font-size:13px}
 .staffrow .sf-ac{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .staffrow.off .nm{text-decoration:line-through;color:var(--muted)}
 .staffrow select{min-height:44px;width:auto;max-width:100%}
@@ -336,7 +336,7 @@ html[data-scale="85"]{zoom:.85}html[data-scale="95"]{zoom:.95}html[data-scale="1
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.9.4</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.9.5</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn" type="button" data-act="openSettings" aria-label="Настройки">
@@ -1436,7 +1436,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.9.4</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.9.5</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1489,7 +1489,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.9.4 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.9.5 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1516,7 +1516,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.9.4) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.9.5) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1954,7 +1954,7 @@ function screenBoot(){
     });
   };
 }
-function unsubAll(){UNSUB.forEach(function(f){try{f()}catch(e){}});UNSUB=[]}
+function unsubAll(){hbStop();UNSUB.forEach(function(f){try{f()}catch(e){}});UNSUB=[]}
 function doLogout(){S.settings=false;renderSheet();AUTH.signOut()}
 function startFirebase(cfg){
   FBCFG=cfg;
@@ -1975,7 +1975,7 @@ function onUser(u){
   }).catch(function(e){screenWait('Не удалось проверить доступ: '+authErr(e),true)});
 }
 function startData(){
-  db=FS; dbState='ok'; renderHeader();
+  db=FS; dbState='ok'; renderHeader(); hbStart();
   UNSUB.push(FS.doc('users/'+ME.uid).onSnapshot(function(s){
     var d=s.exists?s.data():null;
     if(!d||d.active===false){return doLogout()}
@@ -2028,7 +2028,7 @@ function accountGroupHtml(){
 }
 function staffRowHtml(u){
   var me=u.uid===ME.uid, off=u.active===false;
-  return '<div class="staffrow'+(off?' off':'')+'"><div class="sf-nm">'+esc(u.name||u.login)+(me?' (вы)':'')+'</div><div class="sf-mt">логин: '+esc(u.login||'?')+'</div>'+
+  return '<div class="staffrow'+(off?' off':'')+'"><div class="sf-nm">'+esc(u.name||u.login)+(me?' (вы)':'')+'</div><div class="sf-mt">логин: '+esc(u.login||'?')+'</div>'+presHtml(u)+
     '<div class="sf-ac"><select data-staff="'+esc(u.uid)+'" aria-label="Роль: '+esc(u.name||u.login)+'"'+(me?' disabled':'')+'>'+Object.keys(ROLES).map(function(r){return '<option value="'+r+'"'+(u.role===r?' selected':'')+'>'+ROLES[r]+'</option>'}).join('')+'</select>'+
     (me?'':(off?'<button class="btn ghost sm" type="button" data-act="staffOn" data-uid="'+esc(u.uid)+'">Включить доступ</button>':'<button class="btn danger sm" type="button" data-act="staffOff" data-uid="'+esc(u.uid)+'">Закрыть доступ</button>'))+'</div></div>';
 }
@@ -2157,6 +2157,43 @@ function titleGroupHtml(d){
     '<p class="note" style="margin:8px 0 0">Окно показывается сразу при открытии сайта, ещё до ввода логина и пароля, и закрывается кнопкой. Поэтому текст видит любой, у кого есть ссылка: не пишите в нём ничего конфиденциального. Менять название и текст может только администратор (кнопка «Сохранить» внизу).</p></section>';
 }
 
+
+var HB=null, HBV=null, HBR=null;
+function hbTouch(extra){
+  if(!ME||!FS) return;
+  var f=Object.assign({lastSeen:new Date().toISOString()},extra||{});
+  FS.doc('users/'+ME.uid).update(f).catch(function(){});
+}
+function hbStart(){
+  hbStop(); hbTouch({lastLogin:new Date().toISOString()});
+  HB=setInterval(function(){if(document.visibilityState!=='hidden')hbTouch()},90000);
+  HBV=function(){if(document.visibilityState==='visible')hbTouch()};
+  document.addEventListener('visibilitychange',HBV);
+  if(ME&&ME.role==='admin') HBR=setInterval(function(){var el=document.getElementById('staffList'); if(el&&el.querySelector('.sf-pr')&&!el.contains(document.activeElement)) el.innerHTML=staffListHtml()},30000);
+}
+function hbStop(){
+  if(HB){clearInterval(HB);HB=null}
+  if(HBR){clearInterval(HBR);HBR=null}
+  if(HBV){document.removeEventListener('visibilitychange',HBV);HBV=null}
+}
+function pad2(n){return (n<10?'0':'')+n}
+function whenText(iso){
+  if(!iso) return '';
+  var d=new Date(iso); if(isNaN(d)) return '';
+  var now=new Date(), t=pad2(d.getHours())+':'+pad2(d.getMinutes());
+  var dk=function(x){return x.getFullYear()*10000+x.getMonth()*100+x.getDate()};
+  var y=new Date(now); y.setDate(y.getDate()-1);
+  if(dk(d)===dk(now)) return 'сегодня в '+t;
+  if(dk(d)===dk(y)) return 'вчера в '+t;
+  return pad2(d.getDate())+'.'+pad2(d.getMonth()+1)+'.'+d.getFullYear()+' в '+t;
+}
+function presHtml(u){
+  var seen=u.lastSeen?new Date(u.lastSeen).getTime():0;
+  var online=(u.uid===(ME&&ME.uid))||(seen&&Date.now()-seen<240000);
+  var a=online?'<span class="sf-on">● В сети</span>':(seen?'<span class="sf-off">○ Не в сети · был(а) '+whenText(u.lastSeen)+'</span>':'<span class="sf-off">○ Ещё не входил(а)</span>');
+  var b=u.lastLogin?'<div class="sf-mt">Последний вход: '+whenText(u.lastLogin)+'</div>':'';
+  return '<div class="sf-pr sf-mt">'+a+'</div>'+b;
+}
 function boot(){
   if(BAKED_CFG) return startFirebase(BAKED_CFG);
   var raw=null; try{raw=localStorage.getItem(LS_FB)}catch(e){}
