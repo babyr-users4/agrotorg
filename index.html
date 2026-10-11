@@ -310,11 +310,15 @@ html[data-dense="1"] .code{font-size:15px}
 .rpt .em{color:#555}
 .rpt p{margin:4px 0}
 
+#noticeRoot{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.55);display:none;place-items:center;padding:16px;overflow:auto}
+.nbox{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:14px}
+.nbox h2{margin:0;font-size:20px}
+.ntext{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;max-height:60vh;overflow:auto}
 #authRoot{position:fixed;inset:0;z-index:100;background:var(--bg);display:none;place-items:center;padding:16px;overflow:auto}
 .authbox{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:14px}
 .authbox h1{margin:0;font-size:22px}
 .authbox p{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
-input[type=password],textarea{width:100%;min-height:48px;padding:8px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);font-size:16px;min-width:0}
+input[type=password],textarea{font:inherit;width:100%;min-height:48px;padding:8px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);font-size:16px;min-width:0}
 html[data-size="big"] input[type=password]{min-height:56px;font-size:18px}
 .authbox textarea{min-height:150px;font:13px/1.4 ui-monospace,monospace}
 .authbox .err{color:var(--bad,#B3261E);font-size:14px;font-weight:600}
@@ -328,7 +332,7 @@ html[data-size="big"] input[type=password]{min-height:56px;font-size:18px}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand">Агроторг (учёт Бабыра)<small class="ver">Авторская программа учёта Версия: 0.8.0</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.8.1</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn" type="button" data-act="openSettings" aria-label="Настройки">
@@ -347,6 +351,7 @@ html[data-size="big"] input[type=password]{min-height:56px;font-size:18px}
   <button type="button" data-act="tab" data-tab="cells"><svg class="i" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>Ячейки</button>
 </div></nav>
 <div id="authRoot"></div>
+<div id="noticeRoot"></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="sheetRoot"></div>
 <div id="printRoot"></div>
@@ -376,7 +381,8 @@ var DEFAULTS={
   ],
   cities:[], rows:[10,11,12,13], floors:[3,4,5,6], sections:92, capacity:80, maxLots:2, warnDays:30,
   shelf:[{min:50,color:'#1E9E5E'},{min:25,color:'#C79A00'},{min:10,color:'#E0701A'},{min:0,color:'#D32F2F'}],
-  expiredColor:'#9B1C1C'
+  expiredColor:'#9B1C1C',
+  title:'Агроторг (учёт Бабыра)', notice:{on:false,text:''}
 };
 var PALETTE=['#3B6FE0','#B9449A','#8B5A2B','#0E9AA7','#6B8E23','#7A57D1','#C2410C','#475569'];
 function okColor(c,def){return (typeof c==='string'&&/^#[0-9a-fA-F]{6}$/.test(c))?c:def}
@@ -392,6 +398,8 @@ function normCfg(d){
     if(sh[0].min>sh[1].min&&sh[1].min>sh[2].min&&sh[2].min>0&&sh[0].min<=100) c.shelf=sh;
   }
   c.expiredColor=okColor(d.expiredColor,DEFAULTS.expiredColor);
+  c.title=(typeof d.title==='string'&&d.title.trim())?d.title.trim().slice(0,60):DEFAULTS.title;
+  c.notice={on:!!(d.notice&&d.notice.on),text:(d.notice&&typeof d.notice.text==='string')?d.notice.text.slice(0,2000):''};
   if(Array.isArray(d.cities)) c.cities=d.cities.map(String);
   if(Array.isArray(d.rows)&&d.rows.length) c.rows=d.rows.map(Number);
   if(Array.isArray(d.floors)&&d.floors.length) c.floors=d.floors.map(Number);
@@ -1353,7 +1361,7 @@ function pctTxt(l){var i=lotInfo(l);return i.left<0?'истёк':i.pct+'% ('+i.l
 function reportHtml(sec){
   var h=[], now=new Date();
   var pf=function(id){return S.pf==='all'||id===S.pf};
-  h.push('<div class="rh"><h1>Агроторг (учёт Бабыра)</h1><div>Отчёт от '+dtFull(now)+'</div></div>');
+  h.push('<div class="rh"><h1>'+esc(cfg.title)+'</h1><div>Отчёт от '+dtFull(now)+'</div></div>');
   h.push('<div class="rp">Журнал: <b>'+esc(periodLabel())+'</b>'+(S.pf!=='all'?' · товар: <b>'+esc(product(S.pf).name)+'</b>':'')+whoRep()+'. Остатки: на момент формирования отчёта. На складе сейчас <b>'+D.boxes+' кор.</b> в <b>'+D.cells.size+'</b> ячейках.</div>');
   var ins=periodMoves('in').sort(tsAsc), outs=periodMoves('out').sort(tsAsc);
   if(sec.stats){
@@ -1423,7 +1431,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">Агроторг (учёт Бабыра) · Авторская программа учёта · Версия: 0.8.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.8.1</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1476,7 +1484,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText('Агроторг (учёт Бабыра) · Версия 0.8.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.8.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1503,7 +1511,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.8.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.8.1) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1535,6 +1543,7 @@ function printReport(){
 /* ---------- settings ---------- */
 function openSettings(){
   S.draft={products:clone(cfg.products),cities:cfg.cities.slice(),capacity:String(cfg.capacity),maxLots:String(cfg.maxLots),sections:String(cfg.sections),rows:cfg.rows.join(', '),floors:cfg.floors.join(', '),warnDays:String(cfg.warnDays),newCity:'',shelf:cfg.shelf.map(function(x){return {min:String(x.min),color:x.color}}),expiredColor:cfg.expiredColor};
+  S.draft.title=cfg.title; S.draft.noticeText=cfg.notice.text; S.draft.noticeOn=cfg.notice.on;
   S.settings=true; renderSheet();
 }
 function renderSheet(){
@@ -1562,7 +1571,7 @@ function renderSheet(){
   '<div class="field"><label for="dSec">Секций в ряду (до 99)</label><input id="dSec" type="number" inputmode="numeric" data-d="sections" value="'+esc(d.sections)+'"></div>'+
   '<div class="field"><label for="dFl">Этажи, куда можно класть товар</label><input id="dFl" type="text" data-d="floors" value="'+esc(d.floors)+'"></div>'+
   '<div class="field"><label for="dWarn">Предупреждать о сроке за, дней</label><input id="dWarn" type="number" inputmode="numeric" data-d="warnDays" value="'+esc(d.warnDays)+'"></div></div></section>'+
-  shelfGroupHtml(d)+uiGroupHtml()+accountGroupHtml()+staffGroupHtml()+importGroupHtml()+bkGroupHtml2()+'<button class="btn" type="button" style="width:100%" data-act="saveSettings"'+(canSave()?'':' disabled')+'>Сохранить</button></div></div>';
+  titleGroupHtml(d)+shelfGroupHtml(d)+uiGroupHtml()+accountGroupHtml()+staffGroupHtml()+importGroupHtml()+bkGroupHtml2()+'<button class="btn" type="button" style="width:100%" data-act="saveSettings"'+(canSave()?'':' disabled')+'>Сохранить</button></div></div>';
 }
 function shelfGroupHtml(d){
   var rows=d.shelf.map(function(x,i){
@@ -1603,6 +1612,9 @@ function saveSettings(){
   var sh=d.shelf.map(function(x,i){return {min:i===3?0:Number(x.min),color:x.color}});
   for(var si=0;si<3;si++){ if(!Number.isInteger(sh[si].min)||sh[si].min<1||sh[si].min>100) return toast('Порог цвета: целое число от 1 до 100',true); }
   if(!(sh[0].min>sh[1].min&&sh[1].min>sh[2].min)) return toast('Пороги цветов должны убывать, например 50, 25, 10',true);
+  var tt=String(d.title||'').trim(); if(!tt) return toast('Название программы не может быть пустым',true);
+  var nt=String(d.noticeText||'').trim(); if(d.noticeOn&&!nt) return toast('Введите текст объявления или выключите его',true);
+  c.title=tt.slice(0,60); c.notice={on:!!d.noticeOn,text:nt.slice(0,2000)};
   c.shelf=sh; c.expiredColor=d.expiredColor;
   c.products=prods; c.cities=d.cities.slice(); c.capacity=cap; c.maxLots=ml; c.sections=sec; c.warnDays=warn; c.rows=rows; c.floors=floors;
   busy=true;
@@ -1694,6 +1706,7 @@ document.addEventListener('click',function(e){
     case 'edSave': return applyEdit();
     case 'logView': S.logView=el.dataset.v; S.logLimit=50; S.confirmDel=null; return render();
     case 'period': S.period=el.dataset.p; S.logLimit=50; return render();
+    case 'noticeOn': S.draft.noticeOn=el.dataset.v==='1'; return renderSheet();
     case 'who': S.who=el.dataset.id; S.logLimit=50; return render();
     case 'staffAdd': return staffAdd();
     case 'staffOff': return staffSet(el.dataset.uid,{active:false});
@@ -1822,6 +1835,7 @@ document.addEventListener('keydown',function(e){
 /* ---------- render ---------- */
 function renderNav(){$$('.tabs button').forEach(function(b){if(b.dataset.tab===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')})}
 function renderHeader(){
+  var an=document.getElementById('appName'); if(an&&an.textContent!==cfg.title) an.textContent=cfg.title; if(document.title!==cfg.title) document.title=cfg.title;
   $('#dot').className='dot '+(dbState==='ok'?'ok':dbState==='none'?'bad':'');
   $('#syncTxt').textContent=dbState==='ok'?'На связи':dbState==='none'?'Без сохранения':'Загрузка';
   $('#sub').textContent=loaded?D.boxes+' кор. · '+D.cells.size+' яч.'+(ME?' · '+ME.name:''):'';
@@ -1858,7 +1872,7 @@ render();
 /* ---------- connect ---------- */
 
 /* ================= сетевой режим: Firebase, вход, роли ================= */
-var BAKED_CFG={"apiKey": "AIzaSyDSdKCJuPXxppmyftxR9VRI3_dsNNN_6tI", "authDomain": "agrotorg-b730e.firebaseapp.com", "projectId": "agrotorg-b730e", "storageBucket": "agrotorg-b730e.firebasestorage.app", "messagingSenderId": "126692618640", "appId": "1:126692618640:web:c5812b4f72c7a1e39ec315"}, cfgSeeded=false, ME=null, USERS=[], FS=null, AUTH=null, FBCFG=null, UNSUB=[], BOOT=false;
+var BAKED_CFG={"apiKey": "AIzaSyDSdKCJuPXxppmyftxR9VRI3_dsNNN_6tI", "authDomain": "agrotorg-b730e.firebaseapp.com", "projectId": "agrotorg-b730e", "storageBucket": "agrotorg-b730e.firebasestorage.app", "messagingSenderId": "126692618640", "appId": "1:126692618640:web:c5812b4f72c7a1e39ec315"}, cfgFixed=false, cfgSeeded=false, ME=null, USERS=[], FS=null, AUTH=null, FBCFG=null, UNSUB=[], BOOT=false;
 var LS_FB='agrotorg.fbcfg';
 var ROLES={admin:'Администратор',keeper:'Кладовщик',viewer:'Только просмотр'};
 function loginEmail(l){return String(l).trim().toLowerCase()+'@agrotorg.app'}
@@ -1879,7 +1893,7 @@ function authErr(e){
 }
 function gv(id){var e=document.getElementById(id);return e?e.value:''}
 function setErr(t){var e=document.getElementById('authErr');if(e)e.textContent=t||''}
-function screenWait(t,logout){authShow('<h1>Агроторг (учёт Бабыра)</h1><p>'+esc(t)+'</p>'+(logout?'<button class="btn ghost" type="button" id="aLogout">Выйти</button>':'<button class="btn ghost" type="button" id="aReload">Обновить</button>'));
+function screenWait(t,logout){authShow('<h1>'+esc(appTitle())+'</h1><p>'+esc(t)+'</p>'+(logout?'<button class="btn ghost" type="button" id="aLogout">Выйти</button>':'<button class="btn ghost" type="button" id="aReload">Обновить</button>'));
   var b=document.getElementById('aLogout');if(b)b.onclick=doLogout;var r=document.getElementById('aReload');if(r)r.onclick=function(){location.reload()}}
 function screenConfig(msg){
   authShow('<h1>Подключение к базе</h1><p>Вставьте настройки Firebase-проекта (блок <b>firebaseConfig</b> из консоли Firebase). Это делается один раз на каждом телефоне.</p>'+
@@ -1893,7 +1907,7 @@ function screenConfig(msg){
   };
 }
 function screenLogin(msg){
-  authShow('<h1>Агроторг (учёт Бабыра)</h1><p>Войдите под своим логином.</p>'+
+  authShow('<h1>'+esc(appTitle())+'</h1><p>Войдите под своим логином.</p>'+
    '<div class="field"><label for="aLogin">Логин</label><input id="aLogin" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"></div>'+
    '<div class="field"><label for="aPass">Пароль</label><input id="aPass" type="password" autocomplete="current-password"></div>'+
    '<div class="err" id="authErr">'+esc(msg||'')+'</div><button class="btn" type="button" id="aGo">Войти</button>'+
@@ -1945,7 +1959,7 @@ function startFirebase(cfg){
 function onUser(u){
   if(BOOT) return;
   unsubAll();
-  if(!u){ME=null;USERS=[];moves=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
+  if(!u){closeNotice();noticeShown=false;ME=null;USERS=[];moves=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
   FS.doc('users/'+u.uid).get().then(function(s){
     if(!s.exists) return screenWait('Вы вошли, но доступ ещё не выдан. Попросите администратора добавить ваш логин в разделе «Настройки → Сотрудники».',true);
     var d=s.data(); if(d.active===false) return screenWait('Ваш доступ закрыт администратором.',true);
@@ -1964,6 +1978,9 @@ function startData(){
   UNSUB.push(FS.doc('config/main').onSnapshot(function(s){
     cfg=s.exists?normCfg(s.data()):clone(DEFAULTS);
     if(!s.exists&&ME.role==='admin'&&!cfgSeeded){cfgSeeded=true;FS.doc('config/main').set(JSON.parse(JSON.stringify(normCfg(DEFAULTS)))).catch(function(){})}
+    try{localStorage.setItem('agrotorg.title',cfg.title)}catch(e){}
+    if(s.exists&&ME.role==='admin'&&!cfgFixed){var raw0=s.data(); if(!raw0.title||!raw0.notice){cfgFixed=true;FS.doc('config/main').set(JSON.parse(JSON.stringify(normCfg(raw0)))).catch(function(){})}}
+    renderHeader(); maybeNotice(); noticeShown=true;
     if(loaded&&!S.settings) render();
   },function(e){if(e&&e.code==='permission-denied'){dbState='none';renderHeader();render()}}));
   UNSUB.push(FS.collection('moves').onSnapshot(function(snap){
@@ -2107,6 +2124,27 @@ document.addEventListener('click',function(e){
   if(!AUTO2.on||!ME||ME.role!=='admin'||!loaded||!moves.length) return;
   if(bkDays2()>=AUTO2.days){ try{localStorage.setItem(LS_BK2,new Date().toISOString())}catch(x){} setTimeout(function(){bkSave2(true)},0) }
 },true);
+
+var noticeShown=false;
+function appTitle(){try{return localStorage.getItem('agrotorg.title')||'Агроторг (учёт Бабыра)'}catch(e){return 'Агроторг (учёт Бабыра)'}}
+function closeNotice(){var r=document.getElementById('noticeRoot');r.style.display='none';r.innerHTML=''}
+function maybeNotice(){
+  if(noticeShown||!ME||!cfg.notice||!cfg.notice.on||!String(cfg.notice.text||'').trim()) return;
+  noticeShown=true;
+  var r=document.getElementById('noticeRoot');
+  r.innerHTML='<div class="nbox" role="dialog" aria-modal="true" aria-labelledby="nTitle"><h2 id="nTitle">Объявление</h2><div class="ntext">'+esc(cfg.notice.text)+'</div><button class="btn" type="button" id="nOk">Прочитано, закрыть</button></div>';
+  r.style.display='grid'; var b=document.getElementById('nOk'); b.onclick=closeNotice; b.focus();
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('noticeRoot').style.display==='grid')closeNotice()});
+function titleGroupHtml(d){
+  var seg=[['1','Показывать'],['0','Выключено']].map(function(o){return '<button type="button" data-act="noticeOn" data-v="'+o[0]+'" aria-pressed="'+((d.noticeOn?'1':'0')===o[0])+'">'+o[1]+'</button>'}).join('');
+  return '<section class="group"><h2 class="lbl">Название и объявление</h2>'+
+    '<div class="field"><label for="dTitle">Название программы</label><input id="dTitle" type="text" maxlength="60" data-d="title" value="'+esc(d.title)+'"></div>'+
+    '<div class="field" style="margin-top:12px"><label for="dNotice">Объявление для сотрудников</label><textarea id="dNotice" rows="5" maxlength="2000" data-d="noticeText" placeholder="Текст появится в окне при каждом входе">'+esc(d.noticeText)+'</textarea></div>'+
+    '<div class="uirow" style="margin-top:10px"><span class="small">Окно при входе</span><div class="seg" role="group" style="margin:0">'+seg+'</div></div>'+
+    '<p class="note" style="margin:8px 0 0">Сотрудник видит окно при каждом входе и закрывает его кнопкой. Менять название и текст может только администратор (кнопка «Сохранить» внизу).</p></section>';
+}
+
 function boot(){
   if(BAKED_CFG) return startFirebase(BAKED_CFG);
   var raw=null; try{raw=localStorage.getItem(LS_FB)}catch(e){}
