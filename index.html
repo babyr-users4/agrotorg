@@ -1897,7 +1897,7 @@ function screenLogin(msg){
    '<div class="field"><label for="aLogin">Логин</label><input id="aLogin" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"></div>'+
    '<div class="field"><label for="aPass">Пароль</label><input id="aPass" type="password" autocomplete="current-password"></div>'+
    '<div class="err" id="authErr">'+esc(msg||'')+'</div><button class="btn" type="button" id="aGo">Войти</button>'+
-   '<button class="linkbtn" type="button" id="aFirst">Первый запуск: создать администратора</button>'+
+   (location.hash==='#first'?'<button class="linkbtn" type="button" id="aFirst">Первый запуск: создать администратора</button>':'')+
    '<button class="linkbtn" type="button" id="aCfg" style="color:var(--muted);font-weight:500">Сменить подключение к базе</button>');
   var go=function(){
     var l=gv('aLogin').trim().toLowerCase(),p=gv('aPass'); if(!l||!p) return setErr('Введите логин и пароль');
@@ -1906,7 +1906,7 @@ function screenLogin(msg){
   };
   document.getElementById('aGo').onclick=go;
   document.getElementById('aPass').onkeydown=function(e){if(e.key==='Enter')go()};
-  document.getElementById('aFirst').onclick=screenBoot;
+  var af=document.getElementById('aFirst');if(af)af.onclick=screenBoot;
   document.getElementById('aCfg').onclick=function(){if(confirm('Сменить подключение к базе на этом телефоне?')){try{localStorage.removeItem(LS_FB)}catch(e){}location.reload()}};
 }
 function screenBoot(){
