@@ -313,7 +313,8 @@ html[data-dense="1"] .code{font-size:15px}
 #noticeRoot{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.55);display:none;place-items:center;padding:16px;overflow:auto}
 .nbox{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:14px}
 .nbox h2{margin:0;font-size:20px}
-.ntext{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;max-height:60vh;overflow:auto}
+.ntext{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;font-size:19px;max-height:60vh;overflow:auto}
+.nbox .btn{justify-self:center;min-height:40px;padding:0 22px;font-size:15px}
 #authRoot{position:fixed;inset:0;z-index:100;background:var(--bg);display:none;place-items:center;padding:16px;overflow:auto}
 .authbox{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:14px}
 .authbox h1{margin:0;font-size:22px}
@@ -332,7 +333,7 @@ html[data-size="big"] input[type=password]{min-height:56px;font-size:18px}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.8.1</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.8.2</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn" type="button" data-act="openSettings" aria-label="Настройки">
@@ -1431,7 +1432,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.8.1</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.8.2</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1484,7 +1485,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.8.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.8.2 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1511,7 +1512,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.8.1) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.8.2) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1835,7 +1836,7 @@ document.addEventListener('keydown',function(e){
 /* ---------- render ---------- */
 function renderNav(){$$('.tabs button').forEach(function(b){if(b.dataset.tab===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')})}
 function renderHeader(){
-  var an=document.getElementById('appName'); if(an&&an.textContent!==cfg.title) an.textContent=cfg.title; if(document.title!==cfg.title) document.title=cfg.title;
+  var tt0=curTitle(); var an=document.getElementById('appName'); if(an&&an.textContent!==tt0) an.textContent=tt0; if(document.title!==tt0) document.title=tt0;
   $('#dot').className='dot '+(dbState==='ok'?'ok':dbState==='none'?'bad':'');
   $('#syncTxt').textContent=dbState==='ok'?'На связи':dbState==='none'?'Без сохранения':'Загрузка';
   $('#sub').textContent=loaded?D.boxes+' кор. · '+D.cells.size+' яч.'+(ME?' · '+ME.name:''):'';
@@ -1959,7 +1960,7 @@ function startFirebase(cfg){
 function onUser(u){
   if(BOOT) return;
   unsubAll();
-  if(!u){closeNotice();noticeShown=false;ME=null;USERS=[];moves=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
+  if(!u){closeNotice();noticeShown=false;cfgReady=false;ME=null;USERS=[];moves=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
   FS.doc('users/'+u.uid).get().then(function(s){
     if(!s.exists) return screenWait('Вы вошли, но доступ ещё не выдан. Попросите администратора добавить ваш логин в разделе «Настройки → Сотрудники».',true);
     var d=s.data(); if(d.active===false) return screenWait('Ваш доступ закрыт администратором.',true);
@@ -1978,7 +1979,7 @@ function startData(){
   UNSUB.push(FS.doc('config/main').onSnapshot(function(s){
     cfg=s.exists?normCfg(s.data()):clone(DEFAULTS);
     if(!s.exists&&ME.role==='admin'&&!cfgSeeded){cfgSeeded=true;FS.doc('config/main').set(JSON.parse(JSON.stringify(normCfg(DEFAULTS)))).catch(function(){})}
-    try{localStorage.setItem('agrotorg.title',cfg.title)}catch(e){}
+    cfgReady=true; try{localStorage.setItem('agrotorg.title',cfg.title)}catch(e){}
     if(s.exists&&ME.role==='admin'&&!cfgFixed){var raw0=s.data(); if(!raw0.title||!raw0.notice){cfgFixed=true;FS.doc('config/main').set(JSON.parse(JSON.stringify(normCfg(raw0)))).catch(function(){})}}
     renderHeader(); maybeNotice(); noticeShown=true;
     if(loaded&&!S.settings) render();
@@ -2125,14 +2126,15 @@ document.addEventListener('click',function(e){
   if(bkDays2()>=AUTO2.days){ try{localStorage.setItem(LS_BK2,new Date().toISOString())}catch(x){} setTimeout(function(){bkSave2(true)},0) }
 },true);
 
-var noticeShown=false;
+var noticeShown=false, cfgReady=false;
+function curTitle(){return cfgReady?cfg.title:appTitle()}
 function appTitle(){try{return localStorage.getItem('agrotorg.title')||'Агроторг (учёт Бабыра)'}catch(e){return 'Агроторг (учёт Бабыра)'}}
 function closeNotice(){var r=document.getElementById('noticeRoot');r.style.display='none';r.innerHTML=''}
 function maybeNotice(){
   if(noticeShown||!ME||!cfg.notice||!cfg.notice.on||!String(cfg.notice.text||'').trim()) return;
   noticeShown=true;
   var r=document.getElementById('noticeRoot');
-  r.innerHTML='<div class="nbox" role="dialog" aria-modal="true" aria-labelledby="nTitle"><h2 id="nTitle">Объявление</h2><div class="ntext">'+esc(cfg.notice.text)+'</div><button class="btn" type="button" id="nOk">Прочитано, закрыть</button></div>';
+  r.innerHTML='<div class="nbox" role="dialog" aria-modal="true" aria-labelledby="nTitle"><h2 id="nTitle">Объявление</h2><div class="ntext">'+esc(cfg.notice.text)+'</div><button class="btn sm" type="button" id="nOk">Прочитано, закрыть</button></div>';
   r.style.display='grid'; var b=document.getElementById('nOk'); b.onclick=closeNotice; b.focus();
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('noticeRoot').style.display==='grid')closeNotice()});
