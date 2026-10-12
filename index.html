@@ -332,11 +332,23 @@ html[data-size="big"] input[type=password]{min-height:56px;font-size:18px}
 html[data-scale="85"]{zoom:.85}html[data-scale="95"]{zoom:.95}html[data-scale="100"]{zoom:1}html[data-scale="115"]{zoom:1.15}
 @media (max-width:700px){html[data-scale="auto"]{zoom:.95}}
 @media (min-width:900px){.shell,.tabs .in{max-width:900px}.sheet .wrap{max-width:760px}.nbox{max-width:520px}button,[data-act]{cursor:pointer}.btn:hover{filter:brightness(1.08)}}
+
+#nfRoot{position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:105;display:grid;gap:8px;justify-items:center;padding:0 10px;pointer-events:none}
+.nf{pointer-events:auto;width:100%;max-width:520px;background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:start;box-shadow:0 8px 28px rgba(0,0,0,.35);font-size:14px;line-height:1.4}
+.nf .nf-t{grid-column:1;overflow-wrap:anywhere}
+.nf .nf-w{grid-column:1;font-size:12px;opacity:.7}
+.nf button{grid-column:2;grid-row:1/3;border:0;background:rgba(255,255,255,.18);color:inherit;border-radius:50%;width:32px;height:32px;font-size:16px;line-height:1}
+.ckrow{display:inline-flex;gap:8px;margin-left:10px}
+.ck{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);background:transparent;color:var(--muted);font-size:18px;font-weight:700;line-height:1;display:grid;place-items:center;padding:0}
+.ck.ok[aria-pressed="true"]{background:#1a9b5a;border-color:#1a9b5a;color:#fff}
+.ck.bad[aria-pressed="true"]{background:#c0392b;border-color:#c0392b;color:#fff}
+.ck:disabled{opacity:.45}
+.mv-h .when{margin-left:auto}
 </style>
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.9.6</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.10.0</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn" type="button" data-act="openSettings" aria-label="Настройки">
@@ -356,6 +368,7 @@ html[data-scale="85"]{zoom:.85}html[data-scale="95"]{zoom:.95}html[data-scale="1
 </div></nav>
 <div id="authRoot"></div>
 <div id="noticeRoot"></div>
+<div id="nfRoot"></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="sheetRoot"></div>
 <div id="printRoot"></div>
@@ -412,7 +425,7 @@ function normCfg(d){
 }
 var cfg=clone(DEFAULTS), moves=[], D=derive([]), loaded=false, db=null, dbState='connecting', busy=false;
 var UI={theme:'dark',size:'big',dense:false,scale:'auto'};
-try{var u0=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u0.theme) UI.theme=u0.theme; if(u0.size) UI.size=u0.size; if(u0.scale) UI.scale=u0.scale; UI.dense=!!u0.dense;}catch(e){}
+try{var u0=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u0.theme) UI.theme=u0.theme; if(u0.size) UI.size=u0.size; if(u0.scale) UI.scale=u0.scale; if(u0.notif) UI.notif=u0.notif; UI.dense=!!u0.dense;}catch(e){}
 function applyUI(save){
   var h=document.documentElement;
   if(UI.theme==='light'||UI.theme==='dark') h.setAttribute('data-theme',UI.theme); else h.removeAttribute('data-theme');
@@ -534,7 +547,7 @@ function errText(e){
 }
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
 function withRetry(fn){return fn().catch(function(e){ if(e&&e.code==='unavailable') return sleep(400+Math.random()*400).then(fn); throw e; })}
-function addMove(m){var rec=Object.assign({},m,{ts:new Date().toISOString()},ME?{by:ME.uid,byName:ME.name}:{});return withRetry(function(){return db.collection('moves').add(rec)})}
+function addMove(m){var rec=Object.assign({},m,{ts:new Date().toISOString()},ME?{by:ME.uid,byName:ME.name,byLogin:ME.login}:{});return withRetry(function(){return db.collection('moves').add(rec)})}
 function saveCfg(c){return withRetry(function(){return db.doc('config/main').set(c)})}
 
 /* ---------- ui helpers ---------- */
@@ -846,13 +859,13 @@ function mvItem(m){
   else if(k==='out'){head='<b>−'+q+' кор.</b><span class="pill neutral">'+esc(m.city||'?')+'</span>';where=nm+' · <span class="mono">'+esc(m.cell)+'</span>'}
   else if(k==='mv'){head='<b>'+q+' кор.</b><span class="pill neutral">перемещение</span>';where=nm+' · <span class="mono">'+esc(m.cell)+'</span> → <span class="mono">'+esc(m.to)+'</span>'}
   else{
-    head='<b>'+(q>0?'+':q<0?'−':'')+Math.abs(q)+' кор.</b><span class="pill neutral">инвентаризация</span>';
+    head='<b>'+(q>0?'+':q<0?'−':'')+Math.abs(q)+' кор.</b><span class="pill neutral">'+(m.manual?'добавлено вручную':'инвентаризация')+'</span>';
     where=nm+' · <span class="mono">'+esc(m.cell)+'</span>';
     extra='<div class="mv-s">'+(q===0?'Пересчитано, совпало: '+esc(m.now)+' кор.':'Было '+esc(m.prev)+' → стало '+esc(m.now)+' кор.')+'</div>';
   }
-  return '<li class="card mv"><div class="mv-h">'+head+'<span class="when">'+t+'</span></div>'+
+  return '<li class="card mv"><div class="mv-h">'+head+'<span class="when">'+t+'</span>'+(k==='out'?chkHtml(m):'')+'</div>'+
     '<div class="mv-b">'+where+'</div>'+
-    '<div class="mv-s">Произв. '+fmt(m.prod)+' · годен до '+fmt(m.exp)+'</div>'+extra+whoLine(m)+
+    '<div class="mv-s">Произв. '+fmt(m.prod)+' · годен до '+fmt(m.exp)+'</div>'+extra+whoLine(m)+chkNote(m)+
     (m.orig?'<div class="mv-s" style="color:var(--warn)">'+esc(origText(m))+'</div>':'')+
     (S.confirmDel===m.id?'<div class="mv-a"><span class="note">Отменить эту запись?</span><button class="btn danger sm" type="button" data-act="delYes" data-id="'+esc(m.id)+'">Да, отменить</button><button class="btn ghost sm" type="button" data-act="delNo">Нет</button></div>':
       '<div class="mv-a">'+(k==='in'&&!(S.srcEdit&&S.srcEdit.id===m.id)?'<button class="linkbtn" type="button" data-act="srcEdit" data-id="'+esc(m.id)+'">'+(m.from?'Изменить, откуда':'Указать, откуда')+'</button>':'')+'<button class="linkbtn" type="button" data-act="delAsk" data-id="'+esc(m.id)+'">Отменить запись</button></div>')+'</li>';
@@ -870,7 +883,7 @@ function miscHtml(){
 }
 function journalHtml(type){
   var list=periodMoves(type).sort(tsDesc), word=type==='in'?'Принято':'Отгружено';
-  var h='<p class="sumtxt">'+word+' <b>'+sumQty(list)+' кор.</b> · записей: '+list.length+' · '+periodLabel()+'</p>';
+  var h='<p class="sumtxt">'+word+' <b>'+sumQty(list)+' кор.</b> · записей: '+list.length+' · '+periodLabel()+'</p>'+(type==='out'&&list.length?chkSum(list):'');
   if(!list.length) return h+'<div class="card empty" style="border-top:1px solid var(--line)">'+(type==='in'?'Приходов':'Отгрузок')+' за этот период нет.</div>';
   var shown=list.slice(0,S.logLimit), groups=[], cur=null;
   shown.forEach(function(m){
@@ -1064,6 +1077,7 @@ function cellsListHtml(){
 function renderCells(){
   if(!loaded) return banner()+'<div class="stack"><div class="skel"></div></div>';
   return banner()+'<h1>Ячейки</h1><p class="lede">Найдите ячейку. Нажмите на партию, чтобы исправить товар, сроки, количество или номер ячейки при ошибке приёмки. Кнопки «Переместить» и «Пересчитать» переносят коробки в другую ячейку и сверяют остаток с фактом.</p>'+
+    '<button class="btn" type="button" style="width:100%;margin-bottom:14px" data-act="ncOpen"'+(canSave()?'':' disabled')+'>+ Новая ячейка с товаром</button>'+
     '<div class="field" style="margin-bottom:12px"><label for="cSearch">Найти ячейку</label><input id="cSearch" class="cellinp" type="text" inputmode="numeric" autocomplete="off" placeholder="10-23-3" value="'+esc(S.cq)+'"></div>'+
     '<div class="chiprow"><button class="fchip" type="button" data-act="cpf" data-id="all" aria-pressed="'+(S.cpf==='all')+'">Все товары</button>'+
     cfg.products.map(function(p){return '<button class="fchip" type="button" data-act="cpf" data-id="'+esc(p.id)+'" aria-pressed="'+(S.cpf===p.id)+'">'+pdot(p.id)+esc(p.short)+'</button>'}).join('')+'</div>'+
@@ -1436,7 +1450,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.9.6</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.10.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1489,7 +1503,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.9.6 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.10.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1516,7 +1530,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.9.6) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.10.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1553,9 +1567,10 @@ function openSettings(){
 }
 function renderSheet(){
   var root=$('#sheetRoot');
-  if(!S.settings&&!S.edit&&!S.mv&&!S.inv&&!S.pl&&!S.rep&&!S.mapSel){root.innerHTML='';document.body.style.overflow='';return}
+  if(!S.settings&&!S.edit&&!S.mv&&!S.inv&&!S.pl&&!S.rep&&!S.mapSel&&!S.nc){root.innerHTML='';document.body.style.overflow='';return}
   document.body.style.overflow='hidden';
   if(S.mapSel&&!S.mv&&!S.inv&&!S.edit&&!S.pl&&!S.rep){renderMapSheet(root);return}
+  if(S.nc){renderNcSheet(root);return}
   if(S.pl){renderPlanSheet(root);return}
   if(S.rep){renderRepSheet(root);return}
   if(S.mv){renderMoveSheet(root);return}
@@ -1595,6 +1610,7 @@ function uiGroupHtml(){
     seg('Тема','theme',[['auto','Авто'],['light','Светлая'],['dark','Тёмная']],UI.theme)+
     seg('Размер кнопок и полей','size',[['normal','Обычный'],['big','Крупный']],UI.size==='normal'?'normal':'big')+
     seg('Масштаб страницы','scale',[['auto','Авто'],['85','85%'],['95','95%'],['100','100%'],['115','115%']],UI.scale||'auto')+
+    seg('Уведомления о действиях других','notif',[['1','Вкл'],['0','Выкл']],UI.notif==='0'?'0':'1')+
     seg('Список ячеек','dense',[['0','Обычный'],['1','Плотный']],UI.dense?'1':'0')+'</section>';
 }
 function parseList(s,min,max){
@@ -1713,6 +1729,16 @@ document.addEventListener('click',function(e){
     case 'logView': S.logView=el.dataset.v; S.logLimit=50; S.confirmDel=null; return render();
     case 'period': S.period=el.dataset.p; S.logLimit=50; return render();
     case 'noticeOn': S.draft.noticeOn=el.dataset.v==='1'; return renderSheet();
+    case 'ncOpen': if(!canSave()) return toast('Режим просмотра: добавлять нельзя',true); S.nc=ncState(); renderSheet(); return updateNc();
+    case 'ncClose': S.nc=null; return renderSheet();
+    case 'ncProduct': S.nc.product=el.dataset.id; $$('[data-act="ncProduct"]').forEach(function(b){b.setAttribute('aria-pressed',String(b===el))}); return updateNc();
+    case 'ncSave': return saveNc();
+    case 'nfClose': var nfe=el.closest('.nf'); if(nfe&&nfe.parentNode) nfe.parentNode.removeChild(nfe); return;
+    case 'chk':
+      if(!canSave()) return;
+      var cm0=moves.filter(function(x){return x.id===el.dataset.id})[0]; if(!cm0) return;
+      var nv=cm0.chk===el.dataset.v?null:el.dataset.v, iso0=new Date().toISOString();
+      return withRetry(function(){return db.doc('moves/'+cm0.id).update({chk:nv,chkBy:nv&&ME?ME.uid:null,chkByName:nv&&ME?ME.name:null,chkAt:nv?iso0:null})}).catch(function(er){toast(errText(er),true)});
     case 'who': S.who=el.dataset.id; S.logLimit=50; return render();
     case 'staffAdd': return staffAdd();
     case 'staffOff': return staffSet(el.dataset.uid,{active:false});
@@ -1798,6 +1824,10 @@ document.addEventListener('input',function(e){
   if(t.id==='mvTo'&&S.mv){var mf=fmtCellInput(t.value);t.value=mf;S.mv.to=mf;return updateMove()}
   if(t.classList&&t.classList.contains('invin')&&S.inv){S.inv.vals[t.dataset.k]=t.value;return updateInv()}
   if(t.dataset&&t.dataset.sh!==undefined&&S.draft){S.draft.shelf[Number(t.dataset.sh)][t.dataset.sf]=t.value;return}
+  if(t.id==='ncProd'&&S.nc){S.nc.prod=t.value;return updateNc()}
+  if(t.id==='ncExp'&&S.nc){S.nc.exp=t.value;return updateNc()}
+  if(t.id==='ncCell'&&S.nc){var nf=fmtCellInput(t.value);t.value=nf;S.nc.cell=nf;return updateNc()}
+  if(t.id==='ncQty'&&S.nc){S.nc.qty=t.value;return updateNc()}
   if(t.id==='edProd'&&S.edit){S.edit.prod=t.value;return updateEdit()}
   if(t.id==='edExp'&&S.edit){S.edit.exp=t.value;return updateEdit()}
   if(t.id==='edCell'&&S.edit){var ef=fmtCellInput(t.value);t.value=ef;S.edit.to=ef;return updateEdit()}
@@ -1857,6 +1887,7 @@ function refresh(){
   D=derive(moves); renderHeader();
   if(S.settings) return;
   if(S.mapSel&&!S.mv&&!S.inv&&!S.edit&&!S.pl&&!S.rep){renderSheet();render();return}
+  if(S.nc){updateNc();return}
   if(S.pl){updatePlan();return}
   if(S.rep) return;
   if(S.mv){updateMove();return}
@@ -1966,7 +1997,7 @@ function startFirebase(cfg){
 function onUser(u){
   if(BOOT) return;
   unsubAll();
-  if(!u){pubTitle=null;closeNotice();noticeShown=false;cfgReady=false;ME=null;USERS=[];moves=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
+  if(!u){KNOWN=null;NQ=[];var nfr=document.getElementById('nfRoot');if(nfr)nfr.innerHTML='';pubTitle=null;closeNotice();noticeShown=false;cfgReady=false;ME=null;USERS=[];moves=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
   FS.doc('users/'+u.uid).get().then(function(s){
     if(!s.exists) return screenWait('Вы вошли, но доступ ещё не выдан. Попросите администратора добавить ваш логин в разделе «Настройки → Сотрудники».',true);
     var d=s.data(); if(d.active===false) return screenWait('Ваш доступ закрыт администратором.',true);
@@ -1993,7 +2024,7 @@ function startData(){
   },function(e){if(e&&e.code==='permission-denied'){dbState='none';renderHeader();render()}}));
   UNSUB.push(FS.collection('moves').onSnapshot(function(snap){
     moves=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())});
-    var first=!loaded; loaded=true;
+    var first=!loaded; notifyNew(first); loaded=true;
     if(first){D=derive(moves);render()} else refresh();
   },function(){dbState='none';loaded=true;renderHeader();render()}));
   if(ME.role==='admin'){
@@ -2193,6 +2224,109 @@ function presHtml(u){
   var a=online?'<span class="sf-on">● В сети</span>':(seen?'<span class="sf-off">○ Не в сети · был(а) '+whenText(u.lastSeen)+'</span>':'<span class="sf-off">○ Ещё не входил(а)</span>');
   var b=u.lastLogin?'<div class="sf-mt">Последний вход: '+whenText(u.lastLogin)+'</div>':'';
   return '<div class="sf-pr sf-mt">'+a+'</div>'+b;
+}
+
+/* ---- уведомления о чужих действиях ---- */
+var KNOWN=null, NQ=[], NT=null;
+function notifyNew(first){
+  if(first||!KNOWN){KNOWN={};moves.forEach(function(m){KNOWN[m.id]=1});return}
+  var fresh=[];
+  moves.forEach(function(m){
+    if(KNOWN[m.id]) return; KNOWN[m.id]=1;
+    if(!ME||!m.by||m.by===ME.uid) return;
+    var k=kindOf(m); if(k!=='in'&&k!=='out') return;
+    var t=Date.parse(m.ts); if(!isFinite(t)||Date.now()-t>600000) return;
+    fresh.push(m);
+  });
+  if(!fresh.length||UI.notif==='0') return;
+  NQ=NQ.concat(fresh); clearTimeout(NT); NT=setTimeout(flushNotif,1800);
+}
+function flushNotif(){
+  var g={}, order=[];
+  NQ.forEach(function(m){
+    var k=[m.by,kindOf(m),m.product,kindOf(m)==='out'?m.city:m.from].join('|');
+    if(!g[k]){g[k]={m:m,cells:{},sum:0};order.push(k)}
+    var o=g[k], q=Number(m.qty)||0; o.sum+=q; o.cells[m.cell]=(o.cells[m.cell]||0)+q;
+  });
+  NQ=[];
+  order.forEach(function(k){
+    var o=g[k], m=o.m, out=kindOf(m)==='out';
+    var cells=Object.keys(o.cells).sort().map(function(c){return c+' ('+o.cells[c]+')'}).join(', ');
+    var who=m.byLogin||m.byName||'сотрудник';
+    showNf('Сотрудник «'+who+'» '+(out?'отгрузил':'принял приход')+' '+o.sum+' кор. · '+product(m.product).short+(out?' → '+(m.city||'?')+'. Из ячеек: ':'. В ячейки: ')+cells);
+  });
+}
+function showNf(txt){
+  var r=document.getElementById('nfRoot'); if(!r) return;
+  var d=document.createElement('div'); d.className='nf'; d.setAttribute('role','status');
+  var t=new Date(), hm=pad(t.getHours())+':'+pad(t.getMinutes());
+  d.innerHTML='<span class="nf-t">'+esc(txt)+'</span><span class="nf-w">'+hm+'</span><button type="button" data-act="nfClose" aria-label="Закрыть уведомление">×</button>';
+  r.appendChild(d);
+  while(r.children.length>4) r.removeChild(r.firstChild);
+  try{if(navigator.vibrate) navigator.vibrate(120)}catch(e){}
+  setTimeout(function(){if(d.parentNode) d.parentNode.removeChild(d)},20000);
+}
+/* ---- проверка отгрузки ---- */
+function chkHtml(m){
+  var dis=canSave()?'':' disabled', id=esc(m.id);
+  return '<span class="ckrow" role="group" aria-label="Проверка отгрузки">'+
+    '<button type="button" class="ck ok" data-act="chk" data-v="ok" data-id="'+id+'" aria-pressed="'+(m.chk==='ok')+'" aria-label="Отгружено верно"'+dis+'>✓</button>'+
+    '<button type="button" class="ck bad" data-act="chk" data-v="bad" data-id="'+id+'" aria-pressed="'+(m.chk==='bad')+'" aria-label="Не подтверждено"'+dis+'>✕</button></span>';
+}
+function chkNote(m){
+  if(kindOf(m)!=='out'||!m.chk) return '';
+  return '<div class="mv-s">'+(m.chk==='ok'?'✓ Отгрузка подтверждена':'✕ Не подтверждено')+(m.chkByName?': '+esc(m.chkByName):'')+(m.chkAt?' · '+esc(whenText(m.chkAt)):'')+'</div>';
+}
+function chkSum(list){
+  var ok=0,bad=0; list.forEach(function(m){if(m.chk==='ok')ok++;else if(m.chk==='bad')bad++});
+  return '<p class="sumtxt" style="margin-top:-2px">Проверено: ✓ '+ok+' · ✕ '+bad+' · без отметки '+(list.length-ok-bad)+'</p>';
+}
+/* ---- новая ячейка с товаром ---- */
+function ncState(){return {product:'',prod:'',exp:'',cell:'',qty:''}}
+function checkNew(N){
+  var sv=F; F=Object.assign({total:'',placed:0,from:'',planId:''},N);
+  try{return checkIn()}finally{F=sv}
+}
+function renderNcSheet(root){
+  var e=S.nc;
+  root.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Новая ячейка с товаром"><div class="wrap">'+
+    '<div class="bar-top"><h1 style="margin:0;font-size:22px">Новая ячейка с товаром</h1><button class="btn ghost sm" type="button" data-act="ncClose">Закрыть</button></div>'+
+    '<p class="lede">Добавьте товар, который уже лежит в ячейке, но ещё не записан в программе. В журнале запись появится в разделе «Прочее» с пометкой «добавлено вручную». Новую поставку лучше вносить на вкладке «Приход».</p>'+
+    '<section class="group"><h2 class="lbl">Товар</h2><div class="choices">'+cfg.products.map(function(p){return '<button type="button" class="choice pcol"'+pcol(p.id)+' data-act="ncProduct" data-id="'+esc(p.id)+'" aria-pressed="'+(e.product===p.id)+'"><span>'+esc(p.name)+'</span></button>'}).join('')+'</div></section>'+
+    '<section class="group"><div class="two"><div class="field"><label for="ncProd">Дата производства</label><input id="ncProd" type="date" value="'+esc(e.prod)+'"></div><div class="field"><label for="ncExp">Годен до</label><input id="ncExp" type="date" value="'+esc(e.exp)+'"></div></div><div id="ncShelf" class="note" style="margin-top:8px"></div></section>'+
+    '<section class="group"><div class="field"><label for="ncCell">Ячейка: ряд-секция-этаж</label><input id="ncCell" class="cellinp" type="text" inputmode="numeric" autocomplete="off" placeholder="10-01-3" value="'+esc(e.cell)+'"></div><div id="ncHint" class="note" style="margin-top:8px"></div></section>'+
+    '<section class="group"><div class="field"><label for="ncQty">Сколько коробок в ячейке</label><input id="ncQty" type="number" inputmode="numeric" min="1" value="'+esc(e.qty)+'"></div></section>'+
+    '<div class="stack"><div id="ncStatus" class="status"></div><button id="ncSave" class="btn" type="button" data-act="ncSave">Добавить в ячейку</button></div></div></div>';
+}
+function updateNc(){
+  if(!S.nc) return;
+  var e=S.nc, r=checkNew(e), st=document.getElementById('ncStatus'), sv=document.getElementById('ncSave'); if(!st||!sv) return;
+  var sh=document.getElementById('ncShelf');
+  if(sh){
+    if(e.prod&&e.exp&&e.exp>e.prod){var li=lotInfo({prod:e.prod,exp:e.exp});sh.className='note'+(li.cls==='ok'?'':' '+li.cls);sh.innerHTML='Срок годности <b>'+li.life+' дн.</b> · осталось <b>'+li.pct+'%</b>'}
+    else{sh.className='note';sh.innerHTML=''}
+  }
+  var ch=document.getElementById('ncHint');
+  if(ch){
+    var pc=parseCell(e.cell);
+    if(pc.state==='ok'){
+      var lines=describeCell(pc.code);
+      ch.className='note'+(r.otherProd.length?' bad':' ok');
+      ch.innerHTML=lines?'В ячейке <b>'+pc.code+'</b> уже: '+lines.map(esc).join('; ')+'. Свободно <b>'+Math.max(0,r.free)+'</b>':'Ячейка <b>'+pc.code+'</b> пустая, свободно '+r.cap+' кор.';
+    }else if(pc.state==='err'){ch.className='note bad';ch.textContent=pc.msg}
+    else{ch.className='note';ch.textContent='Цифры без дефисов: 10013 превратится в 10-01-3.'}
+  }
+  if(r.problems.length){var p0=r.problems[0]; st.className='status'+(p0[0]==='bad'?' bad':''); st.textContent=p0[1]; sv.disabled=true}
+  else{st.className='status ok'; st.textContent='Будет добавлено '+r.q+' кор. в ячейку '+r.cell; sv.disabled=busy||!canSave()}
+  sv.textContent=busy?'Сохраняю…':'Добавить в ячейку';
+}
+function saveNc(){
+  var e=S.nc, r=checkNew(e); if(!e||r.problems.length||busy||!canSave()) return;
+  busy=true; updateNc();
+  var prev=r.thisQty;
+  addMove({type:'adj',manual:true,product:e.product,prod:e.prod,exp:e.exp,cell:r.cell,qty:r.q,prev:prev,now:prev+r.q}).then(function(){
+    busy=false; S.nc=null; renderSheet(); render(); toast('Добавлено '+r.q+' кор. → '+r.cell);
+  }).catch(function(er){busy=false;updateNc();toast(errText(er),true)});
 }
 function boot(){
   if(BAKED_CFG) return startFirebase(BAKED_CFG);
