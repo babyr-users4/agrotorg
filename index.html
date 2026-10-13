@@ -338,19 +338,26 @@ html[data-scale="85"]{zoom:.85}html[data-scale="95"]{zoom:.95}html[data-scale="1
 .nf .nf-t{grid-column:1;overflow-wrap:anywhere}
 .nf .nf-w{grid-column:1;font-size:12px;opacity:.7}
 .nf button{grid-column:2;grid-row:1/3;border:0;background:rgba(255,255,255,.18);color:inherit;border-radius:50%;width:32px;height:32px;font-size:16px;line-height:1}
-.ckrow{display:inline-flex;gap:8px;margin-left:10px}
+.ckrow{display:inline-flex;gap:8px;margin-left:10px;align-items:flex-start}
+.ckc{display:grid;justify-items:center;gap:2px}
+.ckc small{font-size:10.5px;color:var(--muted);line-height:1.1}
 .ck{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);background:transparent;color:var(--muted);font-size:18px;font-weight:700;line-height:1;display:grid;place-items:center;padding:0}
 .ck.ok[aria-pressed="true"]{background:#1a9b5a;border-color:#1a9b5a;color:#fff}
 .ck.bad[aria-pressed="true"]{background:#c0392b;border-color:#c0392b;color:#fff}
 .ck:disabled{opacity:.45}
 .mv-h .when{margin-left:auto}
+.mv.td-out,.mv.td-in{border-color:#16c25e;box-shadow:inset 5px 0 0 #16c25e;background:rgba(22,194,94,.13)}
+.tdtag{justify-self:start;font-size:12px;font-weight:800;letter-spacing:.03em;color:#fff;background:#0c9a48;border-radius:999px;padding:3px 10px}
+.calcres .stats{margin:12px 0}
+@media (max-width:430px){.topr{gap:6px}.brand{font-size:16.5px}.top{gap:8px}}
 </style>
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.10.0</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг (учёт Бабыра)</span><small class="ver">Авторская программа учёта Версия: 0.11.1</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
+      <button class="icon-btn" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button>
       <button class="icon-btn" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button>
@@ -452,9 +459,10 @@ var lotKey=function(m){return m.product+'|'+m.prod+'|'+m.exp};
 function capOf(id){var p=cfg.products.filter(function(x){return x.id===id})[0];return p&&Number.isFinite(p.cap)?p.cap:cfg.capacity}
 function capsText(){return cfg.products.map(function(p){return esc(p.short)+' — '+p.cap}).join(', ')}
 /* остаточный срок: доля оставшихся дней от всего срока годности; цвет по настраиваемым порогам */
+var fp=function(v){return (Math.round(v*10)/10).toFixed(1).replace('.',',')};
 function lotInfo(l){
   var life=daysBetween(l.prod,l.exp), left=daysTo(l.exp);
-  var pct=life>0?Math.max(0,Math.min(100,Math.round(left/life*100))):0;
+  var pct=life>0?Math.max(0,Math.min(100,Math.round(left/life*1000)/10)):0;
   var L=cfg.shelf, idx=L.length-1, color;
   if(left<0){idx=L.length;color=cfg.expiredColor}
   else{for(var i=0;i<L.length;i++){if(pct>=L[i].min){idx=i;break}} color=L[idx].color}
@@ -532,7 +540,7 @@ function parseCell(text){
 }
 function describeCell(code){
   var cm=D.cells.get(code); if(!cm||!cm.size) return null;
-  return Array.from(cm.values()).map(function(l){return product(l.product).name+' · произв. '+fmt(l.prod)+' · до '+fmt(l.exp)+' · осталось '+lotInfo(l).pct+'% · '+l.qty+' кор.'});
+  return Array.from(cm.values()).map(function(l){return product(l.product).name+' · произв. '+fmt(l.prod)+' · до '+fmt(l.exp)+' · осталось '+fp(lotInfo(l).pct)+'% · '+l.qty+' кор.'});
 }
 
 /* ---------- db helpers ---------- */
@@ -557,7 +565,7 @@ function banner(){return dbState==='none'?'<div class="banner">Нет связи
 function expiryPill(l){
   var i=lotInfo(l);
   if(i.left<0) return '<span class="pill lv"'+lvAttr(i)+'>Срок истёк '+fmt(l.exp)+' · 0%</span>';
-  return '<span class="pill lv"'+lvAttr(i)+'>Осталось '+i.pct+'% срока · '+i.left+' дн.</span>';
+  return '<span class="pill lv"'+lvAttr(i)+'>Осталось '+fp(i.pct)+'% срока · '+i.left+' дн.</span>';
 }
 function datesHtml(l){return '<div class="dates"><span>Произведено <b>'+fmt(l.prod)+'</b></span><span>Годен до <b>'+fmt(l.exp)+'</b></span></div>'}
 function setTab(t){tab=t;try{localStorage.setItem('sklad.tab',t)}catch(e){}render();window.scrollTo(0,0)}
@@ -577,11 +585,11 @@ function renderStock(){
   if(!loaded) return banner()+'<div class="stack"><div class="skel"></div><div class="skel"></div></div>';
   var lots=Array.from(D.lots.values());
   var totalCells=cfg.rows.length*cfg.sections*cfg.floors.length;
-  var alerts=lots.filter(function(l){return daysTo(l.exp)<=cfg.warnDays}).length;
+  var alThr=(cfg.shelf&&cfg.shelf[1]&&cfg.shelf[1].min)||25, alerts=lots.filter(function(l){return lotInfo(l).pct<alThr}).length;
   var h=banner()+(S.view==='map'?'':'<div class="stats">'+
     '<div class="stat"><b>'+D.boxes+'</b><span>коробок на складе</span></div>'+
     '<div class="stat"><b>'+D.cells.size+'</b><span>ячеек занято из '+totalCells+'</span></div>'+
-    '<div class="stat'+(alerts?' warn':'')+'"><b>'+alerts+'</b><span>партий, срок ≤ '+cfg.warnDays+' дн.</span></div></div>'+expectNote()+(D.lots.size?legendHtml():''));
+    '<div class="stat'+(alerts?' warn':'')+'"><b>'+alerts+'</b><span>партий, остаток срока ниже '+alThr+'%</span></div></div>'+expectNote()+(D.lots.size?legendHtml():''));
   if(!lots.length){
     return h+'<div class="card hero-empty"><h2>На складе пока пусто</h2><p>Внесите товар, который уже лежит на стеллажах, и новые поставки через «Приход». Укажите реальные даты производства и сроки годности, ячейку и количество.</p><button class="btn" type="button" data-act="tab" data-tab="in">Внести приход</button></div>';
   }
@@ -600,7 +608,7 @@ function renderStock(){
         (open?(pl.length?pl.map(function(l){
           var li=lotInfo(l);
           return '<div class="lot"><div class="lot-top">'+datesHtml(l)+'<div class="lot-qty"><b>'+l.qty+'</b> кор.</div></div><div>'+expiryPill(l)+'</div>'+
-            '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+li.pct+'%</span></span>'}).join('')+'</div></div>';
+            '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+fp(li.pct)+'%</span></span>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+
     '<p class="note" style="margin-top:12px">Нажмите на товар, чтобы увидеть партии по датам и ячейки, где они стоят. Число рядом с ячейкой — коробок этой партии.</p><button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>';
@@ -615,7 +623,7 @@ function renderStock(){
       var cm=D.cells.get(c), tot=cellTotal(D,c), cap=capOf(cm.values().next().value.product), full=tot>=cap, over=tot>cap;
       return '<div class="cellrow"><div class="code">'+c+'</div><div class="what">'+Array.from(cm.values()).sort(byExp).map(function(l){
         var li=lotInfo(l);
-        return '<div><b>'+pdot(l.product)+esc(product(l.product).name)+(cm.size>1?' · '+l.qty+' кор.':'')+'</b><small>произв. '+fmt(l.prod)+' · до '+fmt(l.exp)+'</small><span class="pill lv"'+lvAttr(li)+'>'+(li.left<0?'срок истёк · 0%':'осталось '+li.pct+'% срока')+'</span></div>';
+        return '<div><b>'+pdot(l.product)+esc(product(l.product).name)+(cm.size>1?' · '+l.qty+' кор.':'')+'</b><small>произв. '+fmt(l.prod)+' · до '+fmt(l.exp)+'</small><span class="pill lv"'+lvAttr(li)+'>'+(li.left<0?'срок истёк · 0%':'осталось '+fp(li.pct)+'% срока')+'</span></div>';
       }).join('')+'</div><div class="amt'+(over?' over':'')+'">'+tot+'<small>/'+cap+'</small><div class="bar'+(over?' over':full?' full':'')+'"><i style="width:'+Math.min(100,tot/cap*100)+'%"></i></div></div></div>';
     }).join('')+'</section>':'<div class="card empty" style="border-top:1px solid var(--line)">В ряду '+esc(S.row)+' пока ничего нет</div>';
   }
@@ -680,7 +688,7 @@ function updateIn(){
       var life=daysBetween(F.prod,F.exp), left=daysTo(F.exp);
       sh.className='note'+(left<0?' bad':left<=cfg.warnDays?' warn':'');
       var li0=lotInfo({prod:F.prod,exp:F.exp});
-      sh.innerHTML='Срок годности <b>'+life+' дн.</b> · осталось <b>'+li0.pct+'%</b> ('+(left<0?'истёк '+(-left)+' дн. назад':left+' дн.')+')';
+      sh.innerHTML='Срок годности <b>'+life+' дн.</b> · осталось <b>'+fp(li0.pct)+'%</b> ('+(left<0?'истёк '+(-left)+' дн. назад':left+' дн.')+')';
     }else{sh.className='note';sh.innerHTML=''}
   }
   var rm=$('#inRemain');
@@ -863,7 +871,7 @@ function mvItem(m){
     where=nm+' · <span class="mono">'+esc(m.cell)+'</span>';
     extra='<div class="mv-s">'+(q===0?'Пересчитано, совпало: '+esc(m.now)+' кор.':'Было '+esc(m.prev)+' → стало '+esc(m.now)+' кор.')+'</div>';
   }
-  return '<li class="card mv"><div class="mv-h">'+head+'<span class="when">'+t+'</span>'+(k==='out'?chkHtml(m):'')+'</div>'+
+  return '<li class="card mv'+tdCls(m)+'">'+tdTag(m)+'<div class="mv-h">'+head+'<span class="when">'+t+'</span>'+(k==='out'||k==='in'?chkHtml(m):'')+'</div>'+
     '<div class="mv-b">'+where+'</div>'+
     '<div class="mv-s">Произв. '+fmt(m.prod)+' · годен до '+fmt(m.exp)+'</div>'+extra+whoLine(m)+chkNote(m)+
     (m.orig?'<div class="mv-s" style="color:var(--warn)">'+esc(origText(m))+'</div>':'')+
@@ -883,7 +891,7 @@ function miscHtml(){
 }
 function journalHtml(type){
   var list=periodMoves(type).sort(tsDesc), word=type==='in'?'Принято':'Отгружено';
-  var h='<p class="sumtxt">'+word+' <b>'+sumQty(list)+' кор.</b> · записей: '+list.length+' · '+periodLabel()+'</p>'+(type==='out'&&list.length?chkSum(list):'');
+  var h='<p class="sumtxt">'+word+' <b>'+sumQty(list)+' кор.</b> · записей: '+list.length+' · '+periodLabel()+'</p>'+(list.length?chkSum(list,type):'');
   if(!list.length) return h+'<div class="card empty" style="border-top:1px solid var(--line)">'+(type==='in'?'Приходов':'Отгрузок')+' за этот период нет.</div>';
   var shown=list.slice(0,S.logLimit), groups=[], cur=null;
   shown.forEach(function(m){
@@ -1056,7 +1064,7 @@ function cellCard(c){
     Array.from(cm.values()).sort(byExp).map(function(l){
       var li=lotInfo(l);
       return '<button type="button" class="btn-reset cc-lot" data-act="editLot" data-cell="'+c+'" data-k="'+esc(l.key)+'" aria-label="Исправить партию в ячейке '+c+'">'+
-        '<div class="cc-info"><b>'+pdot(l.product)+esc(product(l.product).name)+'</b><small>произв. '+fmt(l.prod)+' · до '+fmt(l.exp)+'</small><span class="pill lv"'+lvAttr(li)+'>'+(li.left<0?'срок истёк · 0%':'осталось '+li.pct+'% срока')+'</span></div>'+
+        '<div class="cc-info"><b>'+pdot(l.product)+esc(product(l.product).name)+'</b><small>произв. '+fmt(l.prod)+' · до '+fmt(l.exp)+'</small><span class="pill lv"'+lvAttr(li)+'>'+(li.left<0?'срок истёк · 0%':'осталось '+fp(li.pct)+'% срока')+'</span></div>'+
         '<div class="cc-q"><b>'+l.qty+'</b> кор.</div>'+PENCIL+'</button>';
     }).join('')+
     '<div class="cc-act"><button class="btn ghost sm" type="button" data-act="mvOpen" data-cell="'+c+'">Переместить</button><button class="btn ghost sm" type="button" data-act="invOpen" data-cell="'+c+'">Пересчитать</button>'+(lastInv(c)?'<span class="small">пересчитано '+dayKey(lastInv(c))+'</span>':'')+'</div></section>';
@@ -1100,7 +1108,7 @@ function updateEdit(){
   var e=S.edit, pl=planEdit(e), st=$('#edStatus'), sv=$('#edSave'); if(!st||!sv) return;
   var sh=$('#edShelf');
   if(sh){
-    if(e.prod&&e.exp&&e.exp>e.prod){var li=lotInfo({prod:e.prod,exp:e.exp});sh.className='note'+(li.cls==='ok'?'':' '+li.cls);sh.innerHTML='Срок годности <b>'+li.life+' дн.</b> · осталось <b>'+li.pct+'%</b>'}
+    if(e.prod&&e.exp&&e.exp>e.prod){var li=lotInfo({prod:e.prod,exp:e.exp});sh.className='note'+(li.cls==='ok'?'':' '+li.cls);sh.innerHTML='Срок годности <b>'+li.life+' дн.</b> · осталось <b>'+fp(li.pct)+'%</b>'}
     else{sh.className='note';sh.innerHTML=''}
   }
   var cp=$('#edCap'); if(cp) cp.textContent='Лимит ячейки для этого товара: '+capOf(e.product)+' кор.';
@@ -1212,7 +1220,7 @@ function renderInvSheet(root){
     lots.map(function(l){
       var li=lotInfo(l);
       return '<section class="card prod" style="margin-bottom:12px"><div class="lot"><div class="lot-top"><div><b>'+pdot(l.product)+esc(product(l.product).name)+'</b>'+datesHtml(l)+'</div><div class="lot-qty">по учёту<br><b>'+l.qty+'</b> кор.</div></div>'+
-        '<div><span class="pill lv"'+lvAttr(li)+'>'+(li.left<0?'срок истёк · 0%':'осталось '+li.pct+'% срока')+'</span></div>'+
+        '<div><span class="pill lv"'+lvAttr(li)+'>'+(li.left<0?'срок истёк · 0%':'осталось '+fp(li.pct)+'% срока')+'</span></div>'+
         '<div class="field"><label>Фактически, коробок</label><div class="qrow"><input class="invin" type="number" inputmode="numeric" min="0" data-k="'+esc(l.key)+'" value="'+esc(e.vals[l.key])+'" aria-label="Фактически коробок"><button class="btn ghost" type="button" data-act="invSame" data-k="'+esc(l.key)+'">Как в учёте</button></div></div></div></section>';
     }).join('')+
     '<div class="stack"><div id="invStatus" class="status"></div><button id="invSave" class="btn" type="button" data-act="invSave">Сохранить пересчёт</button></div></div></div>';
@@ -1287,7 +1295,7 @@ function renderMapSheet(root){
   else{
     var tot=cellTotal(D,c), cap=capOf(lots[0].product), iss=cellIssue(D,c);
     body='<p class="sumtxt">В ячейке <b>'+tot+'</b> из '+cap+' кор.'+(tot<cap?' · свободно <b>'+(cap-tot)+'</b>':'')+'</p>'+(iss?'<div class="status bad" style="margin-bottom:12px">'+esc(iss)+'</div>':'')+
-    lots.map(function(l){var li=lotInfo(l);return '<section class="card prod" style="margin-bottom:12px"><div class="lot"><div class="lot-top"><div><b>'+pdot(l.product)+esc(product(l.product).name)+'</b>'+datesHtml(l)+'</div><div class="lot-qty"><b>'+l.qty+'</b> кор.</div></div><div><span class="pill lv"'+lvAttr(li)+'>'+(li.left<0?'срок истёк · 0%':'осталось '+li.pct+'% срока · '+li.left+' дн.')+'</span></div></div>'+
+    lots.map(function(l){var li=lotInfo(l);return '<section class="card prod" style="margin-bottom:12px"><div class="lot"><div class="lot-top"><div><b>'+pdot(l.product)+esc(product(l.product).name)+'</b>'+datesHtml(l)+'</div><div class="lot-qty"><b>'+l.qty+'</b> кор.</div></div><div><span class="pill lv"'+lvAttr(li)+'>'+(li.left<0?'срок истёк · 0%':'осталось '+fp(li.pct)+'% срока · '+li.left+' дн.')+'</span></div></div>'+
       '<div class="cc-act"><button class="btn ghost sm" type="button" data-act="editLot" data-cell="'+c+'" data-k="'+esc(l.key)+'">Исправить</button></div></section>'}).join('')+
     '<div class="stack"><button class="btn" type="button" data-act="mvOpen" data-cell="'+c+'">Переместить</button><button class="btn ghost" type="button" data-act="invOpen" data-cell="'+c+'">Пересчитать</button>'+(cm.size<cfg.maxLots&&tot<cap?'<button class="btn ghost" type="button" data-act="mapPut" data-cell="'+c+'">Положить ещё сюда</button>':'')+'</div>';
   }
@@ -1376,7 +1384,7 @@ function rTable(head,rows,foot){
   return '<table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody>'+ft+'</table>';
 }
 function swatch(id){var p=cfg.products.filter(function(x){return x.id===id})[0];return '<span class="sw" style="background:'+(p&&p.color?p.color:'#999')+'"></span>'}
-function pctTxt(l){var i=lotInfo(l);return i.left<0?'истёк':i.pct+'% ('+i.left+' дн.)'}
+function pctTxt(l){var i=lotInfo(l);return i.left<0?'истёк':fp(i.pct)+'% ('+i.left+' дн.)'}
 function reportHtml(sec){
   var h=[], now=new Date();
   var pf=function(id){return S.pf==='all'||id===S.pf};
@@ -1450,7 +1458,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.10.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.11.1</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1503,7 +1511,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.10.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.11.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1530,7 +1538,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.10.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.11.1) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1567,9 +1575,10 @@ function openSettings(){
 }
 function renderSheet(){
   var root=$('#sheetRoot');
-  if(!S.settings&&!S.edit&&!S.mv&&!S.inv&&!S.pl&&!S.rep&&!S.mapSel&&!S.nc){root.innerHTML='';document.body.style.overflow='';return}
+  if(!S.settings&&!S.edit&&!S.mv&&!S.inv&&!S.pl&&!S.rep&&!S.mapSel&&!S.nc&&!S.calc){root.innerHTML='';document.body.style.overflow='';return}
   document.body.style.overflow='hidden';
   if(S.mapSel&&!S.mv&&!S.inv&&!S.edit&&!S.pl&&!S.rep){renderMapSheet(root);return}
+  if(S.calc){renderCalcSheet(root);return}
   if(S.nc){renderNcSheet(root);return}
   if(S.pl){renderPlanSheet(root);return}
   if(S.rep){renderRepSheet(root);return}
@@ -1729,6 +1738,8 @@ document.addEventListener('click',function(e){
     case 'logView': S.logView=el.dataset.v; S.logLimit=50; S.confirmDel=null; return render();
     case 'period': S.period=el.dataset.p; S.logLimit=50; return render();
     case 'noticeOn': S.draft.noticeOn=el.dataset.v==='1'; return renderSheet();
+    case 'calcOpen': S.calc=calcDef(); renderSheet(); return updateCalc();
+    case 'calcClose': S.calc=null; return renderSheet();
     case 'ncOpen': if(!canSave()) return toast('Режим просмотра: добавлять нельзя',true); S.nc=ncState(); renderSheet(); return updateNc();
     case 'ncClose': S.nc=null; return renderSheet();
     case 'ncProduct': S.nc.product=el.dataset.id; $$('[data-act="ncProduct"]').forEach(function(b){b.setAttribute('aria-pressed',String(b===el))}); return updateNc();
@@ -1824,6 +1835,9 @@ document.addEventListener('input',function(e){
   if(t.id==='mvTo'&&S.mv){var mf=fmtCellInput(t.value);t.value=mf;S.mv.to=mf;return updateMove()}
   if(t.classList&&t.classList.contains('invin')&&S.inv){S.inv.vals[t.dataset.k]=t.value;return updateInv()}
   if(t.dataset&&t.dataset.sh!==undefined&&S.draft){S.draft.shelf[Number(t.dataset.sh)][t.dataset.sf]=t.value;return}
+  if(t.id==='calcProd'&&S.calc){S.calc.prod=t.value;return updateCalc()}
+  if(t.id==='calcExp'&&S.calc){S.calc.exp=t.value;return updateCalc()}
+  if(t.id==='calcMonths'&&S.calc){S.calc.months=t.value;return updateCalc()}
   if(t.id==='ncProd'&&S.nc){S.nc.prod=t.value;return updateNc()}
   if(t.id==='ncExp'&&S.nc){S.nc.exp=t.value;return updateNc()}
   if(t.id==='ncCell'&&S.nc){var nf=fmtCellInput(t.value);t.value=nf;S.nc.cell=nf;return updateNc()}
@@ -2001,7 +2015,7 @@ function onUser(u){
   FS.doc('users/'+u.uid).get().then(function(s){
     if(!s.exists) return screenWait('Вы вошли, но доступ ещё не выдан. Попросите администратора добавить ваш логин в разделе «Настройки → Сотрудники».',true);
     var d=s.data(); if(d.active===false) return screenWait('Ваш доступ закрыт администратором.',true);
-    ME={uid:u.uid,login:d.login||'',name:d.name||d.login||'Без имени',role:ROLES[d.role]?d.role:'viewer'};
+    ME={uid:u.uid,login:d.login||'',name:d.name||d.login||'Без имени',role:ROLES[d.role]?d.role:'viewer',prevSeen:d.lastSeen||d.lastLogin||''};
     authHide(); startData();
   }).catch(function(e){screenWait('Не удалось проверить доступ: '+authErr(e),true)});
 }
@@ -2229,7 +2243,18 @@ function presHtml(u){
 /* ---- уведомления о чужих действиях ---- */
 var KNOWN=null, NQ=[], NT=null;
 function notifyNew(first){
-  if(first||!KNOWN){KNOWN={};moves.forEach(function(m){KNOWN[m.id]=1});return}
+  if(first||!KNOWN){
+    KNOWN={}; var back=[], ps=ME&&ME.prevSeen?Date.parse(ME.prevSeen):0;
+    var since=Math.max(Date.now()-7*86400000, isFinite(ps)&&ps?ps:Date.now()-86400000);
+    moves.forEach(function(m){
+      KNOWN[m.id]=1;
+      if(!ME||!m.by||m.by===ME.uid) return;
+      var k=kindOf(m); if(k!=='in'&&k!=='out') return;
+      var t=Date.parse(m.ts); if(isFinite(t)&&t>since) back.push(m);
+    });
+    if(back.length&&UI.notif!=='0'){NQ=back; flushNotif(true)}
+    return;
+  }
   var fresh=[];
   moves.forEach(function(m){
     if(KNOWN[m.id]) return; KNOWN[m.id]=1;
@@ -2241,45 +2266,53 @@ function notifyNew(first){
   if(!fresh.length||UI.notif==='0') return;
   NQ=NQ.concat(fresh); clearTimeout(NT); NT=setTimeout(flushNotif,1800);
 }
-function flushNotif(){
+function flushNotif(backlog){
   var g={}, order=[];
   NQ.forEach(function(m){
     var k=[m.by,kindOf(m),m.product,kindOf(m)==='out'?m.city:m.from].join('|');
-    if(!g[k]){g[k]={m:m,cells:{},sum:0};order.push(k)}
-    var o=g[k], q=Number(m.qty)||0; o.sum+=q; o.cells[m.cell]=(o.cells[m.cell]||0)+q;
+    if(!g[k]){g[k]={m:m,cells:{},sum:0,last:m.ts};order.push(k)}
+    var o=g[k], q=Number(m.qty)||0; o.sum+=q; o.cells[m.cell]=(o.cells[m.cell]||0)+q; if(String(m.ts)>String(o.last)) o.last=m.ts;
   });
   NQ=[];
+  order.sort(function(a,b){return String(g[b].last).localeCompare(String(g[a].last))});
+  var extra=0;
+  if(backlog&&order.length>4){extra=order.length-3; order=order.slice(0,3)}
   order.forEach(function(k){
     var o=g[k], m=o.m, out=kindOf(m)==='out';
     var cells=Object.keys(o.cells).sort().map(function(c){return c+' ('+o.cells[c]+')'}).join(', ');
     var who=m.byLogin||m.byName||'сотрудник';
-    showNf('Сотрудник «'+who+'» '+(out?'отгрузил':'принял приход')+' '+o.sum+' кор. · '+product(m.product).short+(out?' → '+(m.city||'?')+'. Из ячеек: ':'. В ячейки: ')+cells);
+    showNf(backlog?o.last:'', backlog, 'Сотрудник «'+who+'» '+(out?'отгрузил':'принял приход')+' '+o.sum+' кор. · '+product(m.product).short+(out?' → '+(m.city||'?')+'. Из ячеек: ':'. В ячейки: ')+cells);
   });
+  if(extra) showNf('',true,'Ещё '+extra+' действий других сотрудников за время вашего отсутствия. Подробности в журнале.');
 }
-function showNf(txt){
+function showNf(whenIso,sticky,txt){
   var r=document.getElementById('nfRoot'); if(!r) return;
+  var hd=document.querySelector('.top'); r.style.top=(hd?Math.max(0,Math.round(hd.getBoundingClientRect().bottom))+6:8)+'px';
   var d=document.createElement('div'); d.className='nf'; d.setAttribute('role','status');
-  var t=new Date(), hm=pad(t.getHours())+':'+pad(t.getMinutes());
+  var t=new Date(), hm=whenIso?whenText(whenIso):pad(t.getHours())+':'+pad(t.getMinutes());
   d.innerHTML='<span class="nf-t">'+esc(txt)+'</span><span class="nf-w">'+hm+'</span><button type="button" data-act="nfClose" aria-label="Закрыть уведомление">×</button>';
   r.appendChild(d);
-  while(r.children.length>4) r.removeChild(r.firstChild);
+  while(r.children.length>5) r.removeChild(r.firstChild);
   try{if(navigator.vibrate) navigator.vibrate(120)}catch(e){}
-  setTimeout(function(){if(d.parentNode) d.parentNode.removeChild(d)},20000);
+  setTimeout(function(){if(d.parentNode) d.parentNode.removeChild(d)},sticky?45000:20000);
 }
 /* ---- проверка отгрузки ---- */
 function chkHtml(m){
-  var dis=canSave()?'':' disabled', id=esc(m.id);
-  return '<span class="ckrow" role="group" aria-label="Проверка отгрузки">'+
-    '<button type="button" class="ck ok" data-act="chk" data-v="ok" data-id="'+id+'" aria-pressed="'+(m.chk==='ok')+'" aria-label="Отгружено верно"'+dis+'>✓</button>'+
-    '<button type="button" class="ck bad" data-act="chk" data-v="bad" data-id="'+id+'" aria-pressed="'+(m.chk==='bad')+'" aria-label="Не подтверждено"'+dis+'>✕</button></span>';
+  var dis=canSave()?'':' disabled', id=esc(m.id), inn=kindOf(m)==='in';
+  var b1='<button type="button" class="ck ok" data-act="chk" data-v="ok" data-id="'+id+'" aria-pressed="'+(m.chk==='ok')+'" aria-label="'+(inn?'Заблокировано':'Отгружено верно')+'"'+dis+'>✓</button>';
+  var b2='<button type="button" class="ck bad" data-act="chk" data-v="bad" data-id="'+id+'" aria-pressed="'+(m.chk==='bad')+'" aria-label="'+(inn?'Разблокировано':'Не подтверждено')+'"'+dis+'>✕</button>';
+  if(inn) return '<span class="ckrow" role="group" aria-label="Блокировка прихода"><span class="ckc">'+b1+'<small>заблок.</small></span><span class="ckc">'+b2+'<small>разблок.</small></span></span>';
+  return '<span class="ckrow" role="group" aria-label="Проверка отгрузки">'+b1+b2+'</span>';
 }
 function chkNote(m){
-  if(kindOf(m)!=='out'||!m.chk) return '';
-  return '<div class="mv-s">'+(m.chk==='ok'?'✓ Отгрузка подтверждена':'✕ Не подтверждено')+(m.chkByName?': '+esc(m.chkByName):'')+(m.chkAt?' · '+esc(whenText(m.chkAt)):'')+'</div>';
+  var k=kindOf(m); if((k!=='out'&&k!=='in')||!m.chk) return '';
+  var t=k==='in'?(m.chk==='ok'?'✓ Заблокировано':'✕ Разблокировано'):(m.chk==='ok'?'✓ Отгрузка подтверждена':'✕ Не подтверждено');
+  return '<div class="mv-s">'+t+(m.chkByName?': '+esc(m.chkByName):'')+(m.chkAt?' · '+esc(whenText(m.chkAt)):'')+'</div>';
 }
-function chkSum(list){
+function chkSum(list,type){
   var ok=0,bad=0; list.forEach(function(m){if(m.chk==='ok')ok++;else if(m.chk==='bad')bad++});
-  return '<p class="sumtxt" style="margin-top:-2px">Проверено: ✓ '+ok+' · ✕ '+bad+' · без отметки '+(list.length-ok-bad)+'</p>';
+  var n=list.length-ok-bad;
+  return '<p class="sumtxt" style="margin-top:-2px">'+(type==='in'?'Заблок.: ✓ '+ok+' · Разблок.: ✕ '+bad:'Проверено: ✓ '+ok+' · ✕ '+bad)+' · без отметки '+n+'</p>';
 }
 /* ---- новая ячейка с товаром ---- */
 function ncState(){return {product:'',prod:'',exp:'',cell:'',qty:''}}
@@ -2303,7 +2336,7 @@ function updateNc(){
   var e=S.nc, r=checkNew(e), st=document.getElementById('ncStatus'), sv=document.getElementById('ncSave'); if(!st||!sv) return;
   var sh=document.getElementById('ncShelf');
   if(sh){
-    if(e.prod&&e.exp&&e.exp>e.prod){var li=lotInfo({prod:e.prod,exp:e.exp});sh.className='note'+(li.cls==='ok'?'':' '+li.cls);sh.innerHTML='Срок годности <b>'+li.life+' дн.</b> · осталось <b>'+li.pct+'%</b>'}
+    if(e.prod&&e.exp&&e.exp>e.prod){var li=lotInfo({prod:e.prod,exp:e.exp});sh.className='note'+(li.cls==='ok'?'':' '+li.cls);sh.innerHTML='Срок годности <b>'+li.life+' дн.</b> · осталось <b>'+fp(li.pct)+'%</b>'}
     else{sh.className='note';sh.innerHTML=''}
   }
   var ch=document.getElementById('ncHint');
@@ -2327,6 +2360,45 @@ function saveNc(){
   addMove({type:'adj',manual:true,product:e.product,prod:e.prod,exp:e.exp,cell:r.cell,qty:r.q,prev:prev,now:prev+r.q}).then(function(){
     busy=false; S.nc=null; renderSheet(); render(); toast('Добавлено '+r.q+' кор. → '+r.cell);
   }).catch(function(er){busy=false;updateNc();toast(errText(er),true)});
+}
+
+function isToday(m){return m.ts&&dayKey(m.ts)===dayKey(new Date().toISOString())}
+function tdCls(m){var k=kindOf(m); return (k==='out'||k==='in')&&isToday(m)?' td-'+k:''}
+function tdTag(m){var k=kindOf(m); if(!((k==='out'||k==='in')&&isToday(m))) return ''; return '<span class="tdtag">'+(k==='out'?'Сегодняшняя отгрузка':'Сегодняшний приход')+'</span>'}
+
+function calcDef(){return {prod:'',exp:'',months:''}}
+function addMonthsIso(iso,n){
+  var p=iso.split('-').map(Number), d0=new Date(p[0],p[1]-1+n,1);
+  var last=new Date(d0.getFullYear(),d0.getMonth()+1,0).getDate(); d0.setDate(Math.min(p[2],last));
+  return d0.getFullYear()+'-'+pad(d0.getMonth()+1)+'-'+pad(d0.getDate());
+}
+function renderCalcSheet(root){
+  var c=S.calc;
+  root.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Калькулятор срока"><div class="wrap">'+
+    '<div class="bar-top"><h1 style="margin:0;font-size:22px">Калькулятор срока</h1><button class="btn ghost sm" type="button" data-act="calcClose">Закрыть</button></div>'+
+    '<p class="lede">Введите дату производства и срок годности: покажу общий срок, сколько прошло и сколько осталось, в днях и процентах.</p>'+
+    '<section class="group"><div class="two"><div class="field"><label for="calcProd">Дата производства</label><input id="calcProd" type="date" value="'+esc(c.prod)+'"></div><div class="field"><label for="calcExp">Годен до</label><input id="calcExp" type="date" value="'+esc(c.exp)+'"></div></div>'+
+    '<div class="field" style="margin-top:12px"><label for="calcMonths">Или срок годности в месяцах <span class="opt">если даты «годен до» нет</span></label><input id="calcMonths" type="number" inputmode="numeric" min="1" max="120" placeholder="например 9" value="'+esc(c.months)+'"></div></section>'+
+    '<div id="calcOut" class="calcres"></div></div></div>';
+}
+function updateCalc(){
+  var out=document.getElementById('calcOut'); if(!S.calc||!out) return;
+  var c=S.calc, exp=c.exp, from='';
+  var mo=Number(c.months);
+  if(!exp&&c.prod&&mo>=1&&Number.isInteger(mo)&&mo<=120){exp=addMonthsIso(c.prod,mo); from='Годен до по сроку '+mo+' мес.: <b>'+fmt(exp)+'</b>'}
+  if(!c.prod||!exp){out.innerHTML='<p class="note">Укажите дату производства и срок годности (дату «годен до» или число месяцев).</p>';return}
+  if(exp<=c.prod){out.innerHTML='<div class="status bad">Срок годности раньше даты производства или равен ей.</div>';return}
+  var life=daysBetween(c.prod,exp), left=daysTo(exp), passed=-daysTo(c.prod);
+  var li=lotInfo({prod:c.prod,exp:exp}), exact=Math.max(0,Math.min(100,left/life*100)), fx=function(v){return v.toFixed(1).replace('.',',')};
+  var mon=(life/30.4375).toFixed(1).replace('.',',');
+  var h=(from?'<p class="sumtxt">'+from+'</p>':'');
+  h+='<div class="stats"><div class="stat"><b>'+life+'</b><span>дн. общий срок (≈ '+mon+' мес.)</span></div>'+
+     '<div class="stat"><b>'+Math.max(0,Math.min(life,passed))+'</b><span>дн. прошло · '+(passed<0?'0':fx(Math.max(0,Math.min(100,passed/life*100))))+'%</span></div>'+
+     '<div class="stat'+(left<0?' warn':'')+'"><b>'+Math.max(0,left)+'</b><span>дн. осталось · '+fx(exact)+'%</span></div></div>';
+  h+='<p class="sumtxt"><span class="pill lv"'+lvAttr(li)+'>'+(left<0?'Срок истёк '+(-left)+' дн. назад · 0%':'Остаточный срок '+fp(li.pct)+'%')+'</span></p>';
+  if(passed<0) h+='<p class="note">Партия ещё не произведена: до даты производства '+(-passed)+' дн.</p>';
+  h+='<div class="bar" aria-hidden="true"><i style="width:'+Math.max(0,Math.min(100,exact))+'%"></i></div><p class="note" style="margin-top:8px">Остаточный срок считается как доля оставшихся дней от общего срока и показывается с точностью до 0,1%.</p>';
+  out.innerHTML=h;
 }
 function boot(){
   if(BAKED_CFG) return startFirebase(BAKED_CFG);
