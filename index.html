@@ -7,6 +7,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-messaging-compat.js"></script>
 <title>Агроторг — складской учёт</title>
 <meta name="description" content="Агроторг: программа складского учёта. Вход по логину и паролю.">
 <meta property="og:type" content="website">
@@ -416,7 +417,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.17.0</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.18.0</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button>
@@ -509,7 +510,7 @@ var tab='stock';
 try{ var t0=localStorage.getItem('sklad.tab'); if(t0&&['stock','in','out','log','cells'].indexOf(t0)>=0) tab=t0; }catch(e){}
 var F={product:'',prod:'',exp:'',total:'',cell:'',qty:'',placed:0,from:'',planId:''};
 var O={product:'',q:{},city:'',need:''};
-var S={invite:null,wo:null,ie:null,instHide:false,instHelp:false,logFiltOpen:false,gq:'',gLimit:30,ds:{date:''},view:'lots',row:'all',openProd:{},openCity:{},
+var S={pushChk:false,invite:null,wo:null,ie:null,instHide:false,instHelp:false,logFiltOpen:false,gq:'',gLimit:30,ds:{date:''},view:'lots',row:'all',openProd:{},openCity:{},
   logView:'out',who:'all',period:'all',from:'',to:'',pf:'all',logLimit:50,
   confirmDel:null,settings:false,draft:null,newCity:false,
   edit:null,cq:'',cpf:'all',cLimit:40,mv:null,inv:null,pl:null,planDel:null,plOpen:false,rep:null,srcEdit:null,map:{row:null,block:0,mode:'product',pf:'all'},mapSel:null};
@@ -1636,7 +1637,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.17.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.18.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1689,7 +1690,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.17.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.18.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1716,7 +1717,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.17.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.18.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1746,7 +1747,7 @@ function printReport(){
 }
 
 /* ---------- settings ---------- */
-function openSettings(){
+function openSettings0(){
   S.draft={products:clone(cfg.products),cities:cfg.cities.slice(),capacity:String(cfg.capacity),maxLots:String(cfg.maxLots),sections:String(cfg.sections),rows:cfg.rows.join(', '),floors:cfg.floors.join(', '),warnDays:String(cfg.warnDays),newCity:'',shelf:cfg.shelf.map(function(x){return {min:String(x.min),color:x.color}}),expiredColor:cfg.expiredColor};
   S.draft.title=cfg.title; S.draft.noticeText=cfg.notice.text; S.draft.noticeOn=cfg.notice.on;
   S.settings=true; renderSheet();
@@ -2046,6 +2047,13 @@ document.addEventListener('click',function(e){
     case 'shHide': S.invite=null; return inviteRefresh();
     case 'shLink': return shareOrCopy(inviteText('','',''));
     case 'shUser': var shu=USERS.filter(function(x){return x.uid===el.dataset.uid})[0]; if(shu) shareOrCopy(inviteText(shu.login,'',shu.name)); return;
+    case 'pushOn': return pushEnable();
+    case 'pushOff': return pushDisable();
+    case 'pushEv': return pushToggle(el.dataset.v);
+    case 'pushTest': return pushTest();
+    case 'pushKeySave':
+      if(!isAdm()) return; var pk=gv('pushKey').trim();
+      return withRetry(function(){return db.doc('config/push').set({vapid:pk})}).then(function(){PUSH.vapid=pk;PUSH.loaded=true;renderSheet();toast('Сохранено: ключ веб-пуша')}).catch(function(er){toast(errText(er),true)});
     case 'invOpen': S.mapSel=null; return invOpen(el.dataset.cell);
     case 'invClose': S.inv=null; return renderSheet();
     case 'invSame': var il=D.cells.get(S.inv.cell)&&D.cells.get(S.inv.cell).get(el.dataset.k); if(il){S.inv.vals[il.key]=String(il.qty);var ii=el.closest('.qrow').querySelector('input');if(ii)ii.value=il.qty} return updateInv();
@@ -2151,7 +2159,7 @@ document.addEventListener('keydown',function(e){
 
 /* ---------- render ---------- */
 function renderNav(){$$('.tabs button').forEach(function(b){if(b.dataset.tab===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')})}
-function renderHeader(){
+function renderHeader0(){
   var tt0=curTitle(); var an=document.getElementById('appName'); if(an&&an.textContent!==tt0) an.textContent=tt0; if(document.title!==tt0) document.title=tt0;
   $('#dot').className='dot '+(dbState==='ok'?'ok':dbState==='none'?'bad':'');
   $('#syncTxt').textContent=dbState==='ok'?'На связи':dbState==='none'?'Без сохранения':'Загрузка';
@@ -2598,6 +2606,95 @@ function shareOrCopy(text){
   if(navigator.share) return navigator.share({title:'Агроторг',text:text}).catch(function(e){if(e&&e.name==='AbortError') return; fbCopy(text,function(){toast('Скопировано. Откройте мессенджер и вставьте.')})});
   fbCopy(text,function(){toast('Скопировано. Откройте мессенджер и вставьте.')});
 }
+
+/* ---------- push-уведомления ---------- */
+var PUSH={vapid:'',loaded:false,busy:false,
+  ev:[['in','Новые приходы'],['out','Новые отгрузки'],['del','Отмена и списание записей'],['cell','Изменения в ячейках'],['exp','Срок годности подходит к концу'],['dep','Отгрузка не отмечена «уехало»']]};
+function pushSupported(){try{return 'Notification' in window&&'serviceWorker' in navigator&&'PushManager' in window&&typeof firebase.messaging==='function'&&(!firebase.messaging.isSupported||firebase.messaging.isSupported())}catch(e){return false}}
+function pushLS(){try{return JSON.parse(localStorage.getItem('agro.push')||'null')}catch(e){return null}}
+function pushSet(v){try{if(v) localStorage.setItem('agro.push',JSON.stringify(v)); else localStorage.removeItem('agro.push')}catch(e){}}
+function pushOn(){var v=pushLS(); return !!v&&!!v.id&&pushSupported()&&Notification.permission==='granted'}
+function pushHash(s){var h=5381;for(var i=0;i<s.length;i++) h=((h<<5)+h+s.charCodeAt(i))>>>0; return h.toString(36)}
+function pushLoadKey(){
+  if(PUSH.loaded||!db) return Promise.resolve();
+  return db.doc('config/push').get().then(function(d){PUSH.vapid=(d.exists&&d.data().vapid)||'';PUSH.loaded=true}).catch(function(){PUSH.loaded=true});
+}
+function pushToken(){
+  return navigator.serviceWorker.register('sw.js').then(function(){return navigator.serviceWorker.ready}).then(function(reg){
+    return firebase.messaging().getToken({vapidKey:PUSH.vapid,serviceWorkerRegistration:reg});
+  });
+}
+function pushSaveDoc(token,events,keep){
+  var id=ME.uid+'_'+pushHash(token), now=new Date().toISOString();
+  var rec={uid:ME.uid,name:ME.name||'',token:token,events:events,ua:String(navigator.userAgent||'').slice(0,160),updated:now};
+  if(!keep) rec.created=now;
+  return withRetry(function(){return db.doc('devices/'+id).set(rec,{merge:true})}).then(function(){pushSet({id:id,events:events});return id});
+}
+function pushEvents(){var v=pushLS(),e={};PUSH.ev.forEach(function(x){e[x[0]]=!(v&&v.events&&v.events[x[0]]===false)});return e}
+function pushEnable(){
+  if(PUSH.busy) return;
+  if(!pushSupported()) return toast('Этот браузер не умеет присылать уведомления. На iPhone сначала добавьте программу на главный экран и откройте её с иконки.',true);
+  if(!PUSH.vapid) return toast('Администратору нужно один раз вставить ключ веб-пуша (Настройки → Уведомления).',true);
+  PUSH.busy=true; renderSheet();
+  Notification.requestPermission().then(function(p){
+    if(p!=='granted') throw new Error('NOPERM');
+    return pushToken();
+  }).then(function(tok){
+    if(!tok) throw new Error('NOTOKEN');
+    var ev={};PUSH.ev.forEach(function(x){ev[x[0]]=true});
+    return pushSaveDoc(tok,ev,false);
+  }).then(function(){PUSH.busy=false;renderSheet();toast('Уведомления включены')}).catch(function(e){
+    PUSH.busy=false;renderSheet();
+    toast(e&&e.message==='NOPERM'?'Разрешение не дано. Разрешите уведомления для сайта в настройках браузера.':'Не удалось включить уведомления: '+(e&&e.code||e&&e.message||'ошибка'),true);
+  });
+}
+function pushDisable(){
+  var v=pushLS(); if(!v) return;
+  var done=function(){pushSet(null);renderSheet();toast('Уведомления выключены')};
+  db.doc('devices/'+v.id).delete().catch(function(){}).then(function(){try{return firebase.messaging().deleteToken()}catch(e){}}).catch(function(){}).then(done);
+}
+function pushToggle(k){
+  var v=pushLS(); if(!v) return; var e=pushEvents(); e[k]=!e[k]; v.events=e; pushSet(v);
+  db.doc('devices/'+v.id).update({events:e,updated:new Date().toISOString()}).catch(function(er){toast(errText(er),true)});
+  renderSheet();
+}
+function pushTest(){
+  navigator.serviceWorker.ready.then(function(reg){return reg.showNotification('Агроторг',{body:'Так будут выглядеть уведомления',icon:'icon-192.png',badge:'icon-192.png',tag:'test'})}).catch(function(){toast('Не удалось показать уведомление',true)});
+}
+function pushBoot(){
+  if(!ME||!pushSupported()) return;
+  var v=pushLS(); if(!v||Notification.permission!=='granted') return;
+  pushLoadKey().then(function(){
+    if(!PUSH.vapid) return;
+    return pushToken().then(function(tok){if(tok) return pushSaveDoc(tok,pushEvents(),true)});
+  }).catch(function(){});
+}
+function pushGroupHtml(){
+  var h='<section class="group"><h2 class="lbl">Уведомления</h2>';
+  var sup=pushSupported(), on=pushOn();
+  if(!sup) h+='<p class="note" style="margin:0 0 8px">Здесь уведомления недоступны. На iPhone добавьте программу на главный экран (iOS 16.4 и новее) и откройте её с иконки. На Android откройте в Chrome.</p>';
+  else if(!PUSH.loaded) h+='<p class="note" style="margin:0">Загрузка…</p>';
+  else if(!PUSH.vapid) h+='<p class="note" style="margin:0 0 8px">Уведомления ещё не настроены администратором.</p>';
+  else if(!on){
+    h+='<p class="note" style="margin:0 0 10px">Сообщения будут приходить на этот телефон, даже когда программа закрыта. Придут с задержкой до 5–10 минут.</p>'+
+      (Notification.permission==='denied'?'<p class="note bad">Уведомления запрещены в настройках браузера для этого сайта. Разрешите их и вернитесь.</p>':'')+
+      '<button class="btn sm" type="button" data-act="pushOn"'+(PUSH.busy?' disabled':'')+'>'+(PUSH.busy?'Включаю…':'Включить уведомления')+'</button>';
+  }else{
+    var e=pushEvents();
+    h+='<p class="note" style="margin:0 0 8px">Включено на этом телефоне. О чём сообщать:</p><div class="chiprow">'+
+      PUSH.ev.map(function(x){return '<button class="fchip" type="button" data-act="pushEv" data-v="'+x[0]+'" aria-pressed="'+e[x[0]]+'">'+esc(x[1])+'</button>'}).join('')+'</div>'+
+      '<div class="inst-b"><button class="btn ghost sm" type="button" data-act="pushTest">Показать пробное</button><button class="btn ghost sm" type="button" data-act="pushOff">Выключить</button></div>';
+  }
+  if(isAdm()&&PUSH.loaded) h+='<details class="hint"'+(PUSH.vapid?'':' open')+'><summary>Ключ веб-пуша (для администратора)</summary><p>Один раз вставьте ключ из Firebase: Project settings → Cloud Messaging → Web Push certificates → Generate key pair.</p>'+
+    '<div class="add"><input id="pushKey" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="off" placeholder="Ключ (длинная строка)" value="'+esc(PUSH.vapid)+'" aria-label="Ключ веб-пуша"><button class="btn sm" type="button" data-act="pushKeySave">Сохранить</button></div></details>';
+  return h+'</section>';
+}
+function renderHeader(){
+  renderHeader0();
+  if(!S.pushChk&&ME){S.pushChk=true;pushBoot()}
+}
+function accountGroupHtml(){return accountGroupHtml0()+pushGroupHtml()}
+function openSettings(){openSettings0(); pushLoadKey().then(function(){if(S.settings) renderSheet()})}
 function whoLine(m){
   if(!m.byName) return '';
   return '<div class="mv-s">Внёс: '+esc(m.byName)+(m.editedByName?' · исправил: '+esc(m.editedByName):'')+'</div>';
@@ -2615,7 +2712,7 @@ function whoRep(){
   if(S.who==='all') return '';
   var w=whoNames().filter(function(x){return x.id===S.who})[0]; return ' · сотрудник: <b>'+esc(w?w.name:'?')+'</b>';
 }
-function accountGroupHtml(){
+function accountGroupHtml0(){
   return '<section class="group"><h2 class="lbl">Мой аккаунт</h2><p class="note" style="margin:0 0 10px">Вы вошли как <b>'+esc(ME.name)+'</b> ('+esc(ME.login)+') · '+ROLES[ME.role]+'</p>'+
     '<div class="add"><input id="acPass" type="password" autocomplete="new-password" placeholder="Новый пароль (от 6 знаков)" aria-label="Новый пароль"><button class="btn sm" type="button" data-act="myPass">Сменить пароль</button></div>'+
     '<details class="hint"><summary>Как поставить значок на главный экран</summary><p><b>Android (Chrome):</b> кнопка ⋮ вверху справа → «Добавить на главный экран» или «Установить приложение».</p><p><b>iPhone (Safari):</b> кнопка «Поделиться» (квадрат со стрелкой) → «На экран Домой». Открывать нужно именно в Safari.</p><p>После этого программа открывается как обычное приложение, без адресной строки. Войти придётся один раз заново.</p></details>'+
