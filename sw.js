@@ -6,9 +6,11 @@ self.addEventListener('fetch', function () {});
 self.addEventListener('push', function (e) {
   var d = {};
   try { var p = e.data ? e.data.json() : {}; d = p.data || p.notification || p || {}; } catch (er) { try { d = { body: e.data.text() }; } catch (e2) {} }
-  var title = d.title || 'Агроторг';
-  e.waitUntil(self.registration.showNotification(title, {
-    body: d.body || '',
+  // Заголовок всегда начинается с названия программы, ниже идёт текст уведомления
+  var BRAND = 'АГРОТОРГ · Честный знак';
+  var text = [d.title, d.body].filter(function (x) { return x; }).join('\n');
+  e.waitUntil(self.registration.showNotification(BRAND, {
+    body: text,
     icon: 'icon-192.png',
     badge: 'icon-192.png',
     tag: d.tag || undefined,
