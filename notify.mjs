@@ -80,20 +80,21 @@ export function expiryEvent({ allMoves = [], cfg = {}, now = new Date(), sent = 
     const l = lots.get(k) || { product: m.product, prod: m.prod, exp: m.exp, qty: 0 };
     l.qty += d; lots.set(k, l);
   });
-  const today = localDay(now), warn = Number(cfg.warnDays) || 30, newSent = {}, fresh = [], expired = [];
+  const today = localDay(now), warn = Number(cfg.warnPct) || 65, newSent = {}, fresh = [], expired = [];
   for (const [k, l] of lots) {
     if (l.qty <= 0) continue;
-    const left = daysBetween(today, l.exp);
-    const stage = left < 0 ? 'expired' : left <= warn ? 'warn' : '';
+    const left = daysBetween(today, l.exp), life = daysBetween(l.prod, l.exp);
+    const pct = life > 0 ? Math.max(0, Math.round(left / life * 1000) / 10) : 0;
+    const stage = left < 0 ? 'expired' : pct <= warn ? 'warn' : '';
     if (!stage) continue;
     newSent[k] = stage;
     if (sent[k] === stage || (sent[k] === 'expired' && stage === 'warn')) continue;
-    (stage === 'expired' ? expired : fresh).push({ ...l, left });
+    (stage === 'expired' ? expired : fresh).push({ ...l, left, pct });
   }
   const ev = [];
-  const fmtL = l => `${pname(cfg, l.product)} · до ${fmtD(l.exp)} · ${l.qty} кор.${l.left >= 0 ? ` · осталось ${l.left} дн.` : ''}`;
+  const fmtL = l => `${pname(cfg, l.product)} · до ${fmtD(l.exp)} · ${l.qty} кор.${l.left >= 0 ? ` · осталось ${String(l.pct).replace('.', ',')}% (${l.left} дн.)` : ''}`;
   if (expired.length) ev.push({ kind: 'exp', actor: null, title: `Срок годности истёк: ${expired.length} парт.`, body: lines(expired.map(fmtL)).join('\n') });
-  if (fresh.length) ev.push({ kind: 'exp', actor: null, title: `Срок годности подходит к концу: ${fresh.length} парт.`, body: lines(fresh.map(fmtL)).join('\n') });
+  if (fresh.length) ev.push({ kind: 'exp', actor: null, title: `Срок годности ${warn}% и ниже: ${fresh.length} парт.`, body: lines(fresh.map(fmtL)).join('\n') });
   return { events: ev, sent: newSent };
 }
 
