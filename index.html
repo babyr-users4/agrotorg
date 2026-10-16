@@ -247,6 +247,24 @@ html .mapbar .btn.sm{min-height:36px}
 html .fchip.xsc,html[data-size] .fchip.xsc{min-height:32px!important;font-size:13px!important;padding:0 12px!important}
 .mv-a .linkbtn{display:inline-flex;align-items:center;border:1.5px solid var(--bad);color:var(--bad);background:transparent;border-radius:8px;padding:0 14px;min-height:36px;font-weight:600;font-size:14px;text-decoration:none}
 .mv-a .linkbtn:active{background:var(--bad-bg)}
+/* 0.21 */
+.top .logo{order:1!important;width:32px;height:32px;border-radius:10px;align-self:flex-start;margin-top:1px}
+.top .brand{order:2!important;flex:1 1 0!important}
+.top .topr{order:3!important;flex:1 1 100%!important;margin-left:0!important;justify-content:flex-end}
+.top{align-items:flex-start}
+.mv-s.who{font-size:13px;color:var(--ink)}.mv-s.who b{font-weight:700}
+.ckwrap{border:1.5px solid var(--line);background:var(--surface-2);border-radius:12px;padding:4px 7px 5px;margin-left:6px!important}
+.ckwrap .ck{width:32px;height:32px;font-size:16px}
+.ckwrap .ckrow{gap:6px}
+.mv-h b{white-space:nowrap}.mv-h .pill{white-space:nowrap}
+.cklab{border-bottom-color:var(--accent)}
+html .mv-a .btn.sm,html[data-size] .mv-a .btn.sm{min-height:32px!important;font-size:13px!important;padding:0 12px!important}
+html .mv-a .linkbtn{min-height:30px;font-size:13px;padding:0 10px}
+.mapv .fchip,html[data-size] .mapv .fchip{min-height:32px!important;font-size:13px!important;padding:0 12px!important}
+.mapv .seg button,html[data-size] .mapv .seg button{min-height:34px!important;font-size:13px!important;padding:0 10px!important}
+.mapv .btn.sm,html[data-size] .mapv .btn.sm{min-height:34px!important;font-size:13px!important;padding:0 12px!important}
+.mapv .mapjump input{min-height:34px;width:96px;font-size:14px}
+.mapv .mapbar{margin-bottom:6px}
 .lgd{margin:-6px 0 12px}.lgd summary{font-size:12.5px;color:var(--muted);cursor:pointer;padding:4px 0;list-style:none}.lgd summary::before{content:'▸ '}.lgd[open] summary::before{content:'▾ '}
 .lgd .legend{margin:2px 0 6px}
 .inst{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 10px;margin:0 0 10px}
@@ -503,7 +521,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.20.0</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.21.0</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -1727,7 +1745,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.20.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.21.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1780,7 +1798,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.20.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.21.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1807,7 +1825,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.20.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.21.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -2159,7 +2177,7 @@ document.addEventListener('click',function(e){
     case 'rqSend': return rqSend();
     case 'rqDone': delete reqNew[el.dataset.id]; return rqSet(el.dataset.id,{status:'done',doneBy:ME.uid,doneByName:ME.name,doneAt:new Date().toISOString()},'Выполнено: отмечено');
     case 'rqCancel': return rqSet(el.dataset.id,{status:'cancel',doneBy:ME.uid,doneByName:ME.name,doneAt:new Date().toISOString()},'Запрос отозван');
-    case 'rqHide': S.rqHide=S.rqHide||{}; S.rqHide[el.dataset.id]=1; return rqRefresh();
+    case 'rqHide': S.rqHide=S.rqHide||{}; S.rqHide[el.dataset.id]=1; try{localStorage.setItem('agro.rqhide',JSON.stringify(S.rqHide))}catch(e){} return rqRefresh();
     case 'mapOnly': S.map.only=el.dataset.v==='1'; return render();
     case 'mapGo': return mapGo();
     case 'invOpen': S.mapSel=null; return invOpen(el.dataset.cell);
@@ -2810,7 +2828,7 @@ function pushGroupHtml(){
   return h+'</section>';
 }
 function renderHeader(){
-  renderHeader0(); rqRefresh();
+  renderHeader0(); rqRefresh(); var sbx=$('#sub'); if(sbx) sbx.textContent=ME?ME.name:'';
   if(!S.pushChk&&ME){S.pushChk=true;pushBoot()}
 }
 function accountGroupHtml(){return accountGroupHtml0()+pushGroupHtml()}
@@ -2832,11 +2850,12 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.20.0</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.21.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
 var REQ=[], reqLoaded=false, reqNew={};
+try{S.rqHide=JSON.parse(localStorage.getItem('agro.rqhide')||'{}')}catch(e){S.rqHide={}}
 var RQ_TPL=[['cells','Заблокировать ячейки с сегодняшними приходами'],['count','Пересчитать ячейки'],['ship','Подготовить отгрузку'],['exp','Проверить сроки годности'],['call','Позвонить мне'],['own','Свой текст']];
 function rqTodayCells(){var t=dayKey(new Date().toISOString()),a=[];moves.forEach(function(m){if(kindOf(m)==='in'&&m.cell&&dayKey(m.ts)===t&&a.indexOf(m.cell)<0) a.push(m.cell)});return a.sort()}
 function rqTplText(id){
@@ -2881,7 +2900,6 @@ function rqSnap(snap){
 }
 function rqOpen(){
   if(!ME) return;
-  if(ME.role==='viewer') return toast('Наблюдатель не может отправлять запросы',true);
   S.rq={to:'',text:'',tpl:''}; renderSheet();
 }
 function renderRqSheet(root){
@@ -2953,13 +2971,13 @@ function renderMap(){
   var M=S.map; if(M.row==null||cfg.rows.indexOf(M.row)<0) M.row=cfg.rows[0];
   var floors=cfg.floors.slice().sort(function(a,b){return a-b});
   var codes=0, boxes=0; D.cells.forEach(function(cm,c){if(c.slice(0,2)===String(M.row)){codes++;boxes+=cellTotal(D,c)}});
-  var h='<div class="scrollrow">'+cfg.rows.map(function(r){return '<button class="fchip" type="button" data-act="mapRow" data-r="'+r+'" aria-pressed="'+(M.row===r)+'">Ряд '+r+'</button>'}).join('')+'</div>';
-  h+='<p class="mapsum">Ряд <b>'+M.row+'</b>: занято ячеек <b>'+codes+'</b> из <b>'+(cfg.sections*floors.length)+'</b> · коробок <b>'+boxes+'</b>.</p>';
-  h+='<div class="mapbar">'+'<div class="mapjump"><input id="mapJump" type="text" inputmode="numeric" maxlength="2" placeholder="№ ячейки" aria-label="Номер ячейки"><button class="btn ghost sm" type="button" data-act="mapGo">Найти</button></div></div>';
-     h+='<div class="mapbar"><div class="seg" role="group" aria-label="Что показывать" style="margin:0"><button type="button" data-act="mapOnly" data-v="0" aria-pressed="'+!M.only+'">Все ячейки</button><button type="button" data-act="mapOnly" data-v="1" aria-pressed="'+!!M.only+'">Только с товаром</button></div></div>';
-
+  var h='<div class="mapv">';
+  h+='<div class="mapbar"><div class="mapjump"><input id="mapJump" type="text" inputmode="numeric" maxlength="2" placeholder="№ ячейки" aria-label="Номер ячейки"><button class="btn ghost sm" type="button" data-act="mapGo">Найти</button></div></div>';
+  h+='<div class="mapbar"><div class="seg" role="group" aria-label="Что показывать" style="margin:0"><button type="button" data-act="mapOnly" data-v="0" aria-pressed="'+!M.only+'">Все ячейки</button><button type="button" data-act="mapOnly" data-v="1" aria-pressed="'+!!M.only+'">Только с товаром</button></div></div>';
   h+='<div class="mapbar"><div class="seg" role="group" aria-label="Цвет" style="margin:0">'+[['product','Цвет — товар'],['shelf','Цвет — срок']].map(function(m){return '<button type="button" data-act="mapMode" data-m="'+m[0]+'" aria-pressed="'+(M.mode===m[0])+'">'+m[1]+'</button>'}).join('')+'</div></div>';
   h+='<div class="mapcolor">'+mapLegend(M)+'</div>';
+  h+='<div class="scrollrow">'+cfg.rows.map(function(r){return '<button class="fchip" type="button" data-act="mapRow" data-r="'+r+'" aria-pressed="'+(M.row===r)+'">Ряд '+r+'</button>'}).join('')+'</div>';
+  h+='<p class="mapsum">Ряд <b>'+M.row+'</b>: занято ячеек <b>'+codes+'</b> из <b>'+(cfg.sections*floors.length)+'</b> · коробок <b>'+boxes+'</b>.</p>';
   h+='<div class="mp2 hd" style="--nf:'+floors.length+'"><span>ячейка</span>'+floors.map(function(f){return '<span>этаж '+f+'</span>'}).join('')+'</div>';
   var shown=0;
   for(var sc=1;sc<=cfg.sections;sc++){
@@ -2968,7 +2986,7 @@ function renderMap(){
     h+='<div class="mp2" id="sec-'+pad(sc)+'" style="--nf:'+floors.length+'"><span class="mp2n">'+pad(sc)+'</span>'+floors.map(function(f){return mapTile2(M.row+'-'+pad(sc)+'-'+f,M)}).join('')+'</div>';
   }
   if(!shown) h+='<div class="card hero-empty"><h2>В этом ряду пока пусто</h2><p>Внесите приход, и товар появится на схеме.</p></div>';
-  h+='<p class="note">Каждая строка — номер ячейки, колонки — этажи. В плитке: сколько коробок и название товара. Нажмите на плитку, чтобы увидеть, что в ячейке, или положить товар в пустую. Красная рамка — проблема в ячейке.</p>';
+  h+='<p class="note">Каждая строка — номер ячейки, колонки — этажи. В плитке: сколько коробок и название товара. Нажмите на плитку, чтобы увидеть, что в ячейке, или положить товар в пустую. Красная рамка — проблема в ячейке.</p></div>';
   return h;
 }
 function mapGo(){
@@ -2980,7 +2998,8 @@ function mapGo(){
 }
 function whoLine(m){
   if(!m.byName) return '';
-  return '<div class="mv-s">Внёс: '+esc(m.byName)+(m.editedByName?' · исправил: '+esc(m.editedByName):'')+'</div>';
+  var kk=kindOf(m), lb=(kk==='out'?'Отгрузил':(kk==='adj'&&m.writeoff)?'Списал':kk==='mv'?'Переместил':(kk==='adj')?'Пересчитал':'Внёс'), lg=(m.byLogin&&String(m.byLogin).toLowerCase()!==String(m.byName).toLowerCase())?' ('+esc(m.byLogin)+')':'';
+  return '<div class="mv-s who">'+lb+': <b>'+esc(m.byName)+lg+'</b>'+(m.editedByName?' · исправил: '+esc(m.editedByName):'')+'</div>';
 }
 function whoNames(){
   var map={}; moves.forEach(function(m){if(m.by) map[m.by]=m.byName||'Без имени'});
