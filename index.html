@@ -269,7 +269,7 @@ html .mv-a .linkbtn{min-height:30px;font-size:13px;padding:0 10px}
 .top .brand small.ver,.top .brand small#sub{display:inline!important}
 .top .brand small#sub{margin-left:8px;color:var(--ok);font-size:14px;font-weight:700}
 .top{row-gap:0!important;padding-bottom:6px!important}
-.top .topr{margin-top:-4px!important}
+.top .topr{margin-top:6px!important}
 .lgd{margin:-6px 0 12px}.lgd summary{font-size:12.5px;color:var(--muted);cursor:pointer;padding:4px 0;list-style:none}.lgd summary::before{content:'▸ '}.lgd[open] summary::before{content:'▾ '}
 .lgd .legend{margin:2px 0 6px}
 .inst{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 10px;margin:0 0 10px}
@@ -526,7 +526,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.22.0</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.22.1</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -1237,13 +1237,13 @@ function statsHtml(){
   var stock={}; D.lots.forEach(function(l){stock[l.product]=(stock[l.product]||0)+l.qty});
   var tin=sumQty(ins), tout=sumQty(outs);
   var woOf=function(id){var s=0;periodMoves('adj').forEach(function(m){if(m.writeoff&&(id==null||m.product===id)) s-=(Number(m.qty)||0)});return s};
-  var kv=function(a,b,w){var d=a-b;return '<div class="kv"><div><span>Принято</span><b>+'+a+'</b></div><div><span>Отгружено</span><b>−'+b+'</b></div><div><span>Списано</span><b>'+(w?'−'+w:'0')+'</b></div><div><span>Разница</span><b class="'+(d>0?'pos':d<0?'neg':'')+'">'+(d>0?'+':d<0?'−':'')+Math.abs(d)+'</b></div></div>'};
+  var kv=function(a,b,w,s){var d=a-b;return '<div class="kv"><div><span>Принято</span><b>+'+a+'</b></div><div><span>Отгружено</span><b>−'+b+'</b></div><div><span>Списано</span><b>'+(w?'−'+w:'0')+'</b></div><div><span>Остаток</span><b>'+s+'</b></div></div>'};
   var adjs=periodMoves('adj'), ap=0, am=0, swo=0; adjs.forEach(function(m){var q=Number(m.qty)||0; if(m.writeoff) swo-=q; else if(q>0) ap+=q; else am-=q});
-  var h=dsBlock()+'<p class="sumtxt">Статистика '+periodLabel()+'. Считаются записи по дате внесения.'+((ap||am)?' Инвентаризация: <b>+'+ap+'</b> / <b>−'+am+'</b> кор. (в разницу не входит).':'')+(swo?' Списано: <b>'+swo+'</b> кор. (в разницу не входит).':'')+'</p>';
-  if(S.pf==='all') h+='<section class="card prod" style="margin-bottom:14px"><div class="prod-h"><h2>Всего</h2><div class="tot"><span>на складе <b>'+D.boxes+'</b> кор.</span></div></div>'+kv(tin,tout,woOf(null))+'</section>';
+  var h=dsBlock()+'<p class="sumtxt">Статистика '+periodLabel()+'. Считаются записи по дате внесения.'+((ap||am)?' Инвентаризация: <b>+'+ap+'</b> / <b>−'+am+'</b> кор.':'')+(swo?' Списано: <b>'+swo+'</b> кор.':'')+'</p>';
+  if(S.pf==='all') h+='<section class="card prod" style="margin-bottom:14px"><div class="prod-h"><h2>Всего</h2><div class="tot"><span>на складе <b>'+D.boxes+'</b> кор.</span></div></div>'+kv(tin,tout,woOf(null),D.boxes)+'</section>';
   h+='<div class="stack">'+ids.map(function(id){
     var a=sumQty(ins.filter(function(m){return m.product===id})), b=sumQty(outs.filter(function(m){return m.product===id}));
-    return '<section class="card prod"><div class="prod-h"><h2>'+pname(id)+'</h2><div class="tot"><span>на складе <b>'+(stock[id]||0)+'</b> кор.</span></div></div>'+kv(a,b,woOf(id))+'</section>';
+    return '<section class="card prod"><div class="prod-h"><h2>'+pname(id)+'</h2><div class="tot"><span>на складе <b>'+(stock[id]||0)+'</b> кор.</span></div></div>'+kv(a,b,woOf(id),stock[id]||0)+'</section>';
   }).join('')+'</div>';
   return h;
 }
@@ -1687,8 +1687,8 @@ function reportHtml(sec){
     var ids=allProductIds(ins.concat(outs).map(function(m){return m.product})).filter(pf), st={};
     D.lots.forEach(function(l){st[l.product]=(st[l.product]||0)+l.qty});
     var ti=0,to=0,ts=0,tw=0, wof=function(id){var s=0;periodMoves('adj').forEach(function(m){if(m.writeoff&&m.product===id) s-=(Number(m.qty)||0)});return s};
-    var rows=ids.map(function(id){var a=sumQty(ins.filter(function(m){return m.product===id})),b=sumQty(outs.filter(function(m){return m.product===id})),c=st[id]||0,w=wof(id);ti+=a;to+=b;ts+=c;tw+=w;return [swatch(id)+esc(product(id).name),a,b,w?'−'+w:0,(a-b>0?'+':a-b<0?'−':'')+Math.abs(a-b),c]});
-    h.push('<h2>Итоги за период</h2>'+rTable([['Товар'],['Принято',1],['Отгружено',1],['Списано',1],['Разница',1],['На складе',1]],rows,['Всего',ti,to,tw?'−'+tw:0,(ti-to>0?'+':ti-to<0?'−':'')+Math.abs(ti-to),ts]));
+    var rows=ids.map(function(id){var a=sumQty(ins.filter(function(m){return m.product===id})),b=sumQty(outs.filter(function(m){return m.product===id})),c=st[id]||0,w=wof(id);ti+=a;to+=b;ts+=c;tw+=w;return [swatch(id)+esc(product(id).name),a,b,w?'−'+w:0,c]});
+    h.push('<h2>Итоги за период</h2>'+rTable([['Товар'],['Принято',1],['Отгружено',1],['Списано',1],['Остаток',1]],rows,['Всего',ti,to,tw?'−'+tw:0,ts]));
   }
   if(sec.stock){
     h.push('<h2>Остатки по товарам</h2>');
@@ -1750,7 +1750,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.22.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.22.1</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1803,7 +1803,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.22.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.22.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1830,7 +1830,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.22.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.22.1) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -2859,7 +2859,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.22.0</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.22.1</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
