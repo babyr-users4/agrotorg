@@ -1184,7 +1184,7 @@ function statsHtml(){
   var stock={}; D.lots.forEach(function(l){stock[l.product]=(stock[l.product]||0)+l.qty});
   var tin=sumQty(ins), tout=sumQty(outs);
   var woOf=function(id){var s=0;periodMoves('adj').forEach(function(m){if(m.writeoff&&(id==null||m.product===id)) s-=(Number(m.qty)||0)});return s};
-  var kv=function(a,b,w){var d=a-b;return '<div class="kv"><div><span>Принято</span><b>+'+a+'</b></div><div><span>Отгружено</span><b>−'+b+'</b></div><div><span>Разница</span><b class="'+(d>0?'pos':d<0?'neg':'')+'">'+(d>0?'+':d<0?'−':'')+Math.abs(d)+'</b></div><div><span>Списано</span><b>'+(w?'−'+w:'0')+'</b></div></div>'};
+  var kv=function(a,b,w){var d=a-b;return '<div class="kv"><div><span>Принято</span><b>+'+a+'</b></div><div><span>Отгружено</span><b>−'+b+'</b></div><div><span>Списано</span><b>'+(w?'−'+w:'0')+'</b></div><div><span>Разница</span><b class="'+(d>0?'pos':d<0?'neg':'')+'">'+(d>0?'+':d<0?'−':'')+Math.abs(d)+'</b></div></div>'};
   var adjs=periodMoves('adj'), ap=0, am=0, swo=0; adjs.forEach(function(m){var q=Number(m.qty)||0; if(m.writeoff) swo-=q; else if(q>0) ap+=q; else am-=q});
   var h=dsBlock()+'<p class="sumtxt">Статистика '+periodLabel()+'. Считаются записи по дате внесения.'+((ap||am)?' Инвентаризация: <b>+'+ap+'</b> / <b>−'+am+'</b> кор. (в разницу не входит).':'')+(swo?' Списано: <b>'+swo+'</b> кор. (в разницу не входит).':'')+'</p>';
   if(S.pf==='all') h+='<section class="card prod" style="margin-bottom:14px"><div class="prod-h"><h2>Всего</h2><div class="tot"><span>на складе <b>'+D.boxes+'</b> кор.</span></div></div>'+kv(tin,tout,woOf(null))+'</section>';
@@ -1634,8 +1634,8 @@ function reportHtml(sec){
     var ids=allProductIds(ins.concat(outs).map(function(m){return m.product})).filter(pf), st={};
     D.lots.forEach(function(l){st[l.product]=(st[l.product]||0)+l.qty});
     var ti=0,to=0,ts=0,tw=0, wof=function(id){var s=0;periodMoves('adj').forEach(function(m){if(m.writeoff&&m.product===id) s-=(Number(m.qty)||0)});return s};
-    var rows=ids.map(function(id){var a=sumQty(ins.filter(function(m){return m.product===id})),b=sumQty(outs.filter(function(m){return m.product===id})),c=st[id]||0,w=wof(id);ti+=a;to+=b;ts+=c;tw+=w;return [swatch(id)+esc(product(id).name),a,b,(a-b>0?'+':a-b<0?'−':'')+Math.abs(a-b),w?'−'+w:0,c]});
-    h.push('<h2>Итоги за период</h2>'+rTable([['Товар'],['Принято',1],['Отгружено',1],['Разница',1],['Списано',1],['На складе',1]],rows,['Всего',ti,to,(ti-to>0?'+':ti-to<0?'−':'')+Math.abs(ti-to),tw?'−'+tw:0,ts]));
+    var rows=ids.map(function(id){var a=sumQty(ins.filter(function(m){return m.product===id})),b=sumQty(outs.filter(function(m){return m.product===id})),c=st[id]||0,w=wof(id);ti+=a;to+=b;ts+=c;tw+=w;return [swatch(id)+esc(product(id).name),a,b,w?'−'+w:0,(a-b>0?'+':a-b<0?'−':'')+Math.abs(a-b),c]});
+    h.push('<h2>Итоги за период</h2>'+rTable([['Товар'],['Принято',1],['Отгружено',1],['Списано',1],['Разница',1],['На складе',1]],rows,['Всего',ti,to,tw?'−'+tw:0,(ti-to>0?'+':ti-to<0?'−':'')+Math.abs(ti-to),ts]));
   }
   if(sec.stock){
     h.push('<h2>Остатки по товарам</h2>');
