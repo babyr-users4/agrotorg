@@ -241,7 +241,7 @@ html .mapbar .btn.sm{min-height:36px}
 @keyframes rqp{50%{transform:scale(1.015);box-shadow:0 6px 22px rgba(255,140,0,.7)}}
 /* карта 2.0 */
 .mapbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
-.mapjump{display:flex;gap:6px;margin-left:auto}
+.mapjump{display:flex;gap:6px}
 .mapjump input{width:92px;min-height:36px;padding:0 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);font-size:15px}
 .mp2{display:grid;grid-template-columns:34px repeat(var(--nf),1fr);gap:6px;align-items:stretch;margin-bottom:6px;scroll-margin-top:70px}
 .mp2.hd{padding:4px 0;font-size:12px;color:var(--muted);text-align:center;margin-bottom:2px}
@@ -2881,15 +2881,16 @@ function mapTile2(code,M){
 }
 function renderMap(){
   var M=S.map; if(M.row==null||cfg.rows.indexOf(M.row)<0) M.row=cfg.rows[0];
-  var floors=cfg.floors.slice().sort(function(a,b){return b-a});
+  var floors=cfg.floors.slice().sort(function(a,b){return a-b});
   var codes=0, boxes=0; D.cells.forEach(function(cm,c){if(c.slice(0,2)===String(M.row)){codes++;boxes+=cellTotal(D,c)}});
   var h='<div class="scrollrow">'+cfg.rows.map(function(r){return '<button class="fchip" type="button" data-act="mapRow" data-r="'+r+'" aria-pressed="'+(M.row===r)+'">Ряд '+r+'</button>'}).join('')+'</div>';
   h+='<p class="mapsum">Ряд <b>'+M.row+'</b>: занято ячеек <b>'+codes+'</b> из <b>'+(cfg.sections*floors.length)+'</b> · коробок <b>'+boxes+'</b>.</p>';
-  h+='<div class="mapbar"><div class="seg" role="group" aria-label="Что показывать" style="margin:0"><button type="button" data-act="mapOnly" data-v="0" aria-pressed="'+!M.only+'">Все секции</button><button type="button" data-act="mapOnly" data-v="1" aria-pressed="'+!!M.only+'">Только с товаром</button></div>'+
-     '<div class="mapjump"><input id="mapJump" type="text" inputmode="numeric" maxlength="2" placeholder="№ секции" aria-label="Номер секции"><button class="btn ghost sm" type="button" data-act="mapGo">Найти</button></div></div>';
+  h+='<div class="mapbar">'+'<div class="mapjump"><input id="mapJump" type="text" inputmode="numeric" maxlength="2" placeholder="№ ячейки" aria-label="Номер ячейки"><button class="btn ghost sm" type="button" data-act="mapGo">Найти</button></div></div>';
+     h+='<div class="mapbar"><div class="seg" role="group" aria-label="Что показывать" style="margin:0"><button type="button" data-act="mapOnly" data-v="0" aria-pressed="'+!M.only+'">Все ячейки</button><button type="button" data-act="mapOnly" data-v="1" aria-pressed="'+!!M.only+'">Только с товаром</button></div></div>';
+
   h+='<div class="mapbar"><div class="seg" role="group" aria-label="Цвет" style="margin:0">'+[['product','Цвет — товар'],['shelf','Цвет — срок']].map(function(m){return '<button type="button" data-act="mapMode" data-m="'+m[0]+'" aria-pressed="'+(M.mode===m[0])+'">'+m[1]+'</button>'}).join('')+'</div></div>';
   h+='<div class="mapcolor">'+mapLegend(M)+'</div>';
-  h+='<div class="mp2 hd" style="--nf:'+floors.length+'"><span>секция</span>'+floors.map(function(f){return '<span>этаж '+f+'</span>'}).join('')+'</div>';
+  h+='<div class="mp2 hd" style="--nf:'+floors.length+'"><span>ячейка</span>'+floors.map(function(f){return '<span>этаж '+f+'</span>'}).join('')+'</div>';
   var shown=0;
   for(var sc=1;sc<=cfg.sections;sc++){
     var has=floors.some(function(f){var cm=D.cells.get(M.row+'-'+pad(sc)+'-'+f);return cm&&cm.size});
@@ -2897,7 +2898,7 @@ function renderMap(){
     h+='<div class="mp2" id="sec-'+pad(sc)+'" style="--nf:'+floors.length+'"><span class="mp2n">'+pad(sc)+'</span>'+floors.map(function(f){return mapTile2(M.row+'-'+pad(sc)+'-'+f,M)}).join('')+'</div>';
   }
   if(!shown) h+='<div class="card hero-empty"><h2>В этом ряду пока пусто</h2><p>Внесите приход, и товар появится на схеме.</p></div>';
-  h+='<p class="note">Каждая строка — секция, колонки — этажи. В плитке: сколько коробок и название товара. Нажмите на плитку, чтобы увидеть, что в ячейке, или положить товар в пустую. Красная рамка — проблема в ячейке.</p>';
+  h+='<p class="note">Каждая строка — номер ячейки, колонки — этажи. В плитке: сколько коробок и название товара. Нажмите на плитку, чтобы увидеть, что в ячейке, или положить товар в пустую. Красная рамка — проблема в ячейке.</p>';
   return h;
 }
 function mapGo(){
