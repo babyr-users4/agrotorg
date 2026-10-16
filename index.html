@@ -218,7 +218,7 @@ html[data-size="big"] .top .icon-btn{width:40px;height:40px}
 .bdg{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;border-radius:9px;background:#ff5a1f;color:#fff;font:700 11px/18px var(--f-body);text-align:center;padding:0 4px}
 /* кнопки ячейки */
 html .cc-act .btn.xs,html[data-size] .cc-act .btn.xs{flex:1 1 0;min-width:0;min-height:32px!important;height:32px;padding:0 6px!important;font-size:13px!important;border-radius:8px;font-weight:600;white-space:nowrap}
-html .btn.xs{min-height:30px;padding:0 10px;font-size:13px;border-radius:8px;font-weight:600}
+html .btn.xs,html[data-size] .btn.xs{min-height:32px!important;padding:0 12px!important;font-size:13px!important;border-radius:8px;font-weight:600}
 .cc-act .small{flex:1 0 100%;margin:0!important}
 html .cc-act{padding:8px 12px;gap:6px}
 /* вкладки настроек */
@@ -239,6 +239,12 @@ html .mapbar .btn.sm{min-height:36px}
 .rq.out .btn{background:transparent;color:var(--ink);border-color:var(--line)}
 .rq.dn{border-color:var(--ok);border-style:solid}
 .rq.dn .rq-ic{background:var(--ok);color:#fff}
+.rqi{border:1.5px solid var(--line);border-left:5px solid #ff9f1c;border-radius:12px;background:var(--surface);padding:10px 12px;margin-bottom:8px}
+.rqi.dn{border-left-color:var(--ok)}.rqi.cn{border-left-color:var(--muted);opacity:.75}
+.rqi-h{display:flex;gap:8px;align-items:baseline}.rqi-h b{font-size:14px;min-width:0;overflow-wrap:anywhere}.rqi-h small{margin-left:auto;color:var(--muted);font-size:12px;white-space:nowrap}
+.rqi p{margin:4px 0;font-size:15px;line-height:1.35;white-space:pre-wrap;word-break:break-word}
+.rqi-s{font-size:12.5px;color:var(--muted);margin-bottom:6px}.rqi.op .rqi-s{color:#ff9f1c;font-weight:600}.rqi.dn .rqi-s{color:var(--ok)}
+html .fchip.xsc,html[data-size] .fchip.xsc{min-height:32px!important;font-size:13px!important;padding:0 12px!important}
 .rq-new{animation:rqp 1.4s ease-in-out 3}
 @keyframes rqp{50%{transform:scale(1.015);box-shadow:0 6px 22px rgba(255,140,0,.7)}}
 /* карта 2.0 */
@@ -2122,12 +2128,16 @@ document.addEventListener('click',function(e){
     case 'sTab': S.stab=el.dataset.t; renderSheet(); var shx=document.querySelector('#sheetRoot .sheet'); if(shx) shx.scrollTop=0; return;
     case 'rqOpen': return rqOpen();
     case 'rqClose': S.rq=null; return renderSheet();
+    case 'rqAll': S.rqf=S.rqf||{who:'all',st:'all',u:''}; S.rq.mode='all'; renderSheet(); var shA=document.querySelector('#sheetRoot .sheet'); if(shA) shA.scrollTop=0; return;
+    case 'rqNew': S.rq={to:'',text:'',tpl:''}; return renderSheet();
+    case 'rqF': S.rqf[el.dataset.k]=el.dataset.v; return renderSheet();
+    case 'rqAgain': var ra=REQ.filter(function(x){return x.id===el.dataset.id})[0]; if(!ra) return; S.rq={to:(ra.from===ME.uid?ra.to:ra.from),text:ra.text,tpl:''}; return renderSheet();
     case 'rqTo': S.rq.to=el.dataset.v; return renderSheet();
     case 'rqTpl': S.rq.tpl=el.dataset.v; S.rq.text=rqTplText(el.dataset.v); renderSheet(); var rt=$('#rqText'); if(rt){rt.focus();try{rt.setSelectionRange(rt.value.length,rt.value.length)}catch(e){}} return;
     case 'rqSend': return rqSend();
     case 'rqDone': delete reqNew[el.dataset.id]; return rqSet(el.dataset.id,{status:'done',doneBy:ME.uid,doneByName:ME.name,doneAt:new Date().toISOString()},'Выполнено: отмечено');
     case 'rqCancel': return rqSet(el.dataset.id,{status:'cancel',doneBy:ME.uid,doneByName:ME.name,doneAt:new Date().toISOString()},'Запрос отозван');
-    case 'rqHide': S.rqHide=S.rqHide||{}; S.rqHide[el.dataset.id]=1; REQ=REQ.filter(function(r){return r.id!==el.dataset.id}); return rqRefresh();
+    case 'rqHide': S.rqHide=S.rqHide||{}; S.rqHide[el.dataset.id]=1; return rqRefresh();
     case 'mapOnly': S.map.only=el.dataset.v==='1'; return render();
     case 'mapGo': return mapGo();
     case 'invOpen': S.mapSel=null; return invOpen(el.dataset.cell);
@@ -2826,7 +2836,7 @@ function rqHtml(){
   inc.forEach(function(r){
     h+='<div class="rq'+(reqNew[r.id]?' rq-new':'')+'" role="alert"><div class="rq-h"><span class="rq-ic">!</span><b>Запрос от '+esc(r.fromName||'сотрудника')+(r.to==='all'?' (всем)':'')+'</b><small>'+esc(rqTime(r.ts))+'</small></div><p>'+esc(r.text)+'</p><div class="rq-b"><button class="btn sm" type="button" data-act="rqDone" data-id="'+esc(r.id)+'">Выполнено</button></div></div>';
   });
-  REQ.filter(function(r){return r.from===ME.uid&&(r.status==='open'||(r.status==='done'&&now-Date.parse(r.doneAt||0)<6*3600e3))}).sort(function(a,b){return String(b.ts).localeCompare(String(a.ts))}).forEach(function(r){
+  REQ.filter(function(r){return r.from===ME.uid&&(r.status==='open'||(r.status==='done'&&now-Date.parse(r.doneAt||0)<6*3600e3&&!(S.rqHide&&S.rqHide[r.id])))}).sort(function(a,b){return String(b.ts).localeCompare(String(a.ts))}).forEach(function(r){
     var dn=r.status==='done';
     h+='<div class="rq out'+(dn?' dn':'')+'"><div class="rq-h"><span class="rq-ic">'+(dn?'✓':'→')+'</span><b>'+(dn?esc(r.doneByName||rqToName(r.to))+' выполнил(а)':'Вы просили: '+esc(r.toName||rqToName(r.to)))+'</b><small>'+esc(rqTime(r.ts))+'</small></div><p style="font-weight:500;font-size:14px">'+esc(r.text)+'</p><div class="rq-b"><button class="btn ghost xs" type="button" data-act="'+(dn?'rqHide':'rqCancel')+'" data-id="'+esc(r.id)+'">'+(dn?'Скрыть':'Отозвать')+'</button></div></div>';
   });
@@ -2838,13 +2848,14 @@ function rqRefresh(){
 }
 function rqSnap(snap){
   var prev={}; REQ.forEach(function(r){prev[r.id]=r.status});
-  REQ=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())}).filter(function(r){return !(S.rqHide&&S.rqHide[r.id])});
+  REQ=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())});
   if(reqLoaded&&ME) REQ.forEach(function(r){
     var short=String(r.text||'').slice(0,90);
     if(prev[r.id]===undefined&&r.status==='open'&&r.from!==ME.uid&&(r.to===ME.uid||r.to==='all')){reqNew[r.id]=1;toast('Запрос от '+(r.fromName||'сотрудника')+': '+short)}
     else if(prev[r.id]==='open'&&r.status==='done'&&r.from===ME.uid&&r.doneBy!==ME.uid) toast('Выполнено: '+(r.doneByName||'сотрудник')+' — '+short);
   });
   reqLoaded=true; rqRefresh();
+  if(S.rq&&S.rq.mode==='all'){var shq=document.querySelector('#sheetRoot .sheet'),stq=shq?shq.scrollTop:0; renderSheet(); shq=document.querySelector('#sheetRoot .sheet'); if(shq) shq.scrollTop=stq}
 }
 function rqOpen(){
   if(!ME) return;
@@ -2852,9 +2863,10 @@ function rqOpen(){
   S.rq={to:'',text:'',tpl:''}; renderSheet();
 }
 function renderRqSheet(root){
+  if(S.rq.mode==='all') return renderRqAll(root);
   var r=S.rq, us=rqUsers(), to=rqToName(r.to);
   var roleOf=function(u){return ROLES[u.role]?(typeof ROLES[u.role]==='string'?ROLES[u.role]:(ROLES[u.role].name||ROLES[u.role].label||'')):''};
-  root.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Запрос"><div class="wrap"><div class="bar-top"><h1 style="margin:0;font-size:22px">Запрос сотруднику</h1><button class="btn ghost sm" type="button" data-act="rqClose">Закрыть</button></div>'+
+  root.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Запрос"><div class="wrap"><div class="bar-top"><h1 style="margin:0;font-size:22px">Запрос сотруднику</h1><span style="display:flex;gap:6px"><button class="btn ghost xs" type="button" data-act="rqAll">Все запросы</button><button class="btn ghost xs" type="button" data-act="rqClose">Закрыть</button></span></div>'+
   '<section class="group"><h2 class="lbl">Кому</h2><div class="chiprow">'+us.map(function(u){return '<button class="fchip" type="button" data-act="rqTo" data-v="'+esc(u.uid)+'" aria-pressed="'+(r.to===u.uid)+'">'+esc(u.name||u.login)+'</button>'}).join('')+
   '<button class="fchip" type="button" data-act="rqTo" data-v="all" aria-pressed="'+(r.to==='all')+'">Всем</button></div>'+(us.length?'':'<p class="note">Список сотрудников загружается…</p>')+'</section>'+
   '<section class="group"><h2 class="lbl">Шаблон</h2><div class="chiprow">'+RQ_TPL.map(function(t){return '<button class="fchip" type="button" data-act="rqTpl" data-v="'+t[0]+'" aria-pressed="'+(r.tpl===t[0])+'">'+esc(t[1])+'</button>'}).join('')+'</div></section>'+
@@ -2863,6 +2875,40 @@ function renderRqSheet(root){
   '<button class="btn" id="rqSend" type="button" style="width:100%" data-act="rqSend"'+(rqOk()&&!busy?'':' disabled')+'>Отправить</button></div></div>';
 }
 function rqSheetFix(){}
+function rqDur(a,b){var m=Math.max(0,Math.round((Date.parse(b)-Date.parse(a))/60000)); return m<1?'меньше минуты':m<60?m+' мин':m<1440?Math.floor(m/60)+' ч '+(m%60?m%60+' мин':''):Math.floor(m/1440)+' дн.'}
+function rqVisible(r){return isAdm()||r.from===ME.uid||r.to===ME.uid||r.to==='all'}
+function rqFiltered(){
+  var f=S.rqf=S.rqf||{who:'all',st:'all',u:''}, me=ME.uid, cut=Date.now()-30*864e5;
+  return REQ.filter(function(r){
+    if(!rqVisible(r)||!(Date.parse(r.ts)>cut)) return false;
+    if(f.who==='me'&&!(r.from!==me&&(r.to===me||r.to==='all'))) return false;
+    if(f.who==='mine'&&r.from!==me) return false;
+    if(f.st==='open'&&r.status!=='open') return false;
+    if(f.st==='done'&&r.status!=='done') return false;
+    if(f.u&&r.from!==f.u&&r.to!==f.u) return false;
+    return true;
+  }).sort(function(a,b){return String(b.ts).localeCompare(String(a.ts))});
+}
+function rqItem(r){
+  var me=ME.uid, to=r.to==='all'?'всем':(r.toName||rqToName(r.to)), st, cls;
+  if(r.status==='done'){st='✓ Выполнено: '+esc(r.doneByName||'')+' · через '+esc(rqDur(r.ts,r.doneAt)); cls='dn'}
+  else if(r.status==='cancel'){st='Отозван'; cls='cn'} else {st='Ждёт'; cls='op'}
+  var acts='';
+  if(r.status==='open'&&r.from!==me&&(r.to===me||r.to==='all')) acts+='<button class="btn xs" type="button" data-act="rqDone" data-id="'+esc(r.id)+'">Выполнено</button>';
+  if(r.status==='open'&&r.from===me) acts+='<button class="btn ghost xs" type="button" data-act="rqCancel" data-id="'+esc(r.id)+'">Отозвать</button>';
+  acts+='<button class="btn ghost xs" type="button" data-act="rqAgain" data-id="'+esc(r.id)+'">Повторить</button>';
+  return '<div class="rqi '+cls+'"><div class="rqi-h"><b>'+esc(r.fromName||'?')+' → '+esc(to)+'</b><small>'+esc(rqTime(r.ts))+'</small></div><p>'+esc(r.text)+'</p><div class="rqi-s">'+st+'</div><div class="rq-b">'+acts+'</div></div>';
+}
+function renderRqAll(root){
+  var f=S.rqf=S.rqf||{who:'all',st:'all',u:''}, list=rqFiltered();
+  var chips=function(k,opts){return '<div class="scrollrow">'+opts.map(function(o){return '<button class="fchip xsc" type="button" data-act="rqF" data-k="'+k+'" data-v="'+esc(o[0])+'" aria-pressed="'+(f[k]===o[0])+'">'+esc(o[1])+'</button>'}).join('')+'</div>'};
+  var h='<div class="sheet" role="dialog" aria-modal="true" aria-label="Все запросы"><div class="wrap"><div class="bar-top"><h1 style="margin:0;font-size:22px">Все запросы</h1><span style="display:flex;gap:6px"><button class="btn ghost xs" type="button" data-act="rqNew">+ Новый</button><button class="btn ghost xs" type="button" data-act="rqClose">Закрыть</button></span></div>'+
+    chips('who',[['all','Все'],['me','Мне'],['mine','От меня']])+chips('st',[['all','Любые'],['open','Ждут'],['done','Выполнены']]);
+  if(isAdm()) h+=chips('u',[['','Все сотрудники']].concat(USERS.filter(function(u){return u.active!==false}).map(function(u){return [u.uid,u.name||u.login]})));
+  h+='<p class="note" style="margin:0 0 8px">Запросов: <b>'+list.length+'</b> (за последние 30 дней)</p>';
+  h+=list.length?list.map(rqItem).join(''):'<div class="card hero-empty"><h2>Запросов нет</h2><p>Отправьте первый через кнопку «+ Новый».</p></div>';
+  root.innerHTML=h+'</div></div>';
+}
 function rqSend(){
   var r=S.rq; if(!rqOk()||busy) return; busy=true;
   var rec={from:ME.uid,fromName:ME.name,to:r.to,toName:rqToName(r.to),text:String(r.text).trim(),ts:new Date().toISOString(),status:'open'};

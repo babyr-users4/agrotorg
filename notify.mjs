@@ -124,6 +124,15 @@ export function reqEvents({ newReqs = [], doneReqs = [] }) {
   return ev;
 }
 
+// Напоминание: запрос ждёт больше 2 часов (но не старше суток), напоминаем один раз
+export function reminderReqs(openReqs, now = new Date(), hours = 2) {
+  const t = now.getTime();
+  return openReqs.filter(r => r.status === 'open' && !r.remindedAt && t - Date.parse(r.ts) >= hours * 36e5 && t - Date.parse(r.ts) < 24 * 36e5);
+}
+export function reminderEvents(reqs) {
+  return reqs.map(r => ({ kind: 'req', actor: r.from || null, to: r.to || 'all', title: `Напоминание: запрос от ${r.fromName || 'сотрудника'}`, body: String(r.text || '') }));
+}
+
 /* ---------- рассылка ---------- */
 export function pickTokens(devices, ev) {
   const seen = new Set(), res = [];
@@ -165,6 +174,12 @@ async function main() {
     events.push(...reqEvents({ newReqs, doneReqs }));
     const mx2 = (arr, f, d) => arr.reduce((m, x) => (x[f] && x[f] > m ? x[f] : m), d);
     st.lastReq = mx2(newReqs, 'ts', st.lastReq); st.lastReqDone = mx2(doneReqs, 'doneAt', st.lastReqDone);
+  }
+  if (!first) {
+    const openSnap = (await db.collection('requests').where('status', '==', 'open').get()).docs.map(d => ({ id: d.id, ...d.data() }));
+    const rem = reminderReqs(openSnap, now);
+    events.push(...reminderEvents(rem));
+    for (const r of rem) await db.doc('requests/' + r.id).update({ remindedAt: nowIso });
   }
   const today = localDay(now), hour = localHour(now);
   if (hour >= EXP_HOUR && st.expDay !== today) {
