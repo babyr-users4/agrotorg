@@ -245,6 +245,25 @@ html .mapbar .btn.sm{min-height:36px}
 .rqi p{margin:4px 0;font-size:15px;line-height:1.35;white-space:pre-wrap;word-break:break-word}
 .rqi-s{font-size:12.5px;color:var(--muted);margin-bottom:6px}.rqi.op .rqi-s{color:#ff9f1c;font-weight:600}.rqi.dn .rqi-s{color:var(--ok)}
 html .fchip.xsc,html[data-size] .fchip.xsc{min-height:32px!important;font-size:13px!important;padding:0 12px!important}
+.lgd{margin:-6px 0 12px}.lgd summary{font-size:12.5px;color:var(--muted);cursor:pointer;padding:4px 0;list-style:none}.lgd summary::before{content:'▸ '}.lgd[open] summary::before{content:'▾ '}
+.lgd .legend{margin:2px 0 6px}
+.inst{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 10px;margin:0 0 10px}
+.inst-t{flex:1 1 160px;min-width:0}.inst-t b{font-size:14px}.inst-t span{display:none}
+.inst-h{flex:1 1 100%;margin:0}
+.inst-b{margin:0;gap:6px}
+.inst .btn.sm,html[data-size] .inst .btn.sm{min-height:34px;font-size:13px;padding:0 12px}
+.stat{padding:9px 11px 8px}.stat b{font-size:25px}.stats{margin-bottom:12px}
+.gsearch{margin-bottom:10px}
+/* шапка: название сверху, кнопки снизу */
+.top{position:static!important;margin-bottom:6px}
+.brand{order:1!important}.logo{order:2!important}.topr{order:3!important;margin-left:auto}
+.top{padding:8px 14px 8px}
+/* палитра: контрастнее подписи */
+:root{--muted:#46536A;--line:#C3CCDA}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--muted:#B7C2D3;--line:#34425A;--surface-2:#222D3F}}
+:root[data-theme="dark"]{--muted:#B7C2D3;--line:#34425A;--surface-2:#222D3F}
+.small,.note,.lede,small{opacity:1}
+.legend,.stat span,.sub{color:var(--muted)}
 .rq-new{animation:rqp 1.4s ease-in-out 3}
 @keyframes rqp{50%{transform:scale(1.015);box-shadow:0 6px 22px rgba(255,140,0,.7)}}
 /* карта 2.0 */
@@ -746,10 +765,11 @@ function gUpdate(){
   if(sm) sm.hidden=on;
 }
 function renderStock(){
-  var inner=renderStock0();
-  if(!loaded||!D.lots.size) return inner;
+  var okS=loaded&&D.lots.size, bn=okS?banner():''; S.nb=!!okS;
+  var inner=renderStock0(); S.nb=false;
+  if(!okS) return inner;
   var on=!!String(S.gq||'').trim();
-  return '<div class="field gsearch"><input id="gSearch" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Поиск: ячейка, товар или дата" aria-label="Поиск по складу" value="'+esc(S.gq||'')+'"></div>'+
+  return bn+'<div class="field gsearch"><input id="gSearch" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Поиск: ячейка, товар или дата" aria-label="Поиск по складу" value="'+esc(S.gq||'')+'"></div>'+
     '<div id="gResults">'+(on?gResultsHtml():'')+'</div><div id="stockMain"'+(on?' hidden':'')+'>'+inner+'</div>';
 }
 function renderStock0(){
@@ -760,7 +780,7 @@ function renderStock0(){
   var h=banner()+(S.view==='map'?'':'<div class="stats">'+
     '<div class="stat"><b>'+D.boxes+'</b><span>коробок на складе</span></div>'+
     '<div class="stat"><b>'+D.cells.size+'</b><span>ячеек занято из '+totalCells+'</span></div>'+
-    '<div class="stat'+(alerts?' warn tap':'')+'"'+(alerts?' role="button" tabindex="0" data-act="lowOpen"':'')+'><b>'+alerts+'</b><span>партий, срок '+alThr+'% и ниже'+(alerts?' · нажмите':'')+'</span></div></div>'+expectNote()+(D.lots.size?legendHtml():''));
+    '<div class="stat'+(alerts?' warn tap':'')+'"'+(alerts?' role="button" tabindex="0" data-act="lowOpen"':'')+'><b>'+alerts+'</b><span>партий, срок '+alThr+'% и ниже'+(alerts?' · нажмите':'')+'</span></div></div>'+expectNote()+(D.lots.size?'<details class="lgd"><summary>Цвета срока годности</summary>'+legendHtml()+'</details>':''));
   if(!lots.length){
     return h+'<div class="card hero-empty"><h2>На складе пока пусто</h2><p>Внесите товар, который уже лежит на стеллажах, и новые поставки через «Приход». Укажите реальные даты производства и сроки годности, ячейку и количество.</p><button class="btn" type="button" data-act="tab" data-tab="in">Внести приход</button></div>';
   }
@@ -2616,7 +2636,7 @@ function instInner(){
     '<div class="inst-b"><button class="btn sm" type="button" data-act="instGo">'+(DEFP?'Добавить':S.instHelp?'Понятно':'Как добавить')+'</button><button class="btn ghost sm" type="button" data-act="instLater">Позже</button><button class="linkbtn" type="button" data-act="instDone">Уже добавил</button></div></div>';
 }
 function instRefresh(){var b=document.getElementById('instBox'); if(b) b.innerHTML=instInner()}
-function banner(){return '<div id="rqBox">'+rqHtml()+'</div><div id="instBox">'+instInner()+'</div>'+banner0()}
+function banner(){if(S.nb) return ''; return '<div id="rqBox">'+rqHtml()+'</div><div id="instBox">'+instInner()+'</div>'+banner0()}
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();DEFP=e;instRefresh()});
 window.addEventListener('appinstalled',function(){try{localStorage.setItem(INST_KEY,'1')}catch(e){} DEFP=null;instRefresh()});
 try{if('serviceWorker' in navigator&&location.protocol==='https:') navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}
