@@ -526,7 +526,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.21.1</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.22.0</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -1750,7 +1750,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.21.1</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.22.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1803,7 +1803,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.21.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.22.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1830,7 +1830,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.21.1) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.22.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -2173,6 +2173,10 @@ document.addEventListener('click',function(e){
     case 'sTab': S.stab=el.dataset.t; renderSheet(); var shx=document.querySelector('#sheetRoot .sheet'); if(shx) shx.scrollTop=0; return;
     case 'rqOpen': return rqOpen();
     case 'rqClose': S.rq=null; return renderSheet();
+    case 'rqDel': if(!window.confirm('Удалить этот запрос навсегда?')) return; return rqDelOne(el.dataset.id).then(function(){toast('Запрос удалён')}).catch(function(er){toast(errText(er),true)});
+    case 'rqPurgeAll': var pids=rqFiltered().filter(function(r){return r.status!=='open'||isDevMe()}).map(function(r){return r.id}); if(!pids.length) return toast('Удалять нечего',true); if(!window.confirm('Удалить навсегда запросов: '+pids.length+'?')) return; return purgeDocs('requests',pids).then(function(){toast('Запросов удалено: '+pids.length)}).catch(function(er){toast(errText(er),true)});
+    case 'histPurge': if(!isDevMe()) return; if(!window.confirm('Удалить эту запись из истории навсегда? Вернуть её будет нельзя.')) return; return withRetry(function(){return db.doc('moves/'+el.dataset.id).delete()}).then(function(){toast('Запись удалена из истории')}).catch(function(er){toast(errText(er),true)});
+    case 'histPurgeAll': if(!isDevMe()) return; var hid=ALLM.filter(function(m){return m.del}).map(function(m){return m.id}); if(!hid.length) return; if(!window.confirm('Удалить навсегда все отменённые записи ('+hid.length+')? Вернуть их будет нельзя.')) return; return purgeDocs('moves',hid).then(function(){toast('Удалено записей: '+hid.length)}).catch(function(er){toast(errText(er),true)});
     case 'rqAll': S.rqf=S.rqf||{who:'all',st:'all',u:''}; S.rq.mode='all'; renderSheet(); var shA=document.querySelector('#sheetRoot .sheet'); if(shA) shA.scrollTop=0; return;
     case 'rqNew': S.rq={to:'',text:'',tpl:''}; return renderSheet();
     case 'rqF': S.rqf[el.dataset.k]=el.dataset.v; return renderSheet();
@@ -2507,7 +2511,7 @@ function histItem(m){
   else if(m.restoredAt) st='<div class="mv-s">Возвращено: '+esc(m.restoredByName||'?')+' · '+esc(whenText(m.restoredAt))+'</div>';
   var act='';
   if(canSave()){
-    if(gone) act='<div class="mv-a"><button class="btn sm" type="button" data-act="histRestore" data-id="'+id+'">Вернуть запись</button></div>';
+    if(gone) act='<div class="mv-a"><button class="btn sm" type="button" data-act="histRestore" data-id="'+id+'">Вернуть запись</button>'+(isDevMe()?'<button class="btn ghost sm wo" type="button" data-act="histPurge" data-id="'+id+'">Удалить навсегда</button>':'')+'</div>';
     else if(h.confirm===m.id) act='<div class="mv-a"><span class="note">Отменить эту запись?</span><button class="btn danger sm" type="button" data-act="histYes" data-id="'+id+'">Да, отменить</button><button class="btn ghost sm" type="button" data-act="histNo">Нет</button></div>';
     else act='<div class="mv-a"><button class="linkbtn" type="button" data-act="histAsk" data-id="'+id+'">Отменить запись</button></div>';
   }
@@ -2530,7 +2534,7 @@ function renderHistSheet(root){
   var F=[['all','Все'],['in','Приходы'],['out','Отгрузки'],['misc','Прочее'],['del','Отменённые'+(nDel?' · '+nDel:'')]];
   root.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="История действий"><div class="wrap">'+
     '<div class="bar-top"><h1 style="margin:0;font-size:22px">История действий</h1><button class="btn ghost sm" type="button" data-act="histClose">Закрыть</button></div>'+
-    '<p class="lede">Все записи программы: кто и когда их внёс. Отменённая запись не пропадает: она остаётся здесь, и её можно вернуть.</p>'+
+    '<p class="lede">Все записи программы: кто и когда их внёс. Отменённая запись не пропадает: она остаётся здесь, и её можно вернуть.</p>'+(isDevMe()&&nDel?'<div style="margin-bottom:10px"><button class="btn ghost xs wo" type="button" data-act="histPurgeAll">Очистить отменённые ('+nDel+')</button></div>':'')+
     '<div class="chiprow">'+F.map(function(x){return '<button class="fchip" type="button" data-act="histFilter" data-v="'+x[0]+'" aria-pressed="'+(h.f===x[0])+'">'+esc(x[1])+'</button>'}).join('')+'</div>'+
     (list.length?groups.map(function(g){return '<div class="day"><span>'+g.label+'</span><span></span></div><ul class="mvlist">'+g.items.map(histItem).join('')+'</ul>'}).join(''):'<div class="card empty" style="margin-top:12px">Записей нет.</div>')+
     (list.length>h.limit?'<button class="btn ghost" type="button" style="width:100%;margin-top:14px" data-act="histMore">Показать ещё</button>':'')+
@@ -2855,7 +2859,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.21.1</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.22.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -2884,7 +2888,7 @@ function rqHtml(){
   });
   REQ.filter(function(r){return r.from===ME.uid&&(r.status==='open'||(r.status==='done'&&now-Date.parse(r.doneAt||0)<6*3600e3&&!(S.rqHide&&S.rqHide[r.id])))}).sort(function(a,b){return String(b.ts).localeCompare(String(a.ts))}).forEach(function(r){
     var dn=r.status==='done';
-    h+='<div class="rq out'+(dn?' dn':'')+'"><div class="rq-h"><span class="rq-ic">'+(dn?'✓':'→')+'</span><b>'+(dn?esc(r.doneByName||rqToName(r.to))+' выполнил(а)':'Вы просили: '+esc(r.toName||rqToName(r.to)))+'</b><small>'+esc(rqTime(r.ts))+'</small></div><p style="font-weight:500;font-size:14px">'+esc(r.text)+'</p><div class="rq-b"><button class="btn ghost xs" type="button" data-act="'+(dn?'rqHide':'rqCancel')+'" data-id="'+esc(r.id)+'">'+(dn?'Скрыть':'Отозвать')+'</button></div></div>';
+    h+='<div class="rq out'+(dn?' dn':'')+'"><div class="rq-h"><span class="rq-ic">'+(dn?'✓':'→')+'</span><b>'+(dn?esc(r.doneByName||rqToName(r.to))+' выполнил(а)':'Вы просили: '+esc(r.toName||rqToName(r.to)))+'</b><small>'+esc(rqTime(r.ts))+'</small></div><p style="font-weight:500;font-size:14px">'+esc(r.text)+'</p><div class="rq-b"><button class="btn ghost xs" type="button" data-act="'+(dn?'rqHide':'rqCancel')+'" data-id="'+esc(r.id)+'">'+(dn?'Скрыть':'Отозвать')+'</button>'+(dn?'<button class="btn ghost xs" type="button" data-act="rqDel" data-id="'+esc(r.id)+'">Удалить</button>':'')+'</div></div>';
   });
   return h;
 }
@@ -2920,6 +2924,11 @@ function renderRqSheet(root){
   '<button class="btn" id="rqSend" type="button" style="width:100%" data-act="rqSend"'+(rqOk()&&!busy?'':' disabled')+'>Отправить</button></div></div>';
 }
 function rqSheetFix(){}
+function rqDelOne(id){return withRetry(function(){return db.doc('requests/'+id).delete()})}
+function purgeDocs(col,ids){
+  var chunks=[],i; for(i=0;i<ids.length;i+=20) chunks.push(ids.slice(i,i+20));
+  return chunks.reduce(function(p,ch){return p.then(function(){return Promise.all(ch.map(function(id){return withRetry(function(){return db.doc(col+'/'+id).delete()})}))})},Promise.resolve());
+}
 function rqDur(a,b){var m=Math.max(0,Math.round((Date.parse(b)-Date.parse(a))/60000)); return m<1?'меньше минуты':m<60?m+' мин':m<1440?Math.floor(m/60)+' ч '+(m%60?m%60+' мин':''):Math.floor(m/1440)+' дн.'}
 function rqVisible(r){return isAdm()||r.from===ME.uid||r.to===ME.uid||r.to==='all'}
 function rqFiltered(){
@@ -2941,13 +2950,14 @@ function rqItem(r){
   var acts='';
   if(r.status==='open'&&r.from!==me&&(r.to===me||r.to==='all')) acts+='<button class="btn xs" type="button" data-act="rqDone" data-id="'+esc(r.id)+'">Выполнено</button>';
   if(r.status==='open'&&r.from===me) acts+='<button class="btn ghost xs" type="button" data-act="rqCancel" data-id="'+esc(r.id)+'">Отозвать</button>';
+  if(r.status!=='open'&&(r.from===me||isDevMe())||isDevMe()) acts+='<button class="btn ghost xs" type="button" data-act="rqDel" data-id="'+esc(r.id)+'">Удалить</button>';
   acts+='<button class="btn ghost xs" type="button" data-act="rqAgain" data-id="'+esc(r.id)+'">Повторить</button>';
   return '<div class="rqi '+cls+'"><div class="rqi-h"><b>'+esc(r.fromName||'?')+' → '+esc(to)+'</b><small>'+esc(rqTime(r.ts))+'</small></div><p>'+esc(r.text)+'</p><div class="rqi-s">'+st+'</div><div class="rq-b">'+acts+'</div></div>';
 }
 function renderRqAll(root){
   var f=S.rqf=S.rqf||{who:'all',st:'all',u:''}, list=rqFiltered();
   var chips=function(k,opts){return '<div class="scrollrow">'+opts.map(function(o){return '<button class="fchip xsc" type="button" data-act="rqF" data-k="'+k+'" data-v="'+esc(o[0])+'" aria-pressed="'+(f[k]===o[0])+'">'+esc(o[1])+'</button>'}).join('')+'</div>'};
-  var h='<div class="sheet" role="dialog" aria-modal="true" aria-label="Все запросы"><div class="wrap"><div class="bar-top"><h1 style="margin:0;font-size:22px">Все запросы</h1><span style="display:flex;gap:6px"><button class="btn ghost xs" type="button" data-act="rqNew">+ Новый</button><button class="btn ghost xs" type="button" data-act="rqClose">Закрыть</button></span></div>'+
+  var h='<div class="sheet" role="dialog" aria-modal="true" aria-label="Все запросы"><div class="wrap"><div class="bar-top"><h1 style="margin:0;font-size:22px">Все запросы</h1><span style="display:flex;gap:6px">'+(isDevMe()?'<button class="btn ghost xs wo" type="button" data-act="rqPurgeAll">Очистить</button>':'')+'<button class="btn ghost xs" type="button" data-act="rqNew">+ Новый</button><button class="btn ghost xs" type="button" data-act="rqClose">Закрыть</button></span></div>'+
     chips('who',[['all','Все'],['me','Мне'],['mine','От меня']])+chips('st',[['all','Любые'],['open','Ждут'],['done','Выполнены']]);
   if(isAdm()) h+=chips('u',[['','Все сотрудники']].concat(USERS.filter(function(u){return u.active!==false}).map(function(u){return [u.uid,u.name||u.login]})));
   h+='<p class="note" style="margin:0 0 8px">Запросов: <b>'+list.length+'</b> (за последние 30 дней)</p>';
