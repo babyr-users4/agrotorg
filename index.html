@@ -290,7 +290,19 @@ html .mv-a .linkbtn{min-height:30px;font-size:13px;padding:0 10px}
 .top .topr::before{display:none!important}
 html .cc-act{gap:8px!important}
 html .cc-act .btn.xs,html[data-size] .cc-act .btn.xs{min-height:38px!important;height:38px;padding:0 14px!important;font-size:14px!important;flex:1 1 auto;border-radius:9px}
-#stockTop[hidden]{display:none}.lgd summary{font-size:12.5px;color:var(--muted);cursor:pointer;padding:4px 0;list-style:none}.lgd summary::before{content:'▸ '}.lgd[open] summary::before{content:'▾ '}
+#stockTop[hidden]{display:none}
+#stockTop .stats{grid-template-columns:repeat(2,1fr)}
+.alertbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-4px 0 12px;padding:10px 14px;border-radius:12px;background:rgba(229,72,77,.16);border:1px solid rgba(229,72,77,.55);color:var(--ink);font-size:14px;cursor:pointer}
+.alertbar b{font:700 18px/1 var(--f-head);color:#ff6b6f}
+.alertbar span{font-weight:700;color:#ff8a8d;white-space:nowrap}
+.recent{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-4px 0 12px;font-size:12px;color:var(--muted)}
+.recent .chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 11px;font-size:13px;min-height:30px}
+.recent .chip.x{color:var(--muted);padding:5px 9px}
+.tabs button{isolation:isolate}
+.tabs button[aria-current="page"]::before{top:6px!important;bottom:6px!important;left:8px!important;right:8px!important;height:auto!important;border-radius:16px!important;background:color-mix(in srgb,var(--accent) 18%,transparent)!important;z-index:-1}
+.tabs button[aria-current="page"]{font-weight:800}
+html .seg:has([data-act=stockView]){padding:2px;margin-bottom:10px}
+html .seg:has([data-act=stockView]) button,html[data-size] .seg:has([data-act=stockView]) button{min-height:32px!important;font-size:13.5px!important;border-radius:7px}.lgd summary{font-size:12.5px;color:var(--muted);cursor:pointer;padding:4px 0;list-style:none}.lgd summary::before{content:'▸ '}.lgd[open] summary::before{content:'▾ '}
 .lgd .legend{margin:2px 0 6px}
 .inst{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 10px;margin:0 0 10px}
 .inst-t{flex:1 1 160px;min-width:0}.inst-t b{font-size:14px}.inst-t span{display:none}
@@ -546,7 +558,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.24.0</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.24.2</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -804,10 +816,14 @@ function gResultsHtml(){
   return '<p class="sumtxt">Найдено ячеек: <b>'+codes.length+'</b> · коробок: <b>'+qty+'</b></p><div class="stack">'+shown.map(cellCard).join('')+'</div>'+
     (codes.length>shown.length?'<button class="btn ghost" type="button" style="width:100%;margin-top:14px" data-act="gMore">Показать ещё</button>':'');
 }
+function recGet(){try{return JSON.parse(localStorage.getItem('agro.rs')||'[]').slice(0,6)}catch(e){return []}}
+function recAdd(q){q=String(q||'').trim(); if(q.length<2) return; try{var a=recGet().filter(function(x){return x!==q}); a.unshift(q); localStorage.setItem('agro.rs',JSON.stringify(a.slice(0,6)))}catch(e){}}
+var recTm=0;
+function recentHtml(){var a=recGet(); if(!a.length) return ''; return '<div class="recent"><span>Недавно:</span>'+a.map(function(q){return '<button type="button" class="chip" data-act="gRec" data-q="'+esc(q)+'">'+esc(q)+'</button>'}).join('')+'<button type="button" class="chip x" data-act="gRecClr" aria-label="Очистить">✕</button></div>'}
 function gUpdate(){
   var gr=$('#gResults'), sm=$('#stockMain'), on=!!String(S.gq||'').trim();
   if(gr) gr.innerHTML=on?gResultsHtml():'';
-  if(sm) sm.hidden=on; var st=$('#stockTop'); if(st) st.hidden=on;
+  if(sm) sm.hidden=on; var st=$('#stockTop'); if(st) st.hidden=on; var rc=$('#gRecent'); if(rc) rc.innerHTML=on?'':recentHtml();
 }
 function renderStock(){
   var okS=loaded&&D.lots.size, bn=okS?banner():''; S.nb=!!okS;
@@ -815,7 +831,7 @@ function renderStock(){
   if(!okS) return inner;
   var on=!!String(S.gq||'').trim();
   var _ix=inner.indexOf('<!--SRCH-->'), _top=_ix<0?'':inner.slice(0,_ix); if(_ix>=0) inner=inner.slice(_ix+11);
-  return bn+(_top?'<div id="stockTop"'+(on?' hidden':'')+'>'+_top+'</div>':'')+'<div class="field gsearch"><input id="gSearch" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Поиск: ячейка, товар или дата" aria-label="Поиск по складу" value="'+esc(S.gq||'')+'"></div>'+
+  return bn+(_top?'<div id="stockTop"'+(on?' hidden':'')+'>'+_top+'</div>':'')+'<div class="field gsearch"><input id="gSearch" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Поиск: ячейка, товар или дата" aria-label="Поиск по складу" value="'+esc(S.gq||'')+'"></div><div id="gRecent">'+(on?'':recentHtml())+'</div>'+
     '<div id="gResults">'+(on?gResultsHtml():'')+'</div><div id="stockMain"'+(on?' hidden':'')+'>'+inner+'</div>';
 }
 function renderStock0(){
@@ -826,7 +842,7 @@ function renderStock0(){
   var h=banner()+(S.view==='map'?'':'<div class="stats">'+
     '<div class="stat"><b>'+D.boxes+'</b><span>коробок на складе</span></div>'+
     '<div class="stat"><b>'+D.cells.size+'</b><span>ячеек занято из '+totalCells+'</span></div>'+
-    '<div class="stat'+(alerts?' warn tap':'')+'"'+(alerts?' role="button" tabindex="0" data-act="lowOpen"':'')+'><b>'+alerts+'</b><span>дат, срок '+alThr+'% и ниже'+(alerts?' · нажмите':'')+'</span></div></div><!--SRCH-->'+(D.lots.size?legendHtml().replace(/<span><i[^>]*><\/i>срок истёк<\/span>/,''):'')+expectNote());
+    '</div>'+(alerts?'<div class="alertbar" role="button" tabindex="0" data-act="lowOpen"><div><b>'+alerts+'</b> '+(alerts%10===1&&alerts%100!==11?'дата':(alerts%10>=2&&alerts%10<=4&&(alerts%100<10||alerts%100>=20)?'даты':'дат'))+' на исходе · срок '+alThr+'% и ниже</div><span>Открыть ›</span></div>':'')+'<!--SRCH-->'+(D.lots.size?legendHtml().replace(/<span><i[^>]*><\/i>срок истёк<\/span>/,''):'')+expectNote());
   if(!lots.length){
     return h+'<div class="card hero-empty"><h2>На складе пока пусто</h2><p>Внесите товар, который уже лежит на стеллажах, и новые поставки через «Приход». Укажите реальные даты производства и сроки годности, ячейку и количество.</p><button class="btn" type="button" data-act="tab" data-tab="in">Внести приход</button></div>';
   }
@@ -1771,7 +1787,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.24.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.24.2</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1824,7 +1840,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.24.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.24.2 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1851,7 +1867,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.24.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.24.2) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -2190,6 +2206,8 @@ document.addEventListener('click',function(e){
     case 'pushKeySave':
       if(!isDevMe()) return; var pk=gv('pushKey').trim();
       return withRetry(function(){return db.doc('config/push').set({vapid:pk})}).then(function(){PUSH.vapid=pk;PUSH.loaded=true;renderSheet();toast('Сохранено: ключ веб-пуша')}).catch(function(er){toast(errText(er),true)});
+    case 'gRec': S.gq=el.dataset.q||''; S.gLimit=30; recAdd(S.gq); var gi=$('#gSearch'); if(gi) gi.value=S.gq; gUpdate(); return;
+    case 'gRecClr': try{localStorage.removeItem('agro.rs')}catch(e){} gUpdate(); return;
     case 'lowOpen': S.gq='срок≤'+cfg.warnPct+'%'; S.gLimit=30; render(); window.scrollTo(0,0); return;
     case 'sTab': S.stab=el.dataset.t; renderSheet(); var shx=document.querySelector('#sheetRoot .sheet'); if(shx) shx.scrollTop=0; return;
     case 'rqOpen': return rqOpen();
@@ -2270,7 +2288,7 @@ document.addEventListener('input',function(e){
   if(t.id==='edExp'&&S.edit){S.edit.exp=t.value;return updateEdit()}
   if(t.id==='edCell'&&S.edit){var ef=fmtCellInput(t.value);t.value=ef;S.edit.to=ef;return updateEdit()}
   if(t.id==='edQty'&&S.edit){S.edit.qty=t.value;return updateEdit()}
-  if(t.id==='gSearch'){S.gq=t.value;S.gLimit=30;return gUpdate()}
+  if(t.id==='gSearch'){S.gq=t.value;S.gLimit=30;clearTimeout(recTm);recTm=setTimeout(function(){recAdd(S.gq)},1800);return gUpdate()}
   if(t.id==='dsDate'){S.ds.date=t.value;return dsUpdate()}
   if(t.id==='cSearch'){var cf=fmtCellInput(t.value);t.value=cf;S.cq=cf;S.cLimit=40;var cr=$('#cResults');if(cr) cr.innerHTML=cellsListHtml();return}
   if(t.id==='inProd'){F.prod=t.value;F.placed=0;return updateIn()}
@@ -2880,7 +2898,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.24.0</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.24.2</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
