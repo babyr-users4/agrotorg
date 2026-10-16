@@ -260,7 +260,9 @@ html .mapbar .btn.sm{min-height:36px}
 .inst-h{font-size:13px;margin-top:8px;line-height:1.45}
 .inst-b{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
 .linkbtn{border:0;background:none;color:var(--accent);font-weight:600;padding:6px 0;min-height:36px;font-size:14px}
-.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 14px 14px}
+.kv{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 12px 14px}
+.kv b{font-size:19px!important}
+.kv span{font-size:11px!important}
 .kv div{background:var(--bg);border-radius:8px;padding:8px 10px;min-width:0}
 .kv span{display:block;font-size:12px;color:var(--muted)}
 .kv b{font:700 22px/1.2 var(--f-head);font-variant-numeric:tabular-nums}
@@ -1181,13 +1183,14 @@ function statsHtml(){
   if(S.pf!=='all') ids=ids.filter(function(id){return id===S.pf});
   var stock={}; D.lots.forEach(function(l){stock[l.product]=(stock[l.product]||0)+l.qty});
   var tin=sumQty(ins), tout=sumQty(outs);
-  var kv=function(a,b){var d=a-b;return '<div class="kv"><div><span>Принято</span><b>+'+a+'</b></div><div><span>Отгружено</span><b>−'+b+'</b></div><div><span>Разница</span><b class="'+(d>0?'pos':d<0?'neg':'')+'">'+(d>0?'+':d<0?'−':'')+Math.abs(d)+'</b></div></div>'};
+  var woOf=function(id){var s=0;periodMoves('adj').forEach(function(m){if(m.writeoff&&(id==null||m.product===id)) s-=(Number(m.qty)||0)});return s};
+  var kv=function(a,b,w){var d=a-b;return '<div class="kv"><div><span>Принято</span><b>+'+a+'</b></div><div><span>Отгружено</span><b>−'+b+'</b></div><div><span>Разница</span><b class="'+(d>0?'pos':d<0?'neg':'')+'">'+(d>0?'+':d<0?'−':'')+Math.abs(d)+'</b></div><div><span>Списано</span><b>'+(w?'−'+w:'0')+'</b></div></div>'};
   var adjs=periodMoves('adj'), ap=0, am=0, swo=0; adjs.forEach(function(m){var q=Number(m.qty)||0; if(m.writeoff) swo-=q; else if(q>0) ap+=q; else am-=q});
   var h=dsBlock()+'<p class="sumtxt">Статистика '+periodLabel()+'. Считаются записи по дате внесения.'+((ap||am)?' Инвентаризация: <b>+'+ap+'</b> / <b>−'+am+'</b> кор. (в разницу не входит).':'')+(swo?' Списано: <b>'+swo+'</b> кор. (в разницу не входит).':'')+'</p>';
-  if(S.pf==='all') h+='<section class="card prod" style="margin-bottom:14px"><div class="prod-h"><h2>Всего</h2><div class="tot"><span>на складе <b>'+D.boxes+'</b> кор.</span></div></div>'+kv(tin,tout)+'</section>';
+  if(S.pf==='all') h+='<section class="card prod" style="margin-bottom:14px"><div class="prod-h"><h2>Всего</h2><div class="tot"><span>на складе <b>'+D.boxes+'</b> кор.</span></div></div>'+kv(tin,tout,woOf(null))+'</section>';
   h+='<div class="stack">'+ids.map(function(id){
     var a=sumQty(ins.filter(function(m){return m.product===id})), b=sumQty(outs.filter(function(m){return m.product===id}));
-    return '<section class="card prod"><div class="prod-h"><h2>'+pname(id)+'</h2><div class="tot"><span>на складе <b>'+(stock[id]||0)+'</b> кор.</span></div></div>'+kv(a,b)+'</section>';
+    return '<section class="card prod"><div class="prod-h"><h2>'+pname(id)+'</h2><div class="tot"><span>на складе <b>'+(stock[id]||0)+'</b> кор.</span></div></div>'+kv(a,b,woOf(id))+'</section>';
   }).join('')+'</div>';
   return h;
 }
@@ -1630,9 +1633,9 @@ function reportHtml(sec){
   if(sec.stats){
     var ids=allProductIds(ins.concat(outs).map(function(m){return m.product})).filter(pf), st={};
     D.lots.forEach(function(l){st[l.product]=(st[l.product]||0)+l.qty});
-    var ti=0,to=0,ts=0;
-    var rows=ids.map(function(id){var a=sumQty(ins.filter(function(m){return m.product===id})),b=sumQty(outs.filter(function(m){return m.product===id})),c=st[id]||0;ti+=a;to+=b;ts+=c;return [swatch(id)+esc(product(id).name),a,b,(a-b>0?'+':a-b<0?'−':'')+Math.abs(a-b),c]});
-    h.push('<h2>Итоги за период</h2>'+rTable([['Товар'],['Принято',1],['Отгружено',1],['Разница',1],['На складе',1]],rows,['Всего',ti,to,(ti-to>0?'+':ti-to<0?'−':'')+Math.abs(ti-to),ts]));
+    var ti=0,to=0,ts=0,tw=0, wof=function(id){var s=0;periodMoves('adj').forEach(function(m){if(m.writeoff&&m.product===id) s-=(Number(m.qty)||0)});return s};
+    var rows=ids.map(function(id){var a=sumQty(ins.filter(function(m){return m.product===id})),b=sumQty(outs.filter(function(m){return m.product===id})),c=st[id]||0,w=wof(id);ti+=a;to+=b;ts+=c;tw+=w;return [swatch(id)+esc(product(id).name),a,b,(a-b>0?'+':a-b<0?'−':'')+Math.abs(a-b),w?'−'+w:0,c]});
+    h.push('<h2>Итоги за период</h2>'+rTable([['Товар'],['Принято',1],['Отгружено',1],['Разница',1],['Списано',1],['На складе',1]],rows,['Всего',ti,to,(ti-to>0?'+':ti-to<0?'−':'')+Math.abs(ti-to),tw?'−'+tw:0,ts]));
   }
   if(sec.stock){
     h.push('<h2>Остатки по товарам</h2>');
