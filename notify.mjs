@@ -108,6 +108,22 @@ export function depEvent({ todayOuts = [] }) {
   return [{ kind: 'dep', actor: null, title: `Не отмечено «уехало»: ${bad.length} гор.`, body: lines(bad, 6).join('\n') }];
 }
 
+/* ---------- запросы между сотрудниками ---------- */
+export function reqEvents({ newReqs = [], doneReqs = [] }) {
+  const ev = [];
+  newReqs.filter(r => r.status === 'open').forEach(r => ev.push({
+    kind: 'req', actor: r.from || null, to: r.to || 'all',
+    title: `Запрос от ${r.fromName || 'сотрудника'}${r.to && r.to !== 'all' ? '' : ' (всем)'}`,
+    body: String(r.text || '')
+  }));
+  doneReqs.filter(r => r.status === 'done' && r.doneBy && r.doneBy !== r.from).forEach(r => ev.push({
+    kind: 'req', actor: r.doneBy, to: r.from,
+    title: `Выполнено: ${r.doneByName || 'сотрудник'}`,
+    body: String(r.text || '')
+  }));
+  return ev;
+}
+
 /* ---------- рассылка ---------- */
 export function pickTokens(devices, ev) {
   const seen = new Set(), res = [];
@@ -115,6 +131,7 @@ export function pickTokens(devices, ev) {
     if (!d.token || seen.has(d.token)) return;
     if (d.events && d.events[ev.kind] === false) return;
     if (ev.actor && d.uid === ev.actor) return;
+    if (ev.to && ev.to !== 'all' && d.uid !== ev.to) return;
     seen.add(d.token); res.push(d.token);
   });
   return res;
@@ -140,6 +157,14 @@ async function main() {
     events.push(...buildEvents({ newMoves, delMoves, editMoves, cfg }));
     const mx = (arr, f, d) => arr.reduce((m, x) => (x[f] && x[f] > m ? x[f] : m), d);
     st.lastTs = mx(newMoves, 'ts', st.lastTs); st.lastDelAt = mx(delMoves, 'delAt', st.lastDelAt); st.lastEditAt = mx(editMoves, 'editedAt', st.lastEditAt);
+  }
+  if (!first) {
+    if (!st.lastReq) { st.lastReq = st.lastTs || nowIso; st.lastReqDone = st.lastReq; }
+    const getR = async (field, since) => (await db.collection('requests').where(field, '>', since).orderBy(field).get()).docs.map(d => ({ id: d.id, ...d.data() }));
+    const newReqs = await getR('ts', st.lastReq), doneReqs = await getR('doneAt', st.lastReqDone);
+    events.push(...reqEvents({ newReqs, doneReqs }));
+    const mx2 = (arr, f, d) => arr.reduce((m, x) => (x[f] && x[f] > m ? x[f] : m), d);
+    st.lastReq = mx2(newReqs, 'ts', st.lastReq); st.lastReqDone = mx2(doneReqs, 'doneAt', st.lastReqDone);
   }
   const today = localDay(now), hour = localHour(now);
   if (hour >= EXP_HOUR && st.expDay !== today) {

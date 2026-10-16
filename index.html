@@ -199,6 +199,57 @@ input.cellinp{font:600 24px/1 var(--f-mono);letter-spacing:.08em;text-align:cent
 .fsum.on{border-color:var(--accent)}
 .fsum.on b{color:var(--accent)}
 .fpanel{margin-bottom:6px}
+/* 0.20: шапка */
+.top{padding:8px 14px;gap:8px}
+.logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#000));box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.brandwrap{gap:9px;flex:1 1 auto}
+.brand{font:800 17px/1.1 var(--f-head);letter-spacing:.02em;min-width:0}
+.brand #appName{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.brand small.ver{display:none}
+.brand small#sub{font-size:11.5px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topr{flex:none}
+@media (max-width:430px){.top .icon-btn{width:36px;height:36px}.topr{gap:5px}.brand{font-size:16px}}
+html[data-size="big"] .top .icon-btn{width:40px;height:40px}
+@media (max-width:430px){html[data-size="big"] .top .icon-btn{width:38px;height:38px}}
+.rqb{position:relative}
+.bdg{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;border-radius:9px;background:#ff5a1f;color:#fff;font:700 11px/18px var(--f-body);text-align:center;padding:0 4px}
+/* кнопки ячейки */
+html .btn.xs{min-height:30px;padding:0 10px;font-size:13px;border-radius:8px;font-weight:600}
+html .cc-act{padding:8px 12px;gap:6px}
+/* вкладки настроек */
+.stabs{margin:0 -16px 12px;position:sticky;top:0;z-index:2;background:var(--bg);padding-top:4px;padding-bottom:6px}
+/* запросы */
+.rq{border-radius:14px;padding:12px 14px;margin-bottom:12px;background:linear-gradient(135deg,#ffd23f,#ff9f1c);color:#1a1200;border:2px solid #ff7b00;box-shadow:0 4px 14px rgba(255,140,0,.35)}
+.rq-h{display:flex;align-items:center;gap:8px}
+.rq-h b{font-size:15px}.rq-h small{margin-left:auto;opacity:.75;font-size:12px}
+.rq-ic{width:22px;height:22px;border-radius:50%;background:#1a1200;color:#ffd23f;display:grid;place-items:center;font:800 14px/1 var(--f-body);flex:none}
+.rq p{margin:6px 0 8px;font-size:16px;line-height:1.35;font-weight:600;white-space:pre-wrap;word-break:break-word}
+.rq-b{display:flex;gap:8px}
+html .rq .btn{min-height:36px;font-size:14px;padding:0 14px}
+html .mapbar .seg button{min-height:38px;font-size:14px}
+html .mapbar .btn.sm{min-height:36px}
+.rq .btn{background:#1a1200;border-color:#1a1200;color:#ffd23f}
+.rq.out{background:var(--surface);color:var(--ink);border:1.5px dashed #ff9f1c;box-shadow:none}
+.rq.out .rq-ic{background:#ff9f1c;color:#1a1200}
+.rq.out .btn{background:transparent;color:var(--ink);border-color:var(--line)}
+.rq.dn{border-color:var(--ok);border-style:solid}
+.rq.dn .rq-ic{background:var(--ok);color:#fff}
+.rq-new{animation:rqp 1.4s ease-in-out 3}
+@keyframes rqp{50%{transform:scale(1.015);box-shadow:0 6px 22px rgba(255,140,0,.7)}}
+/* карта 2.0 */
+.mapbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.mapjump{display:flex;gap:6px;margin-left:auto}
+.mapjump input{width:92px;min-height:36px;padding:0 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);font-size:15px}
+.mp2{display:grid;grid-template-columns:34px repeat(var(--nf),1fr);gap:6px;align-items:stretch;margin-bottom:6px;scroll-margin-top:70px}
+.mp2.hd{position:sticky;top:calc(env(safe-area-inset-top,0px) + 56px);z-index:3;background:var(--bg);padding:4px 0;font-size:12px;color:var(--muted);text-align:center;margin-bottom:2px}
+.mp2n{display:grid;place-items:center;font:700 14px/1 var(--f-head);color:var(--muted)}
+.mp2.flash .mp2n{color:var(--accent)}
+.mt2{position:relative;min-height:46px;border-radius:10px;border:2px solid var(--c,var(--line));background:linear-gradient(to top,color-mix(in srgb,var(--c) 40%,transparent) var(--f,0%),var(--surface) var(--f,0%));color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:2px 4px;min-width:0}
+.mt2 b{font:800 16px/1 var(--f-head)}
+.mt2 small{font-size:10.5px;color:var(--muted);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt2.e{border:1.5px dashed var(--line);background:transparent;color:var(--muted);font-size:11px}
+.mt2.bad{outline:2px solid var(--bad);outline-offset:1px}
+
 .stat.tap{cursor:pointer}
 .inst{border:1px solid var(--accent);background:var(--accent-soft);border-radius:14px;padding:12px;margin:10px 0}
 .inst-t b{display:block;font-size:15px}
@@ -418,9 +469,10 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.19.0</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.20.0</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
+      <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
       <button class="icon-btn" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button>
       <button class="icon-btn" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button>
       <button class="icon-btn" type="button" data-act="openSettings" aria-label="Настройки">
@@ -496,8 +548,8 @@ function normCfg(d){
   return c;
 }
 var cfg=clone(DEFAULTS), moves=[], ALLM=[], D=derive([]), loaded=false, db=null, dbState='connecting', busy=false;
-var UI={theme:'dark',size:'big',dense:false,scale:'auto'};
-try{var u0=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u0.theme) UI.theme=u0.theme; if(u0.size) UI.size=u0.size; if(u0.scale) UI.scale=u0.scale; if(u0.notif) UI.notif=u0.notif; if(u0.snd) UI.snd=u0.snd; if(u0.vol) UI.vol=u0.vol; UI.dense=!!u0.dense;}catch(e){}
+var UI={theme:'dark',size:'big',dense:true,scale:'95',vol:'1.6',v:2};
+try{var u0=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u0.theme) UI.theme=u0.theme; if(u0.size) UI.size=u0.size; if(u0.scale) UI.scale=(u0.scale==='auto'?'95':u0.scale); if(u0.notif) UI.notif=u0.notif; if(u0.snd) UI.snd=u0.snd; if(['0.8','1.6','2.6'].indexOf(u0.vol)>=0) UI.vol=u0.vol; UI.dense=(u0.v===2?!!u0.dense:true);}catch(e){}
 function applyUI(save){
   var h=document.documentElement;
   if(UI.theme==='light'||UI.theme==='dark') h.setAttribute('data-theme',UI.theme); else h.removeAttribute('data-theme');
@@ -511,10 +563,10 @@ var tab='stock';
 try{ var t0=localStorage.getItem('sklad.tab'); if(t0&&['stock','in','out','log','cells'].indexOf(t0)>=0) tab=t0; }catch(e){}
 var F={product:'',prod:'',exp:'',total:'',cell:'',qty:'',placed:0,from:'',planId:''};
 var O={product:'',q:{},city:'',need:''};
-var S={pushChk:false,invite:null,wo:null,ie:null,instHide:false,instHelp:false,logFiltOpen:false,gq:'',gLimit:30,ds:{date:''},view:'lots',row:'all',openProd:{},openCity:{},
+var S={stab:'',rq:null,pushChk:false,invite:null,wo:null,ie:null,instHide:false,instHelp:false,logFiltOpen:false,gq:'',gLimit:30,ds:{date:''},view:'lots',row:'all',openProd:{},openCity:{},
   logView:'out',who:'all',period:'all',from:'',to:'',pf:'all',logLimit:50,
   confirmDel:null,settings:false,draft:null,newCity:false,
-  edit:null,cq:'',cpf:'all',cLimit:40,mv:null,inv:null,pl:null,planDel:null,plOpen:false,rep:null,srcEdit:null,map:{row:null,block:0,mode:'product',pf:'all'},mapSel:null};
+  edit:null,cq:'',cpf:'all',cLimit:40,mv:null,inv:null,pl:null,planDel:null,plOpen:false,rep:null,srcEdit:null,map:{row:null,block:0,mode:'product',pf:'all',only:false},mapSel:null};
 
 var product=function(id){return cfg.products.filter(function(p){return p.id===id})[0]||{id:id,name:'Неизвестный товар',short:'?'}};
 function pdot(id){var p=cfg.products.filter(function(x){return x.id===id})[0];return '<i class="pd" style="--pc:'+(p&&p.color?p.color:'#8A94A6')+'"></i>'}
@@ -1248,7 +1300,7 @@ function cellCard(c){
         '<div class="cc-info"><b>'+pname(l.product)+'</b><small>произв. '+fmt(l.prod)+' · до '+fmt(l.exp)+'</small><span class="pill lv"'+lvAttr(li)+'>'+(li.left<0?'срок истёк · 0%':'осталось '+fp(li.pct)+'% срока')+'</span></div>'+
         '<div class="cc-q"><b>'+l.qty+'</b> кор.</div>'+PENCIL+'</button>';
     }).join('')+
-    '<div class="cc-act"><button class="btn ghost sm" type="button" data-act="mvOpen" data-cell="'+c+'">Переместить</button><button class="btn ghost sm" type="button" data-act="invOpen" data-cell="'+c+'">Пересчитать</button><button class="btn ghost sm wo" type="button" data-act="woOpen" data-cell="'+c+'">Списать</button>'+(lastInv(c)?'<span class="small">пересчитано '+dayKey(lastInv(c))+'</span>':'')+'</div></section>';
+    '<div class="cc-act"><button class="btn ghost xs" type="button" data-act="mvOpen" data-cell="'+c+'">Переместить</button><button class="btn ghost xs" type="button" data-act="invOpen" data-cell="'+c+'">Пересчитать</button><button class="btn ghost xs wo" type="button" data-act="woOpen" data-cell="'+c+'">Списать</button>'+(lastInv(c)?'<span class="small">пересчитано '+dayKey(lastInv(c))+'</span>':'')+'</div></section>';
 }
 function cellsListHtml(){
   if(!D.cells.size) return '<div class="card hero-empty"><h2>Пока нет ячеек с товаром</h2><p>Внесите приход, и ячейки появятся здесь.</p></div>';
@@ -1639,7 +1691,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.19.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.20.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1692,7 +1744,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.19.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.20.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1719,7 +1771,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.19.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.20.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1754,12 +1806,14 @@ function openSettings0(){
   S.draft.title=cfg.title; S.draft.noticeText=cfg.notice.text; S.draft.noticeOn=cfg.notice.on;
   S.settings=true; renderSheet();
 }
-function renderSheet(){
+function renderSheet(){renderSheet0(); settingsTabs(); rqSheetFix()}
+function renderSheet0(){
   var root=$('#sheetRoot');
-  if(!S.settings&&!S.edit&&!S.mv&&!S.inv&&!S.pl&&!S.rep&&!S.mapSel&&!S.nc&&!S.calc&&!S.hist&&!S.wo){root.innerHTML='';document.body.style.overflow='';return}
+  if(!S.settings&&!S.edit&&!S.mv&&!S.inv&&!S.pl&&!S.rep&&!S.mapSel&&!S.nc&&!S.calc&&!S.hist&&!S.wo&&!S.rq){root.innerHTML='';document.body.style.overflow='';return}
   document.body.style.overflow='hidden';
   if(S.mapSel&&!S.mv&&!S.inv&&!S.edit&&!S.pl&&!S.rep){renderMapSheet(root);return}
   if(S.calc){renderCalcSheet(root);return}
+  if(S.rq){renderRqSheet(root);return}
   if(S.wo){renderWoSheet(root);return}
   if(S.hist){renderHistSheet(root);return}
   if(S.nc){renderNcSheet(root);return}
@@ -1805,9 +1859,9 @@ function uiGroupHtml(){
     seg('Уведомления о действиях других','notif',[['1','Вкл'],['0','Выкл']],UI.notif==='0'?'0':'1')+
     seg('Список ячеек','dense',[['0','Обычный'],['1','Плотный']],UI.dense?'1':'0')+
     seg('Звуки','snd',[['1','Вкл'],['0','Выкл']],UI.snd==='0'?'0':'1')+
-    seg('Громкость звуков','vol',[['0.5','Тихо'],['1','Обычно'],['1.8','Громко']],String(UI.vol||'1'))+
+    seg('Громкость звуков','vol',[['0.8','Тихо'],['1.6','Обычно'],['2.6','Громко']],String(UI.vol||'1.6'))+
     '<div class="uirow" style="display:block"><span class="small">Послушать звуки</span><div class="chiprow" style="margin-top:6px">'+
-    [['tap','Нажатие'],['ok','Галочка ✓'],['bad','Крестик ✕'],['in','Приход'],['out','Отгрузка'],['recount','Пересчёт'],['move','Перемещение'],['cancel','Отмена'],['wo','Списание'],['err','Ошибка'],['warn','Проверка']].map(function(x){return '<button class="fchip" type="button" data-act="sndTry" data-v="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div></div></section>';
+    [['tap','Нажатие'],['ok','Галочка ✓'],['bad','Крестик ✕'],['in','Приход'],['out','Отгрузка'],['recount','Пересчёт'],['move','Перемещение'],['cancel','Отмена'],['wo','Списание'],['err','Ошибка'],['warn','Проверка'],['req','Запрос']].map(function(x){return '<button class="fchip" type="button" data-act="sndTry" data-v="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div></div></section>';
 }
 function parseList(s,min,max){
   var a=String(s).split(/[\s,;]+/).filter(Boolean).map(Number);
@@ -2054,9 +2108,20 @@ document.addEventListener('click',function(e){
     case 'pushEv': return pushToggle(el.dataset.v);
     case 'pushTest': return pushTest();
     case 'pushKeySave':
-      if(!isAdm()) return; var pk=gv('pushKey').trim();
+      if(!isDevMe()) return; var pk=gv('pushKey').trim();
       return withRetry(function(){return db.doc('config/push').set({vapid:pk})}).then(function(){PUSH.vapid=pk;PUSH.loaded=true;renderSheet();toast('Сохранено: ключ веб-пуша')}).catch(function(er){toast(errText(er),true)});
     case 'lowOpen': S.gq='срок≤'+cfg.warnPct+'%'; S.gLimit=30; render(); window.scrollTo(0,0); return;
+    case 'sTab': S.stab=el.dataset.t; renderSheet(); var shx=document.querySelector('#sheetRoot .sheet'); if(shx) shx.scrollTop=0; return;
+    case 'rqOpen': return rqOpen();
+    case 'rqClose': S.rq=null; return renderSheet();
+    case 'rqTo': S.rq.to=el.dataset.v; return renderSheet();
+    case 'rqTpl': S.rq.tpl=el.dataset.v; S.rq.text=rqTplText(el.dataset.v); renderSheet(); var rt=$('#rqText'); if(rt){rt.focus();try{rt.setSelectionRange(rt.value.length,rt.value.length)}catch(e){}} return;
+    case 'rqSend': return rqSend();
+    case 'rqDone': delete reqNew[el.dataset.id]; return rqSet(el.dataset.id,{status:'done',doneBy:ME.uid,doneByName:ME.name,doneAt:new Date().toISOString()},'Выполнено: отмечено');
+    case 'rqCancel': return rqSet(el.dataset.id,{status:'cancel',doneBy:ME.uid,doneByName:ME.name,doneAt:new Date().toISOString()},'Запрос отозван');
+    case 'rqHide': S.rqHide=S.rqHide||{}; S.rqHide[el.dataset.id]=1; REQ=REQ.filter(function(r){return r.id!==el.dataset.id}); return rqRefresh();
+    case 'mapOnly': S.map.only=el.dataset.v==='1'; return render();
+    case 'mapGo': return mapGo();
     case 'invOpen': S.mapSel=null; return invOpen(el.dataset.cell);
     case 'invClose': S.inv=null; return renderSheet();
     case 'invSame': var il=D.cells.get(S.inv.cell)&&D.cells.get(S.inv.cell).get(el.dataset.k); if(il){S.inv.vals[il.key]=String(il.qty);var ii=el.closest('.qrow').querySelector('input');if(ii)ii.value=il.qty} return updateInv();
@@ -2123,6 +2188,7 @@ document.addEventListener('input',function(e){
   if(t.id==='inProd'){F.prod=t.value;F.placed=0;return updateIn()}
   if(t.id==='inExp'){F.exp=t.value;F.placed=0;return updateIn()}
   if(t.id==='srcIn'&&S.srcEdit){S.srcEdit.val=t.value;return}
+  if(t.id==='rqText'&&S.rq){S.rq.text=t.value;var sb=$('#rqSend');if(sb) sb.disabled=!rqOk()||busy;return}
   if(t.id==='woQty'&&S.wo){S.wo.qty=t.value;return woUpdate()}
   if(t.id==='woCustom'&&S.wo){S.wo.custom=t.value;return woUpdate()}
   if(t.id==='ieProd'&&S.ie){S.ie.prod=t.value;return ieUpdate()}
@@ -2324,7 +2390,9 @@ function startData(){
     var first=!loaded; notifyNew(first); loaded=true;
     if(first){D=derive(moves);render()} else refresh();
   },function(){dbState='none';loaded=true;renderHeader();render()}));
-  if(isAdm()){
+  REQ=[]; reqLoaded=false; reqNew={};
+  UNSUB.push(FS.collection('requests').onSnapshot(rqSnap,function(){}));
+  {
     UNSUB.push(FS.collection('users').onSnapshot(function(snap){
       USERS=snap.docs.map(function(d){return Object.assign({uid:d.id},d.data())});
       var el=document.getElementById('staffList'); if(el) el.innerHTML=staffListHtml();
@@ -2530,7 +2598,7 @@ function instInner(){
     '<div class="inst-b"><button class="btn sm" type="button" data-act="instGo">'+(DEFP?'Добавить':S.instHelp?'Понятно':'Как добавить')+'</button><button class="btn ghost sm" type="button" data-act="instLater">Позже</button><button class="linkbtn" type="button" data-act="instDone">Уже добавил</button></div></div>';
 }
 function instRefresh(){var b=document.getElementById('instBox'); if(b) b.innerHTML=instInner()}
-function banner(){return '<div id="instBox">'+instInner()+'</div>'+banner0()}
+function banner(){return '<div id="rqBox">'+rqHtml()+'</div><div id="instBox">'+instInner()+'</div>'+banner0()}
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();DEFP=e;instRefresh()});
 window.addEventListener('appinstalled',function(){try{localStorage.setItem(INST_KEY,'1')}catch(e){} DEFP=null;instRefresh()});
 try{if('serviceWorker' in navigator&&location.protocol==='https:') navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}
@@ -2545,23 +2613,30 @@ function sndCtx(){
   return AC;
 }
 function tone(f,t0,d,type,g,f2){
-  var c=AC, o=c.createOscillator(), gn=c.createGain(), v=(g||.15)*(parseFloat(UI.vol)||1);
-  o.type=type||'sine'; o.frequency.setValueAtTime(f,t0); if(f2) o.frequency.exponentialRampToValueAtTime(f2,t0+d);
-  gn.gain.setValueAtTime(0.0001,t0); gn.gain.exponentialRampToValueAtTime(v,t0+0.008); gn.gain.exponentialRampToValueAtTime(0.0001,t0+d);
-  o.connect(gn); gn.connect(MASTER); o.start(t0); o.stop(t0+d+0.03);
+  var c=AC, gn=c.createGain(), lp=c.createBiquadFilter(), v=(g||.15)*(parseFloat(UI.vol)||1.6), end=t0+d*1.5;
+  if(type==='square'||type==='sawtooth') type='triangle';
+  lp.type='lowpass'; lp.frequency.value=4000;
+  gn.gain.setValueAtTime(0.0001,t0); gn.gain.exponentialRampToValueAtTime(v,t0+0.012); gn.gain.exponentialRampToValueAtTime(0.0001,end);
+  gn.connect(lp); lp.connect(MASTER);
+  [[1,1],[2,.22]].forEach(function(h){
+    var o=c.createOscillator(), og=c.createGain(); o.type=h[0]===1?(type||'sine'):'sine'; og.gain.value=h[1];
+    o.frequency.setValueAtTime(f*h[0],t0); if(f2) o.frequency.exponentialRampToValueAtTime(f2*h[0],t0+d);
+    o.connect(og); og.connect(gn); o.start(t0); o.stop(end+0.03);
+  });
 }
 var SND={
-  tap:function(t){tone(1500,t,.035,'sine',.06)},
-  ok:function(t){tone(660,t,.09,'sine',.2);tone(990,t+.08,.18,'sine',.2)},
-  bad:function(t){tone(320,t,.16,'triangle',.22,210)},
-  in:function(t){[523,659,784].forEach(function(f,i){tone(f,t+i*.08,.17,'sine',.2)})},
-  out:function(t){tone(110,t,.16,'sine',.35);[392,587,784].forEach(function(f,i){tone(f,t+.06+i*.09,.22,'triangle',.17)});tone(1568,t+.36,.28,'sine',.07)},
-  recount:function(t){tone(880,t,.06,'square',.05);tone(880,t+.09,.06,'square',.05);tone(1175,t+.18,.16,'square',.05)},
-  move:function(t){tone(380,t,.24,'sine',.2,760)},
-  cancel:function(t){tone(520,t,.1,'triangle',.2);tone(390,t+.1,.18,'triangle',.2)},
-  wo:function(t){tone(160,t,.3,'sawtooth',.1,70);tone(330,t,.12,'triangle',.12)},
-  err:function(t){tone(180,t,.12,'square',.08);tone(180,t+.17,.2,'square',.08)},
-  warn:function(t){tone(740,t,.1,'triangle',.18);tone(740,t+.15,.1,'triangle',.18)}
+  tap:function(t){tone(1046,t,.05,'sine',.11)},
+  ok:function(t){tone(784,t,.12,'sine',.2);tone(1175,t+.09,.22,'sine',.2)},
+  bad:function(t){tone(349,t,.14,'sine',.22);tone(262,t+.12,.22,'sine',.22)},
+  in:function(t){[523,659,784,1047].forEach(function(f,i){tone(f,t+i*.075,.18,'sine',.18)})},
+  out:function(t){tone(196,t,.25,'sine',.3);[523,659,784,1047].forEach(function(f,i){tone(f,t+.07+i*.09,.22,'triangle',.15)})},
+  recount:function(t){[880,1109,1319].forEach(function(f,i){tone(f,t+i*.09,.12,'sine',.16)})},
+  move:function(t){tone(392,t,.22,'sine',.2,784)},
+  cancel:function(t){tone(587,t,.12,'sine',.2);tone(440,t+.1,.2,'sine',.2)},
+  wo:function(t){tone(220,t,.3,'triangle',.2,147);tone(330,t,.12,'sine',.12)},
+  err:function(t){tone(311,t,.12,'sine',.2);tone(262,t+.16,.22,'sine',.2)},
+  warn:function(t){tone(784,t,.1,'sine',.18);tone(784,t+.15,.12,'sine',.18)},
+  req:function(t){[784,988,1319].forEach(function(f,i){tone(f,t+i*.13,.28,'sine',.2)});tone(1976,t+.4,.35,'sine',.07)}
 };
 function snd(n){
   if(UI.snd==='0'||!SND[n]) return;
@@ -2574,6 +2649,8 @@ function toastSnd(m,bad){
   m=String(m);
   if(/^Отгружено /.test(m)) return snd('out');
   if(/^(Принято |Добавлено )/.test(m)) return snd('in');
+  if(/^Запрос от /.test(m)) return snd('req');
+  if(/^(Запрос отправлен|Выполнено:)/.test(m)) return snd('ok');
   if(/^Списано /.test(m)) return snd('wo');
   if(/^Перемещено /.test(m)) return snd('move');
   if(/Пересчёт записан|пересчитана/.test(m)) return snd('recount');
@@ -2612,7 +2689,7 @@ function shareOrCopy(text){
 
 /* ---------- push-уведомления ---------- */
 var PUSH={vapid:'',loaded:false,busy:false,
-  ev:[['in','Новые приходы'],['out','Новые отгрузки'],['del','Отмена и списание записей'],['cell','Изменения в ячейках'],['exp','Срок годности подходит к концу'],['dep','Отгрузка не отмечена «уехало»']]};
+  ev:[['in','Новые приходы'],['out','Новые отгрузки'],['req','Запросы от сотрудников'],['del','Отмена и списание записей'],['cell','Изменения в ячейках'],['exp','Срок годности подходит к концу'],['dep','Отгрузка не отмечена «уехало»']]};
 function pushSupported(){try{return 'Notification' in window&&'serviceWorker' in navigator&&'PushManager' in window&&typeof firebase.messaging==='function'&&(!firebase.messaging.isSupported||firebase.messaging.isSupported())}catch(e){return false}}
 function pushLS(){try{return JSON.parse(localStorage.getItem('agro.push')||'null')}catch(e){return null}}
 function pushSet(v){try{if(v) localStorage.setItem('agro.push',JSON.stringify(v)); else localStorage.removeItem('agro.push')}catch(e){}}
@@ -2637,7 +2714,7 @@ function pushEvents(){var v=pushLS(),e={};PUSH.ev.forEach(function(x){e[x[0]]=!(
 function pushEnable(){
   if(PUSH.busy) return;
   if(!pushSupported()) return toast('Этот браузер не умеет присылать уведомления. На iPhone сначала добавьте программу на главный экран и откройте её с иконки.',true);
-  if(!PUSH.vapid) return toast('Администратору нужно один раз вставить ключ веб-пуша (Настройки → Уведомления).',true);
+  if(!PUSH.vapid) return toast('Разработчику нужно один раз вставить ключ веб-пуша (Настройки → Уведомления).',true);
   PUSH.busy=true; renderSheet();
   Notification.requestPermission().then(function(p){
     if(p!=='granted') throw new Error('NOPERM');
@@ -2677,7 +2754,7 @@ function pushGroupHtml(){
   var sup=pushSupported(), on=pushOn();
   if(!sup) h+='<p class="note" style="margin:0 0 8px">Здесь уведомления недоступны. На iPhone добавьте программу на главный экран (iOS 16.4 и новее) и откройте её с иконки. На Android откройте в Chrome.</p>';
   else if(!PUSH.loaded) h+='<p class="note" style="margin:0">Загрузка…</p>';
-  else if(!PUSH.vapid) h+='<p class="note" style="margin:0 0 8px">Уведомления ещё не настроены администратором.</p>';
+  else if(!PUSH.vapid) h+='<p class="note" style="margin:0 0 8px">Уведомления ещё не настроены разработчиком.</p>';
   else if(!on){
     h+='<p class="note" style="margin:0 0 10px">Сообщения будут приходить на этот телефон, даже когда программа закрыта. Придут с задержкой до 5–10 минут.</p>'+
       (Notification.permission==='denied'?'<p class="note bad">Уведомления запрещены в настройках браузера для этого сайта. Разрешите их и вернитесь.</p>':'')+
@@ -2688,16 +2765,142 @@ function pushGroupHtml(){
       PUSH.ev.map(function(x){return '<button class="fchip" type="button" data-act="pushEv" data-v="'+x[0]+'" aria-pressed="'+e[x[0]]+'">'+esc(x[1])+'</button>'}).join('')+'</div>'+
       '<div class="inst-b"><button class="btn ghost sm" type="button" data-act="pushTest">Показать пробное</button><button class="btn ghost sm" type="button" data-act="pushOff">Выключить</button></div>';
   }
-  if(isAdm()&&PUSH.loaded) h+='<details class="hint"'+(PUSH.vapid?'':' open')+'><summary>Ключ веб-пуша (для администратора)</summary><p>Один раз вставьте ключ из Firebase: Project settings → Cloud Messaging → Web Push certificates → Generate key pair.</p>'+
+  if(isDevMe()&&PUSH.loaded) h+='<details class="hint"'+(PUSH.vapid?'':' open')+'><summary>Ключ веб-пуша (только для разработчика)</summary><p>Один раз вставьте ключ из Firebase: Project settings → Cloud Messaging → Web Push certificates → Generate key pair.</p>'+
     '<div class="add"><input id="pushKey" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="off" placeholder="Ключ (длинная строка)" value="'+esc(PUSH.vapid)+'" aria-label="Ключ веб-пуша"><button class="btn sm" type="button" data-act="pushKeySave">Сохранить</button></div></details>';
   return h+'</section>';
 }
 function renderHeader(){
-  renderHeader0();
+  renderHeader0(); rqRefresh();
   if(!S.pushChk&&ME){S.pushChk=true;pushBoot()}
 }
 function accountGroupHtml(){return accountGroupHtml0()+pushGroupHtml()}
 function openSettings(){openSettings0(); pushLoadKey().then(function(){if(S.settings) renderSheet()})}
+
+/* ---------- вкладки настроек ---------- */
+var STAB_ADM=[['wh','Склад'],['look','Вид и звук'],['ntf','Уведомления'],['ppl','Люди'],['dat','Данные']];
+var STAB_USR=[['ppl','Аккаунт'],['look','Вид и звук'],['ntf','Уведомления']];
+var STAB_OF={'Товары':'wh','Города отгрузки':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление (только на этом телефоне)':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
+function settingsTabs(){
+  if(!S.settings) return;
+  var sh=document.querySelector('#sheetRoot .sheet[aria-label="Настройки"]'); if(!sh) return;
+  var wrap=sh.querySelector('.wrap'), bt=wrap&&wrap.querySelector('.bar-top'); if(!bt) return;
+  var secs=Array.prototype.filter.call(wrap.children,function(el){return el.tagName==='SECTION'});
+  var key=function(s){var h=s.querySelector('h2.lbl');return STAB_OF[h?h.textContent.trim():'']||'ppl'};
+  var list=(isAdm()?STAB_ADM:STAB_USR).filter(function(t){return secs.some(function(s){return key(s)===t[0]})});
+  if(!list.length) return;
+  var cur=S.stab; if(!list.some(function(t){return t[0]===cur})) cur=S.stab=list[0][0];
+  secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
+  var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
+  bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.20.0</p>');
+}
+
+/* ---------- запросы между сотрудниками ---------- */
+var REQ=[], reqLoaded=false, reqNew={};
+var RQ_TPL=[['cells','Заблокировать ячейки с сегодняшними приходами'],['count','Пересчитать ячейки'],['ship','Подготовить отгрузку'],['exp','Проверить сроки годности'],['call','Позвонить мне'],['own','Свой текст']];
+function rqTodayCells(){var t=dayKey(new Date().toISOString()),a=[];moves.forEach(function(m){if(kindOf(m)==='in'&&m.cell&&dayKey(m.ts)===t&&a.indexOf(m.cell)<0) a.push(m.cell)});return a.sort()}
+function rqTplText(id){
+  if(id==='cells'){var c=rqTodayCells();return 'Заблокируйте ячейки, в которые сегодня размещены приходы'+(c.length?': '+c.join(', '):'')+'.'}
+  if(id==='count') return 'Пересчитайте ячейки: ';
+  if(id==='ship') return 'Подготовьте отгрузку: ';
+  if(id==='exp') return 'Проверьте сроки годности и сообщите, что скоро заканчивается.';
+  if(id==='call') return 'Позвоните мне, когда освободитесь.';
+  return '';
+}
+function rqUsers(){return USERS.filter(function(u){return u.active!==false&&ME&&u.uid!==ME.uid}).sort(function(a,b){return String(a.name||'').localeCompare(String(b.name||''),'ru')})}
+function rqToName(to){if(to==='all') return 'всем'; var u=USERS.filter(function(x){return x.uid===to})[0]; return u?(u.name||u.login):''}
+function rqOk(){var r=S.rq; return !!r&&!!r.to&&String(r.text||'').trim().length>=3}
+function rqTime(ts){var d=new Date(ts); if(isNaN(d)) return ''; var hm=pad(d.getHours())+':'+pad(d.getMinutes()); return dayKey(ts)===dayKey(new Date().toISOString())?hm:dayKey(ts)+' '+hm}
+function rqIncoming(){return ME?REQ.filter(function(r){return r.status==='open'&&r.from!==ME.uid&&(r.to===ME.uid||r.to==='all')}).sort(function(a,b){return String(b.ts).localeCompare(String(a.ts))}):[]}
+function rqHtml(){
+  if(!ME) return '';
+  var h='', inc=rqIncoming(), now=Date.now();
+  inc.forEach(function(r){
+    h+='<div class="rq'+(reqNew[r.id]?' rq-new':'')+'" role="alert"><div class="rq-h"><span class="rq-ic">!</span><b>Запрос от '+esc(r.fromName||'сотрудника')+(r.to==='all'?' (всем)':'')+'</b><small>'+esc(rqTime(r.ts))+'</small></div><p>'+esc(r.text)+'</p><div class="rq-b"><button class="btn sm" type="button" data-act="rqDone" data-id="'+esc(r.id)+'">Выполнено</button></div></div>';
+  });
+  REQ.filter(function(r){return r.from===ME.uid&&(r.status==='open'||(r.status==='done'&&now-Date.parse(r.doneAt||0)<6*3600e3))}).sort(function(a,b){return String(b.ts).localeCompare(String(a.ts))}).forEach(function(r){
+    var dn=r.status==='done';
+    h+='<div class="rq out'+(dn?' dn':'')+'"><div class="rq-h"><span class="rq-ic">'+(dn?'✓':'→')+'</span><b>'+(dn?esc(r.doneByName||rqToName(r.to))+' выполнил(а)':'Вы просили: '+esc(r.toName||rqToName(r.to)))+'</b><small>'+esc(rqTime(r.ts))+'</small></div><p style="font-weight:500;font-size:14px">'+esc(r.text)+'</p><div class="rq-b"><button class="btn ghost xs" type="button" data-act="'+(dn?'rqHide':'rqCancel')+'" data-id="'+esc(r.id)+'">'+(dn?'Скрыть':'Отозвать')+'</button></div></div>';
+  });
+  return h;
+}
+function rqRefresh(){
+  var b=document.getElementById('rqBox'); if(b) b.innerHTML=rqHtml();
+  var n=rqIncoming().length, g=document.getElementById('rqBdg'); if(g){g.hidden=!n;g.textContent=n}
+}
+function rqSnap(snap){
+  var prev={}; REQ.forEach(function(r){prev[r.id]=r.status});
+  REQ=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())}).filter(function(r){return !(S.rqHide&&S.rqHide[r.id])});
+  if(reqLoaded&&ME) REQ.forEach(function(r){
+    var short=String(r.text||'').slice(0,90);
+    if(prev[r.id]===undefined&&r.status==='open'&&r.from!==ME.uid&&(r.to===ME.uid||r.to==='all')){reqNew[r.id]=1;toast('Запрос от '+(r.fromName||'сотрудника')+': '+short)}
+    else if(prev[r.id]==='open'&&r.status==='done'&&r.from===ME.uid&&r.doneBy!==ME.uid) toast('Выполнено: '+(r.doneByName||'сотрудник')+' — '+short);
+  });
+  reqLoaded=true; rqRefresh();
+}
+function rqOpen(){
+  if(!ME) return;
+  if(ME.role==='viewer') return toast('Наблюдатель не может отправлять запросы',true);
+  S.rq={to:'',text:'',tpl:''}; renderSheet();
+}
+function renderRqSheet(root){
+  var r=S.rq, us=rqUsers(), to=rqToName(r.to);
+  var roleOf=function(u){return ROLES[u.role]?(typeof ROLES[u.role]==='string'?ROLES[u.role]:(ROLES[u.role].name||ROLES[u.role].label||'')):''};
+  root.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Запрос"><div class="wrap"><div class="bar-top"><h1 style="margin:0;font-size:22px">Запрос сотруднику</h1><button class="btn ghost sm" type="button" data-act="rqClose">Закрыть</button></div>'+
+  '<section class="group"><h2 class="lbl">Кому</h2><div class="chiprow">'+us.map(function(u){return '<button class="fchip" type="button" data-act="rqTo" data-v="'+esc(u.uid)+'" aria-pressed="'+(r.to===u.uid)+'">'+esc(u.name||u.login)+'</button>'}).join('')+
+  '<button class="fchip" type="button" data-act="rqTo" data-v="all" aria-pressed="'+(r.to==='all')+'">Всем</button></div>'+(us.length?'':'<p class="note">Список сотрудников загружается…</p>')+'</section>'+
+  '<section class="group"><h2 class="lbl">Шаблон</h2><div class="chiprow">'+RQ_TPL.map(function(t){return '<button class="fchip" type="button" data-act="rqTpl" data-v="'+t[0]+'" aria-pressed="'+(r.tpl===t[0])+'">'+esc(t[1])+'</button>'}).join('')+'</div></section>'+
+  '<section class="group"><h2 class="lbl">Текст запроса</h2><textarea id="rqText" rows="4" maxlength="400" placeholder="Выберите шаблон или напишите свой текст" aria-label="Текст запроса">'+esc(r.text)+'</textarea></section>'+
+  '<p class="note" id="rqWho">'+(to?'От <b>'+esc(ME.name)+'</b> → <b>'+esc(to)+'</b>. Придёт уведомлением и появится на главном экране.':'Выберите, кому отправить.')+'</p>'+
+  '<button class="btn" id="rqSend" type="button" style="width:100%" data-act="rqSend"'+(rqOk()&&!busy?'':' disabled')+'>Отправить</button></div></div>';
+}
+function rqSheetFix(){}
+function rqSend(){
+  var r=S.rq; if(!rqOk()||busy) return; busy=true;
+  var rec={from:ME.uid,fromName:ME.name,to:r.to,toName:rqToName(r.to),text:String(r.text).trim(),ts:new Date().toISOString(),status:'open'};
+  withRetry(function(){return db.collection('requests').add(rec)}).then(function(){busy=false;S.rq=null;renderSheet();toast('Запрос отправлен: '+rec.toName)}).catch(function(er){busy=false;renderSheet();toast(errText(er),true)});
+}
+function rqSet(id,f,msg){withRetry(function(){return db.doc('requests/'+id).update(f)}).then(function(){if(msg) toast(msg)}).catch(function(er){toast(errText(er),true)})}
+
+/* ---------- карта 2.0: секции списком ---------- */
+function mapTile2(code,M){
+  var cm=D.cells.get(code);
+  if(!cm||!cm.size) return '<button type="button" class="mt2 e" data-act="mapCell" data-cell="'+code+'" aria-label="Ячейка '+code+', пусто">пусто</button>';
+  var lots=Array.from(cm.values()), tot=cellTotal(D,code), p0=lots[0].product, cap=capOf(p0), f=Math.min(100,tot/cap*100), color, pp=cfg.products.filter(function(x){return x.id===p0})[0];
+  if(M.mode==='shelf'){var wl=lots.slice().sort(function(a,b){return lotInfo(a).pct-lotInfo(b).pct})[0]; color=lotInfo(wl).color}
+  else color=pp&&pp.color?pp.color:'#8A94A6';
+  var bad=!!cellIssue(D,code), lab=M.mode==='shelf'?fp(lotInfo(lots[0]).pct)+'%':(lots.length>1?lots.length+' парт.':(pp?pp.short:''));
+  if(M.mode==='shelf'){var wl2=lots.slice().sort(function(a,b){return lotInfo(a).pct-lotInfo(b).pct})[0]; lab=(lotInfo(wl2).left<0?'истёк':fp(lotInfo(wl2).pct)+'%')}
+  return '<button type="button" class="mt2'+(bad?' bad':'')+'" data-act="mapCell" data-cell="'+code+'" style="--c:'+color+';--f:'+f.toFixed(0)+'%" aria-label="Ячейка '+code+', '+tot+' из '+cap+' коробок"><b>'+tot+'</b><small>'+esc(lab)+'</small></button>';
+}
+function renderMap(){
+  var M=S.map; if(M.row==null||cfg.rows.indexOf(M.row)<0) M.row=cfg.rows[0];
+  var floors=cfg.floors.slice().sort(function(a,b){return b-a});
+  var codes=0, boxes=0; D.cells.forEach(function(cm,c){if(c.slice(0,2)===String(M.row)){codes++;boxes+=cellTotal(D,c)}});
+  var h='<div class="scrollrow">'+cfg.rows.map(function(r){return '<button class="fchip" type="button" data-act="mapRow" data-r="'+r+'" aria-pressed="'+(M.row===r)+'">Ряд '+r+'</button>'}).join('')+'</div>';
+  h+='<p class="mapsum">Ряд <b>'+M.row+'</b>: занято ячеек <b>'+codes+'</b> из <b>'+(cfg.sections*floors.length)+'</b> · коробок <b>'+boxes+'</b>.</p>';
+  h+='<div class="mapbar"><div class="seg" role="group" aria-label="Что показывать" style="margin:0"><button type="button" data-act="mapOnly" data-v="0" aria-pressed="'+!M.only+'">Все секции</button><button type="button" data-act="mapOnly" data-v="1" aria-pressed="'+!!M.only+'">Только с товаром</button></div>'+
+     '<div class="mapjump"><input id="mapJump" type="text" inputmode="numeric" maxlength="2" placeholder="№ секции" aria-label="Номер секции"><button class="btn ghost sm" type="button" data-act="mapGo">Найти</button></div></div>';
+  h+='<div class="mapbar"><div class="seg" role="group" aria-label="Цвет" style="margin:0">'+[['product','Цвет — товар'],['shelf','Цвет — срок']].map(function(m){return '<button type="button" data-act="mapMode" data-m="'+m[0]+'" aria-pressed="'+(M.mode===m[0])+'">'+m[1]+'</button>'}).join('')+'</div></div>';
+  h+='<div class="mapcolor">'+mapLegend(M)+'</div>';
+  h+='<div class="mp2 hd" style="--nf:'+floors.length+'"><span>секция</span>'+floors.map(function(f){return '<span>этаж '+f+'</span>'}).join('')+'</div>';
+  var shown=0;
+  for(var sc=1;sc<=cfg.sections;sc++){
+    var has=floors.some(function(f){var cm=D.cells.get(M.row+'-'+pad(sc)+'-'+f);return cm&&cm.size});
+    if(M.only&&!has) continue; shown++;
+    h+='<div class="mp2" id="sec-'+pad(sc)+'" style="--nf:'+floors.length+'"><span class="mp2n">'+pad(sc)+'</span>'+floors.map(function(f){return mapTile2(M.row+'-'+pad(sc)+'-'+f,M)}).join('')+'</div>';
+  }
+  if(!shown) h+='<div class="card hero-empty"><h2>В этом ряду пока пусто</h2><p>Внесите приход, и товар появится на схеме.</p></div>';
+  h+='<p class="note">Каждая строка — секция, колонки — этажи. В плитке: сколько коробок и название товара. Нажмите на плитку, чтобы увидеть, что в ячейке, или положить товар в пустую. Красная рамка — проблема в ячейке.</p>';
+  return h;
+}
+function mapGo(){
+  var v=gv('mapJump').replace(/\D/g,''); if(!v) return toast('Введите номер секции',true);
+  var n=Number(v); if(n<1||n>cfg.sections) return toast('Секции с таким номером нет (1–'+cfg.sections+')',true);
+  var id='sec-'+pad(n), el=document.getElementById(id);
+  if(!el){S.map.only=false;render();el=document.getElementById(id)}
+  if(el){try{el.scrollIntoView({block:'center'})}catch(e){} el.classList.add('flash'); setTimeout(function(){el.classList.remove('flash')},1800)}
+}
 function whoLine(m){
   if(!m.byName) return '';
   return '<div class="mv-s">Внёс: '+esc(m.byName)+(m.editedByName?' · исправил: '+esc(m.editedByName):'')+'</div>';
