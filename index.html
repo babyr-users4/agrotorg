@@ -202,13 +202,16 @@ input.cellinp{font:600 24px/1 var(--f-mono);letter-spacing:.08em;text-align:cent
 /* 0.20: шапка */
 .top{padding:8px 14px;gap:8px}
 .logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#000));box-shadow:0 2px 6px rgba(0,0,0,.25)}
-.brandwrap{gap:9px;flex:1 1 auto}
-.brand{font:800 17px/1.1 var(--f-head);letter-spacing:.02em;min-width:0}
-.brand #appName{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.brand small.ver{display:none}
-.brand small#sub{font-size:11.5px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top{flex-wrap:wrap;row-gap:6px}
+.brandwrap{display:contents}
+.logo{order:1}
+.topr{order:2;margin-left:auto}
+.brand{order:3;flex:1 1 100%;font:800 17px/1.2 var(--f-head);letter-spacing:.01em;min-width:0;display:flex;flex-direction:column;gap:1px}
+.brand #appName{display:block;overflow-wrap:anywhere}
+.brand small.ver{display:block;font-size:11.5px;opacity:.9;margin-top:0}
+.brand small#sub{font-size:11.5px;margin-top:0}
 .topr{flex:none}
-@media (max-width:430px){.top .icon-btn{width:36px;height:36px}.topr{gap:5px}.brand{font-size:16px}}
+@media (max-width:430px){.top .icon-btn{width:38px;height:38px}.brand{font-size:16px}}
 html[data-size="big"] .top .icon-btn{width:40px;height:40px}
 @media (max-width:430px){html[data-size="big"] .top .icon-btn{width:38px;height:38px}}
 .rqb{position:relative}
@@ -241,7 +244,7 @@ html .mapbar .btn.sm{min-height:36px}
 .mapjump{display:flex;gap:6px;margin-left:auto}
 .mapjump input{width:92px;min-height:36px;padding:0 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);font-size:15px}
 .mp2{display:grid;grid-template-columns:34px repeat(var(--nf),1fr);gap:6px;align-items:stretch;margin-bottom:6px;scroll-margin-top:70px}
-.mp2.hd{position:sticky;top:calc(env(safe-area-inset-top,0px) + 56px);z-index:3;background:var(--bg);padding:4px 0;font-size:12px;color:var(--muted);text-align:center;margin-bottom:2px}
+.mp2.hd{padding:4px 0;font-size:12px;color:var(--muted);text-align:center;margin-bottom:2px}
 .mp2n{display:grid;place-items:center;font:700 14px/1 var(--f-head);color:var(--muted)}
 .mp2.flash .mp2n{color:var(--accent)}
 .mt2{position:relative;min-height:46px;border-radius:10px;border:2px solid var(--c,var(--line));background:linear-gradient(to top,color-mix(in srgb,var(--c) 40%,transparent) var(--f,0%),var(--surface) var(--f,0%));color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:2px 4px;min-width:0}
