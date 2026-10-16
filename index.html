@@ -245,6 +245,8 @@ html .mapbar .btn.sm{min-height:36px}
 .rqi p{margin:4px 0;font-size:15px;line-height:1.35;white-space:pre-wrap;word-break:break-word}
 .rqi-s{font-size:12.5px;color:var(--muted);margin-bottom:6px}.rqi.op .rqi-s{color:#ff9f1c;font-weight:600}.rqi.dn .rqi-s{color:var(--ok)}
 html .fchip.xsc,html[data-size] .fchip.xsc{min-height:32px!important;font-size:13px!important;padding:0 12px!important}
+.mv-a .linkbtn{display:inline-flex;align-items:center;border:1.5px solid var(--bad);color:var(--bad);background:transparent;border-radius:8px;padding:0 14px;min-height:36px;font-weight:600;font-size:14px;text-decoration:none}
+.mv-a .linkbtn:active{background:var(--bad-bg)}
 .lgd{margin:-6px 0 12px}.lgd summary{font-size:12.5px;color:var(--muted);cursor:pointer;padding:4px 0;list-style:none}.lgd summary::before{content:'▸ '}.lgd[open] summary::before{content:'▾ '}
 .lgd .legend{margin:2px 0 6px}
 .inst{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 10px;margin:0 0 10px}
@@ -780,7 +782,7 @@ function renderStock0(){
   var h=banner()+(S.view==='map'?'':'<div class="stats">'+
     '<div class="stat"><b>'+D.boxes+'</b><span>коробок на складе</span></div>'+
     '<div class="stat"><b>'+D.cells.size+'</b><span>ячеек занято из '+totalCells+'</span></div>'+
-    '<div class="stat'+(alerts?' warn tap':'')+'"'+(alerts?' role="button" tabindex="0" data-act="lowOpen"':'')+'><b>'+alerts+'</b><span>партий, срок '+alThr+'% и ниже'+(alerts?' · нажмите':'')+'</span></div></div>'+expectNote()+(D.lots.size?'<details class="lgd"><summary>Цвета срока годности</summary>'+legendHtml()+'</details>':''));
+    '<div class="stat'+(alerts?' warn tap':'')+'"'+(alerts?' role="button" tabindex="0" data-act="lowOpen"':'')+'><b>'+alerts+'</b><span>партий, срок '+alThr+'% и ниже'+(alerts?' · нажмите':'')+'</span></div></div>'+expectNote()+(D.lots.size?legendHtml().replace(/<span><i[^>]*><\/i>срок истёк<\/span>/,''):''));
   if(!lots.length){
     return h+'<div class="card hero-empty"><h2>На складе пока пусто</h2><p>Внесите товар, который уже лежит на стеллажах, и новые поставки через «Приход». Укажите реальные даты производства и сроки годности, ячейку и количество.</p><button class="btn" type="button" data-act="tab" data-tab="in">Внести приход</button></div>';
   }
