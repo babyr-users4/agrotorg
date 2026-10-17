@@ -291,7 +291,6 @@ html .mv-a .linkbtn{min-height:30px;font-size:13px;padding:0 10px}
 html .cc-act{gap:8px!important}
 html .cc-act .btn.xs,html[data-size] .cc-act .btn.xs{min-height:38px!important;height:38px;padding:0 14px!important;font-size:14px!important;flex:1 1 auto;border-radius:9px}
 #stockTop[hidden]{display:none}
-#stockTop .stats{grid-template-columns:repeat(2,1fr)}
 .alertbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-4px 0 12px;padding:10px 14px;border-radius:12px;background:rgba(229,72,77,.16);border:1px solid rgba(229,72,77,.55);color:var(--ink);font-size:14px;cursor:pointer}
 .alertbar b{font:700 18px/1 var(--f-head);color:#ff6b6f}
 .alertbar span{font-weight:700;color:#ff8a8d;white-space:nowrap}
@@ -558,7 +557,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.24.2</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.24.3</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -842,7 +841,7 @@ function renderStock0(){
   var h=banner()+(S.view==='map'?'':'<div class="stats">'+
     '<div class="stat"><b>'+D.boxes+'</b><span>коробок на складе</span></div>'+
     '<div class="stat"><b>'+D.cells.size+'</b><span>ячеек занято из '+totalCells+'</span></div>'+
-    '</div>'+(alerts?'<div class="alertbar" role="button" tabindex="0" data-act="lowOpen"><div><b>'+alerts+'</b> '+(alerts%10===1&&alerts%100!==11?'дата':(alerts%10>=2&&alerts%10<=4&&(alerts%100<10||alerts%100>=20)?'даты':'дат'))+' на исходе · срок '+alThr+'% и ниже</div><span>Открыть ›</span></div>':'')+'<!--SRCH-->'+(D.lots.size?legendHtml().replace(/<span><i[^>]*><\/i>срок истёк<\/span>/,''):'')+expectNote());
+    '<div class="stat'+(alerts?' warn tap':'')+'"'+(alerts?' role="button" tabindex="0" data-act="lowOpen"':'')+'><b>'+alerts+'</b><span>дат со сроком '+alThr+'% и ниже'+(alerts?' · нажмите':'')+'</span></div></div>'+'<!--SRCH-->'+(D.lots.size?legendHtml().replace(/<span><i[^>]*><\/i>срок истёк<\/span>/,''):'')+expectNote());
   if(!lots.length){
     return h+'<div class="card hero-empty"><h2>На складе пока пусто</h2><p>Внесите товар, который уже лежит на стеллажах, и новые поставки через «Приход». Укажите реальные даты производства и сроки годности, ячейку и количество.</p><button class="btn" type="button" data-act="tab" data-tab="in">Внести приход</button></div>';
   }
@@ -1787,7 +1786,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.24.2</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.24.3</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1840,7 +1839,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.24.2 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.24.3 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1867,7 +1866,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.24.2) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.24.3) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -2898,7 +2897,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.24.2</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.24.3</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
