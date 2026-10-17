@@ -562,7 +562,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.25.2</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.25.3</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -613,7 +613,7 @@ var DEFAULTS={
     {id:'p2',name:'Карамель Алматинский Зазнайка',short:'Зазнайка',cap:80,color:'#B9449A'},
     {id:'p3',name:'Шоколад Казахстанский 3*2',short:'Шоколад 3*2',cap:108,color:'#8B5A2B'}
   ],
-  cities:[], rows:[10,11,12,13], floors:[3,4,5,6], sections:92, capacity:80, maxLots:2, bigIn:60, bigOut:150, bigAdj:40, warnDays:30, warnPct:65,
+  cities:[], rows:[10,11,12,13], floors:[3,4,5,6], sections:92, capacity:80, maxLots:2, bigOn:true, bigIn:60, bigOut:150, bigAdj:40, warnDays:30, warnPct:65,
   shelf:[{min:50,color:'#1E9E5E'},{min:25,color:'#C79A00'},{min:10,color:'#E0701A'},{min:0,color:'#D32F2F'}],
   expiredColor:'#9B1C1C',
   title:'Агроторг', notice:{on:false,text:''}
@@ -637,7 +637,7 @@ function normCfg(d){
   if(Array.isArray(d.cities)) c.cities=d.cities.map(String);
   if(Array.isArray(d.rows)&&d.rows.length) c.rows=d.rows.map(Number);
   if(Array.isArray(d.floors)&&d.floors.length) c.floors=d.floors.map(Number);
-  ['sections','capacity','warnDays','warnPct','maxLots','bigIn','bigOut','bigAdj'].forEach(function(k){ if(Number.isFinite(d[k])) c[k]=d[k]; });
+  ['sections','capacity','warnDays','warnPct','maxLots','bigIn','bigOut','bigAdj'].forEach(function(k){ if(Number.isFinite(d[k])) c[k]=d[k]; }); c.bigOn=(d.bigOn!==false);
   return c;
 }
 var cfg=clone(DEFAULTS), moves=[], ALLM=[], D=derive([]), loaded=false, db=null, dbState='connecting', busy=false;
@@ -1568,7 +1568,7 @@ function updateInv(){
 }
 function applyInv(){
   var p=planInv(S.inv); if(!p.ok||busy||!canSave()) return;
-  var _d=0; (p.ch||[]).forEach(function(x){_d+=Math.abs(x.now-x.l.qty)}); if(cfg.bigAdj>0&&_d>=cfg.bigAdj&&!askWarn(['пересчёт меняет остаток на '+_d+' кор. — '+bigTxt(_d)])) return;
+  var _d=0; (p.ch||[]).forEach(function(x){_d+=Math.abs(x.now-x.l.qty)}); if(cfg.bigOn!==false&&cfg.bigAdj>0&&_d>=cfg.bigAdj&&!askWarn(['пересчёт меняет остаток на '+_d+' кор. — '+bigTxt(_d)])) return;
   busy=true; updateInv();
   var cell=S.inv.cell, cm=D.cells.get(cell), recs=[];
   if(p.ch.length) p.ch.forEach(function(x){recs.push({type:'adj',product:x.l.product,prod:x.l.prod,exp:x.l.exp,cell:cell,qty:x.now-x.l.qty,prev:x.l.qty,now:x.now})});
@@ -1793,7 +1793,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.25.2</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.25.3</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1846,7 +1846,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.25.2 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.25.3 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1873,7 +1873,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.25.2) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.25.3) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1904,7 +1904,7 @@ function printReport(){
 
 /* ---------- settings ---------- */
 function openSettings0(){
-  S.draft={products:clone(cfg.products),cities:cfg.cities.slice(),capacity:String(cfg.capacity),maxLots:String(cfg.maxLots),bigIn:String(cfg.bigIn),bigOut:String(cfg.bigOut),bigAdj:String(cfg.bigAdj),sections:String(cfg.sections),rows:cfg.rows.join(', '),floors:cfg.floors.join(', '),warnPct:String(cfg.warnPct),newCity:'',shelf:cfg.shelf.map(function(x){return {min:String(x.min),color:x.color}}),expiredColor:cfg.expiredColor};
+  S.draft={products:clone(cfg.products),cities:cfg.cities.slice(),capacity:String(cfg.capacity),maxLots:String(cfg.maxLots),bigOn:cfg.bigOn!==false,bigIn:String(cfg.bigIn),bigOut:String(cfg.bigOut),bigAdj:String(cfg.bigAdj),sections:String(cfg.sections),rows:cfg.rows.join(', '),floors:cfg.floors.join(', '),warnPct:String(cfg.warnPct),newCity:'',shelf:cfg.shelf.map(function(x){return {min:String(x.min),color:x.color}}),expiredColor:cfg.expiredColor};
   S.draft.title=cfg.title; S.draft.noticeText=cfg.notice.text; S.draft.noticeOn=cfg.notice.on;
   S.settings=true; renderSheet();
 }
@@ -1935,16 +1935,21 @@ function renderSheet0(){
   '<section class="group"><h2 class="lbl">Стеллажи</h2><div class="stack">'+
   '<div class="field"><label for="dCap">Лимит ячейки для нового товара, коробок</label><input id="dCap" type="number" inputmode="numeric" data-d="capacity" value="'+esc(d.capacity)+'"></div>'+
   '<div class="field"><label for="dLots">Разных дат в одной ячейке (одного товара)</label><input id="dLots" type="number" inputmode="numeric" data-d="maxLots" value="'+esc(d.maxLots)+'"></div>'+
-  '<h3 class="lbl" style="margin:16px 0 4px">Подтверждение крупных действий</h3><p class="note" style="margin:0 0 8px">Если количество равно этому числу или больше, программа переспросит «Всё верно?». Ноль — не спрашивать.</p>'+
-  '<div class="field"><label for="dBigIn">Приход, коробок за один раз</label><input id="dBigIn" type="number" inputmode="numeric" data-d="bigIn" value="'+esc(d.bigIn)+'"></div>'+
-  '<div class="field"><label for="dBigOut">Отгрузка, коробок за одну отправку</label><input id="dBigOut" type="number" inputmode="numeric" data-d="bigOut" value="'+esc(d.bigOut)+'"></div>'+
-  '<div class="field"><label for="dBigAdj">Списание и пересчёт, коробок</label><input id="dBigAdj" type="number" inputmode="numeric" data-d="bigAdj" value="'+esc(d.bigAdj)+'"></div>'+
   '<div class="field"><label for="dRows">Ряды</label><input id="dRows" type="text" data-d="rows" value="'+esc(d.rows)+'"></div>'+
   '<div class="field"><label for="dSec">Секций в ряду (до 99)</label><input id="dSec" type="number" inputmode="numeric" data-d="sections" value="'+esc(d.sections)+'"></div>'+
   '<div class="field"><label for="dFl">Этажи, куда можно класть товар</label><input id="dFl" type="text" data-d="floors" value="'+esc(d.floors)+'"></div>'+
-  '<div class="field"><label for="dWarn">Предупреждать о сроке, когда остаток срока (%) и ниже</label><input id="dWarn" type="number" inputmode="numeric" min="1" max="100" data-d="warnPct" value="'+esc(d.warnPct)+'"></div></div></section>'+
+  '<div class="field"><label for="dWarn">Предупреждать о сроке, когда остаток срока (%) и ниже</label><input id="dWarn" type="number" inputmode="numeric" min="1" max="100" data-d="warnPct" value="'+esc(d.warnPct)+'"></div></div></section>'+bigGroupHtml(d)+
   titleGroupHtml(d)+shelfGroupHtml(d)+uiGroupHtml()+accountGroupHtml()+staffGroupHtml()+importGroupHtml()+bkGroupHtml2()+'<button class="btn" type="button" style="width:100%" data-act="saveSettings"'+(canSave()?'':' disabled')+'>Сохранить</button></div></div>';
 }
+function bigGroupHtml(d){
+  var on=d.bigOn!==false;
+  var seg=[['1','Включено'],['0','Выключено']].map(function(o){return '<button type="button" data-act="bigOn" data-v="'+o[0]+'" aria-pressed="'+((on?'1':'0')===o[0])+'">'+o[1]+'</button>'}).join('');
+  return '<section class="group"><h2 class="lbl">Подтверждение крупных действий</h2><div class="stack"><div class="seg" role="group" aria-label="Подтверждение крупных действий">'+seg+'</div>'+
+  '<p class="note" style="margin:0">Если количество равно этому числу или больше, программа переспросит «Всё верно?». Ноль — не спрашивать для этого действия.</p>'+
+  (on?'<div class="field"><label for="dBigIn">Приход, коробок за один раз</label><input id="dBigIn" type="number" inputmode="numeric" data-d="bigIn" value="'+esc(d.bigIn)+'"></div>'+
+  '<div class="field"><label for="dBigOut">Отгрузка, коробок за одну отправку</label><input id="dBigOut" type="number" inputmode="numeric" data-d="bigOut" value="'+esc(d.bigOut)+'"></div>'+
+  '<div class="field"><label for="dBigAdj">Списание и пересчёт, коробок</label><input id="dBigAdj" type="number" inputmode="numeric" data-d="bigAdj" value="'+esc(d.bigAdj)+'"></div>':'')+
+  '</div></section>'}
 function shelfGroupHtml(d){
   var rows=d.shelf.map(function(x,i){
     return '<div class="shrow"><input type="color" data-sh="'+i+'" data-sf="color" value="'+esc(x.color)+'" aria-label="Цвет уровня '+(i+1)+'">'+
@@ -1997,7 +2002,7 @@ function saveSettings(){
   var nt=String(d.noticeText||'').trim(); if(d.noticeOn&&!nt) return toast('Введите текст объявления или выключите его',true);
   c.title=tt.slice(0,60); c.notice={on:!!d.noticeOn,text:nt.slice(0,2000)};
   c.shelf=sh; c.expiredColor=d.expiredColor;
-  c.products=prods; c.cities=d.cities.slice(); c.capacity=cap; c.maxLots=ml; c.bigIn=bi; c.bigOut=bo; c.bigAdj=ba; c.sections=sec; c.warnPct=warn; c.warnDays=cfg.warnDays; c.rows=rows; c.floors=floors;
+  c.products=prods; c.cities=d.cities.slice(); c.capacity=cap; c.maxLots=ml; c.bigIn=bi; c.bigOut=bo; c.bigAdj=ba; c.bigOn=d.bigOn!==false; c.sections=sec; c.warnPct=warn; c.warnDays=cfg.warnDays; c.rows=rows; c.floors=floors;
   busy=true;
   saveCfg(c).then(function(){cfg=normCfg(c);S.settings=false;renderSheet();render();toast('Настройки сохранены')})
     .catch(function(e){toast(errText(e),true)}).then(function(){busy=false});
@@ -2011,7 +2016,7 @@ function monTxt(d){var m=Math.round(d/30.4);return m>=1?m+' мес.':Math.round(
 function minAgo(ts){return Math.max(1,Math.round((Date.now()-Date.parse(ts))/60000))}
 var FLASHID='';
 function bigTxt(n){return 'большое количество: '+n+' кор. за один раз'}
-function inWarnings(r){var _w=inWarnings0(r), _q=Number(r&&r.q)||0; if(cfg.bigIn>0&&_q>=cfg.bigIn) _w.push(bigTxt(_q)); return _w}
+function inWarnings(r){var _w=inWarnings0(r), _q=Number(r&&r.q)||0; if(cfg.bigOn!==false&&cfg.bigIn>0&&_q>=cfg.bigIn) _w.push(bigTxt(_q)); return _w}
 function inWarnings0(r){
   var w=[], td=todayIso();
   if(F.exp&&F.exp<td) w.push('срок годности уже истёк ('+fmt(F.exp)+')');
@@ -2026,7 +2031,7 @@ function inWarnings0(r){
   if(dup) w.push('точно такая же запись уже внесена '+minAgo(dup.ts)+' мин. назад');
   return w;
 }
-function outWarnings(ls,city){var _w=outWarnings0(ls,city), _t=0; ls.forEach(function(l){_t+=Number(l.qty)||0}); if(cfg.bigOut>0&&_t>=cfg.bigOut) _w.push(bigTxt(_t)); return _w}
+function outWarnings(ls,city){var _w=outWarnings0(ls,city), _t=0; ls.forEach(function(l){_t+=Number(l.qty)||0}); if(cfg.bigOn!==false&&cfg.bigOut>0&&_t>=cfg.bigOut) _w.push(bigTxt(_t)); return _w}
 function outWarnings0(ls,city){
   var w=[], td=todayIso(), tot=0;
   ls.forEach(function(l){tot+=l.qty; if(l.exp&&l.exp<td) w.push('дата с истёкшим сроком: '+product(l.product).name+', годен до '+fmt(l.exp)+' (ячейка '+l.cell+')')});
@@ -2131,6 +2136,7 @@ document.addEventListener('click',function(e){
     case 'logFilt': S.logFiltOpen=!S.logFiltOpen; return render();
     case 'logView': S.logView=el.dataset.v; S.logLimit=50; S.confirmDel=null; return render();
     case 'period': S.period=el.dataset.p; S.logLimit=50; return render();
+    case 'bigOn': S.draft.bigOn=el.dataset.v==='1'; return renderSheet();
     case 'noticeOn': S.draft.noticeOn=el.dataset.v==='1'; return renderSheet();
     case 'calcOpen': S.calc=calcDef(); renderSheet(); return updateCalc();
     case 'gMore': S.gLimit+=30; return gUpdate();
@@ -2637,7 +2643,7 @@ function woUpdate(){
 }
 function woSave(){
   var p=woPlan(S.wo); if(!p.ok||busy||!canSave()) return;
-  if(!askWarn(['списание '+p.q+' кор.'+(cfg.bigAdj>0&&p.q>=cfg.bigAdj?' — '+bigTxt(p.q):'')+' из ячейки '+S.wo.cell+', вернуть можно только пересчётом'])) return;
+  if(!askWarn(['списание '+p.q+' кор.'+(cfg.bigOn!==false&&cfg.bigAdj>0&&p.q>=cfg.bigAdj?' — '+bigTxt(p.q):'')+' из ячейки '+S.wo.cell+', вернуть можно только пересчётом'])) return;
   busy=true; woUpdate();
   var l=p.lot, w=S.wo;
   addMove({type:'adj',writeoff:true,reason:p.reason,product:l.product,prod:l.prod,exp:l.exp,cell:w.cell,qty:-p.q,prev:l.qty,now:l.qty-p.q}).then(function(){
@@ -2906,7 +2912,7 @@ function openSettings(){openSettings0(); pushLoadKey().then(function(){if(S.sett
 /* ---------- вкладки настроек ---------- */
 var STAB_ADM=[['wh','Склад'],['look','Вид и звук'],['ntf','Уведомления'],['ppl','Люди'],['dat','Данные']];
 var STAB_USR=[['ppl','Аккаунт'],['look','Вид и звук'],['ntf','Уведомления']];
-var STAB_OF={'Товары':'wh','Города отгрузки':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление (только на этом телефоне)':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
+var STAB_OF={'Подтверждение крупных действий':'wh','Товары':'wh','Города отгрузки':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление (только на этом телефоне)':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
 function settingsTabs(){
   if(!S.settings) return;
   var sh=document.querySelector('#sheetRoot .sheet[aria-label="Настройки"]'); if(!sh) return;
@@ -2919,7 +2925,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.25.2</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.25.3</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
