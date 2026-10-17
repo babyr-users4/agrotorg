@@ -284,7 +284,7 @@ html .mv-a .linkbtn{min-height:30px;font-size:13px;padding:0 10px}
 .mapv>.scrollrow{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:6px;padding-bottom:6px;margin-bottom:0}
 .mapv .mp2.hd{position:sticky;top:46px;z-index:4;background:var(--bg);margin-bottom:4px}
 .lgd{margin:-6px 0 12px}
-.okflash{position:fixed;inset:0;z-index:60;pointer-events:none;border-radius:0;box-shadow:inset 0 0 0 5px rgba(46,204,113,.85),inset 0 0 60px rgba(46,204,113,.35);animation:okf .8s ease-out forwards}
+.okflash{position:fixed;inset:0;z-index:60;pointer-events:none;border-radius:0;background:rgba(46,204,113,.16);box-shadow:inset 0 0 0 8px rgba(46,204,113,.95),inset 0 0 90px rgba(46,204,113,.5);animation:okf 1s ease-out forwards}
 @keyframes okf{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
 .card.mv.flash{animation:mvf 1.6s ease-out}
 @keyframes mvf{0%{background:rgba(46,204,113,.42);box-shadow:0 0 0 2px rgba(46,204,113,.9)}100%{background:transparent;box-shadow:0 0 0 0 rgba(46,204,113,0)}}
@@ -562,7 +562,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.25.1</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.25.2</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -772,7 +772,7 @@ function saveCfg(c){return withRetry(function(){return db.doc('config/main').set
 /* ---------- ui helpers ---------- */
 var toastTimer=null;
 function okFlash(){if(UI.flash==='0') return; var f=document.createElement('div');f.className='okflash';document.body.appendChild(f);setTimeout(function(){f.remove()},900)}
-function toast0(msg,bad){if(!bad) okFlash(); var t=$('#toast');t.textContent=String(msg).replace(/(\d\d)-(\d\d)-(\d)/g,'$1‑$2‑$3');t.className='show'+(bad?' bad':'');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.className=''},bad?4800:2800)}
+function toast0(msg,bad){var t=$('#toast');t.textContent=String(msg).replace(/(\d\d)-(\d\d)-(\d)/g,'$1‑$2‑$3');t.className='show'+(bad?' bad':'');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.className=''},bad?4800:2800)}
 function banner0(){return dbState==='none'?'<div class="banner">Нет связи с сервером, данные не сохраняются. Проверьте интернет и обновите страницу.</div>':(ME&&ME.role==='viewer'?'<div class="banner">Режим просмотра: вносить изменения нельзя.</div>':'')}
 function expiryPill(l){
   var i=lotInfo(l);
@@ -1793,7 +1793,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.25.1</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.25.2</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1846,7 +1846,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.25.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.25.2 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1873,7 +1873,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.25.1) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.25.2) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -2762,13 +2762,15 @@ var SND={
   warn:function(t){tone(784,t,.1,'sine',.18);tone(784,t+.15,.12,'sine',.18)},
   req:function(t){[784,988,1319].forEach(function(f,i){tone(f,t+i*.13,.28,'sine',.2)});tone(1976,t+.4,.35,'sine',.07)}
 };
-function snd(n){
+function snd(n){sndPlayed=true;
   if(UI.snd==='0'||!SND[n]) return;
   var now=Date.now(); if(n==='tap'&&now-lastSnd<40) return; lastSnd=now;
   var c=sndCtx(); if(!c) return;
   try{SND[n](c.currentTime+0.01)}catch(e){}
 }
+var sndPlayed=false;
 function toastSnd(m,bad){
+  sndPlayed=false;
   if(bad){snd('err');try{if(UI.snd!=='0'&&navigator.vibrate) navigator.vibrate([50,40,50])}catch(e){} return}
   m=String(m);
   if(/^Отгружено /.test(m)) return snd('out');
@@ -2781,7 +2783,8 @@ function toastSnd(m,bad){
   if(/^(Запись отменена|Удалено из ожидаемых)/.test(m)) return snd('cancel');
   if(/^(Запись возвращена|Приход исправлен|Исправление сохранено|Сохранено|Настройки сохранены|Сотрудник добавлен|Ожидаемый приход добавлен|Роль изменена|Пароль изменён)/.test(m)) return snd('ok');
 }
-function toast(msg,bad){toastSnd(msg,bad); toast0(msg,bad)}
+var DONE_RE=/^(Принято|Отгружено|Списано|Перемещено|Добавлено|Выполнено|Запрос отправлен|Запись отменена|Запись возвращена|Запись удалена|Запрос удалён|Запросов удалено|Удалено|Исправление сохранено|Приход исправлен|Сохранено|Настройки сохранены|Сотрудник добавлен|Ожидаемый приход добавлен|Роль изменена|Пароль изменён|Загружено записей|Уведомления включены|PDF сохранён|Скопировано|Итог скопирован|Закрыто)|Пересчёт записан|пересчитана/;
+function toast(msg,bad){var done=!bad&&DONE_RE.test(String(msg)); toastSnd(msg,bad); if(done&&!sndPlayed) snd('ok'); toast0(msg,bad); if(done){okFlash(); try{if(UI.snd!=='0'&&navigator.vibrate) navigator.vibrate(25)}catch(e){}}}
 document.addEventListener('click',function(e){
   var el=e.target.closest&&e.target.closest('button,[data-act]'); if(!el||el.disabled) return;
   var a=el.dataset.act||'';
@@ -2916,7 +2919,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.25.1</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.25.2</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
