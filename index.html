@@ -284,6 +284,11 @@ html .mv-a .linkbtn{min-height:30px;font-size:13px;padding:0 10px}
 .mapv>.scrollrow{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:6px;padding-bottom:6px;margin-bottom:0}
 .mapv .mp2.hd{position:sticky;top:46px;z-index:4;background:var(--bg);margin-bottom:4px}
 .lgd{margin:-6px 0 12px}
+.okflash{position:fixed;inset:0;z-index:60;pointer-events:none;border-radius:0;box-shadow:inset 0 0 0 5px rgba(46,204,113,.85),inset 0 0 60px rgba(46,204,113,.35);animation:okf .8s ease-out forwards}
+@keyframes okf{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
+.card.mv.flash{animation:mvf 1.6s ease-out}
+@keyframes mvf{0%{background:rgba(46,204,113,.42);box-shadow:0 0 0 2px rgba(46,204,113,.9)}100%{background:transparent;box-shadow:0 0 0 0 rgba(46,204,113,0)}}
+@media (prefers-reduced-motion: reduce){.okflash,.card.mv.flash{animation:none!important}.okflash{display:none}}
 .legend{flex-wrap:nowrap!important;gap:4px 9px!important;font-size:11.5px!important;white-space:nowrap;overflow:hidden}
 .legend span{white-space:nowrap}
 .card.prod .prod-h h2{flex:1 1 auto;min-width:0;white-space:normal}
@@ -557,7 +562,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.24.3</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.25.1</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -608,7 +613,7 @@ var DEFAULTS={
     {id:'p2',name:'Карамель Алматинский Зазнайка',short:'Зазнайка',cap:80,color:'#B9449A'},
     {id:'p3',name:'Шоколад Казахстанский 3*2',short:'Шоколад 3*2',cap:108,color:'#8B5A2B'}
   ],
-  cities:[], rows:[10,11,12,13], floors:[3,4,5,6], sections:92, capacity:80, maxLots:2, warnDays:30, warnPct:65,
+  cities:[], rows:[10,11,12,13], floors:[3,4,5,6], sections:92, capacity:80, maxLots:2, bigIn:60, bigOut:150, bigAdj:40, warnDays:30, warnPct:65,
   shelf:[{min:50,color:'#1E9E5E'},{min:25,color:'#C79A00'},{min:10,color:'#E0701A'},{min:0,color:'#D32F2F'}],
   expiredColor:'#9B1C1C',
   title:'Агроторг', notice:{on:false,text:''}
@@ -632,12 +637,12 @@ function normCfg(d){
   if(Array.isArray(d.cities)) c.cities=d.cities.map(String);
   if(Array.isArray(d.rows)&&d.rows.length) c.rows=d.rows.map(Number);
   if(Array.isArray(d.floors)&&d.floors.length) c.floors=d.floors.map(Number);
-  ['sections','capacity','warnDays','warnPct','maxLots'].forEach(function(k){ if(Number.isFinite(d[k])) c[k]=d[k]; });
+  ['sections','capacity','warnDays','warnPct','maxLots','bigIn','bigOut','bigAdj'].forEach(function(k){ if(Number.isFinite(d[k])) c[k]=d[k]; });
   return c;
 }
 var cfg=clone(DEFAULTS), moves=[], ALLM=[], D=derive([]), loaded=false, db=null, dbState='connecting', busy=false;
 var UI={theme:'dark',size:'big',dense:true,scale:'95',vol:'1.6',v:2};
-try{var u0=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u0.theme) UI.theme=u0.theme; if(u0.size) UI.size=u0.size; if(u0.scale) UI.scale=(u0.scale==='auto'?'95':u0.scale); if(u0.notif) UI.notif=u0.notif; if(u0.snd) UI.snd=u0.snd; if(['0.8','1.6','2.6'].indexOf(u0.vol)>=0) UI.vol=u0.vol; UI.dense=(u0.v===2?!!u0.dense:true);}catch(e){}
+try{var u0=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u0.theme) UI.theme=u0.theme; if(u0.size) UI.size=u0.size; if(u0.scale) UI.scale=(u0.scale==='auto'?'95':u0.scale); if(u0.notif) UI.notif=u0.notif; if(u0.snd) UI.snd=u0.snd; if(u0.flash) UI.flash=u0.flash; if(['0.8','1.6','2.6'].indexOf(u0.vol)>=0) UI.vol=u0.vol; UI.dense=(u0.v===2?!!u0.dense:true);}catch(e){}
 function applyUI(save){
   var h=document.documentElement;
   if(UI.theme==='light'||UI.theme==='dark') h.setAttribute('data-theme',UI.theme); else h.removeAttribute('data-theme');
@@ -761,12 +766,13 @@ function errText(e){
 }
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
 function withRetry(fn){return fn().catch(function(e){ if(e&&e.code==='unavailable') return sleep(400+Math.random()*400).then(fn); throw e; })}
-function addMove(m){var rec=Object.assign({},m,((m.type==='in'||m.type==='out')&&m.chk==null)?{chk:'bad',chkBy:null,chkByName:null,chkAt:null}:{},{ts:new Date().toISOString()},ME?{by:ME.uid,byName:ME.name,byLogin:ME.login}:{});return withRetry(function(){return db.collection('moves').add(rec)})}
+function addMove(m){var rec=Object.assign({},m,((m.type==='in'||m.type==='out')&&m.chk==null)?{chk:'bad',chkBy:null,chkByName:null,chkAt:null}:{},{ts:new Date().toISOString()},ME?{by:ME.uid,byName:ME.name,byLogin:ME.login}:{});return withRetry(function(){return db.collection('moves').add(rec)}).then(function(ref){FLASHID=(ref&&ref.id)||''; setTimeout(function(){FLASHID=''},8000); return ref})}
 function saveCfg(c){return withRetry(function(){return db.doc('config/main').set(c)})}
 
 /* ---------- ui helpers ---------- */
 var toastTimer=null;
-function toast0(msg,bad){var t=$('#toast');t.textContent=String(msg).replace(/(\d\d)-(\d\d)-(\d)/g,'$1‑$2‑$3');t.className='show'+(bad?' bad':'');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.className=''},bad?4800:2800)}
+function okFlash(){if(UI.flash==='0') return; var f=document.createElement('div');f.className='okflash';document.body.appendChild(f);setTimeout(function(){f.remove()},900)}
+function toast0(msg,bad){if(!bad) okFlash(); var t=$('#toast');t.textContent=String(msg).replace(/(\d\d)-(\d\d)-(\d)/g,'$1‑$2‑$3');t.className='show'+(bad?' bad':'');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.className=''},bad?4800:2800)}
 function banner0(){return dbState==='none'?'<div class="banner">Нет связи с сервером, данные не сохраняются. Проверьте интернет и обновите страницу.</div>':(ME&&ME.role==='viewer'?'<div class="banner">Режим просмотра: вносить изменения нельзя.</div>':'')}
 function expiryPill(l){
   var i=lotInfo(l);
@@ -1123,7 +1129,7 @@ function mvItem(m){
     where=nm+' · <span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span>';
     extra=(m.writeoff?'<div class="mv-s"><b>Причина: '+esc(m.reason||'не указана')+'</b></div>':'')+'<div class="mv-s">'+(q===0?'Пересчитано, совпало: '+esc(m.now)+' кор.':'Было '+esc(m.prev)+' → стало '+esc(m.now)+' кор.')+'</div>';
   }
-  return '<li class="card mv'+tdCls(m)+'">'+tdTag(m)+'<div class="mv-h">'+head+'<span class="when">'+t+'</span>'+(k==='out'||k==='in'?chkHtml(m):'')+'</div>'+
+  return '<li class="card mv'+tdCls(m)+(m.id&&m.id===FLASHID&&UI.flash!=='0'?' flash':'')+'">'+tdTag(m)+'<div class="mv-h">'+head+'<span class="when">'+t+'</span>'+(k==='out'||k==='in'?chkHtml(m):'')+'</div>'+
     '<div class="mv-b">'+where+'</div>'+
     '<div class="mv-s">Произв. '+fmt(m.prod)+' · годен до '+fmt(m.exp)+'</div>'+extra+whoLine(m)+chkNote(m)+
     (m.orig?'<div class="mv-s" style="color:var(--warn)">'+esc(origText(m))+'</div>':'')+
@@ -1562,6 +1568,7 @@ function updateInv(){
 }
 function applyInv(){
   var p=planInv(S.inv); if(!p.ok||busy||!canSave()) return;
+  var _d=0; (p.ch||[]).forEach(function(x){_d+=Math.abs(x.now-x.l.qty)}); if(cfg.bigAdj>0&&_d>=cfg.bigAdj&&!askWarn(['пересчёт меняет остаток на '+_d+' кор. — '+bigTxt(_d)])) return;
   busy=true; updateInv();
   var cell=S.inv.cell, cm=D.cells.get(cell), recs=[];
   if(p.ch.length) p.ch.forEach(function(x){recs.push({type:'adj',product:x.l.product,prod:x.l.prod,exp:x.l.exp,cell:cell,qty:x.now-x.l.qty,prev:x.l.qty,now:x.now})});
@@ -1781,12 +1788,12 @@ function reportHtml(sec){
     var L=cfg.shelf, lv=L.map(function(x,i){return i===0?'от '+x.min+'%':i===L.length-1?'ниже '+L[i-1].min+'%':x.min+'–'+(L[i-1].min-1)+'%'});
     h.push(rTable([['Параметр'],['Значение']],[
       ['Ряды',esc(cfg.rows.join(', '))],['Секций в ряду','1–'+cfg.sections],['Этажи под товар',esc(cfg.floors.join(', '))],
-      ['Дат с разными датами в ячейке',cfg.maxLots],['Предупреждать о сроке, когда остаток',cfg.warnPct+'% и ниже'],
+      ['Разных дат в ячейке',cfg.maxLots],['Предупреждать о сроке, когда остаток',cfg.warnPct+'% и ниже'],
       ['Города отгрузки',esc(cfg.cities.join(', ')||'—')],
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.24.3</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.25.1</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1839,7 +1846,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.24.3 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.25.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1866,7 +1873,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.24.3) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.25.1) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -1897,7 +1904,7 @@ function printReport(){
 
 /* ---------- settings ---------- */
 function openSettings0(){
-  S.draft={products:clone(cfg.products),cities:cfg.cities.slice(),capacity:String(cfg.capacity),maxLots:String(cfg.maxLots),sections:String(cfg.sections),rows:cfg.rows.join(', '),floors:cfg.floors.join(', '),warnPct:String(cfg.warnPct),newCity:'',shelf:cfg.shelf.map(function(x){return {min:String(x.min),color:x.color}}),expiredColor:cfg.expiredColor};
+  S.draft={products:clone(cfg.products),cities:cfg.cities.slice(),capacity:String(cfg.capacity),maxLots:String(cfg.maxLots),bigIn:String(cfg.bigIn),bigOut:String(cfg.bigOut),bigAdj:String(cfg.bigAdj),sections:String(cfg.sections),rows:cfg.rows.join(', '),floors:cfg.floors.join(', '),warnPct:String(cfg.warnPct),newCity:'',shelf:cfg.shelf.map(function(x){return {min:String(x.min),color:x.color}}),expiredColor:cfg.expiredColor};
   S.draft.title=cfg.title; S.draft.noticeText=cfg.notice.text; S.draft.noticeOn=cfg.notice.on;
   S.settings=true; renderSheet();
 }
@@ -1927,7 +1934,11 @@ function renderSheet0(){
   '<div class="add"><input type="text" data-d="newCity" value="'+esc(d.newCity)+'" placeholder="Новый город" aria-label="Новый город" autocomplete="off"><button class="btn sm" type="button" data-act="dCityAdd">Добавить</button></div></section>'+
   '<section class="group"><h2 class="lbl">Стеллажи</h2><div class="stack">'+
   '<div class="field"><label for="dCap">Лимит ячейки для нового товара, коробок</label><input id="dCap" type="number" inputmode="numeric" data-d="capacity" value="'+esc(d.capacity)+'"></div>'+
-  '<div class="field"><label for="dLots">Дат с разными датами в одной ячейке (одного товара)</label><input id="dLots" type="number" inputmode="numeric" data-d="maxLots" value="'+esc(d.maxLots)+'"></div>'+
+  '<div class="field"><label for="dLots">Разных дат в одной ячейке (одного товара)</label><input id="dLots" type="number" inputmode="numeric" data-d="maxLots" value="'+esc(d.maxLots)+'"></div>'+
+  '<h3 class="lbl" style="margin:16px 0 4px">Подтверждение крупных действий</h3><p class="note" style="margin:0 0 8px">Если количество равно этому числу или больше, программа переспросит «Всё верно?». Ноль — не спрашивать.</p>'+
+  '<div class="field"><label for="dBigIn">Приход, коробок за один раз</label><input id="dBigIn" type="number" inputmode="numeric" data-d="bigIn" value="'+esc(d.bigIn)+'"></div>'+
+  '<div class="field"><label for="dBigOut">Отгрузка, коробок за одну отправку</label><input id="dBigOut" type="number" inputmode="numeric" data-d="bigOut" value="'+esc(d.bigOut)+'"></div>'+
+  '<div class="field"><label for="dBigAdj">Списание и пересчёт, коробок</label><input id="dBigAdj" type="number" inputmode="numeric" data-d="bigAdj" value="'+esc(d.bigAdj)+'"></div>'+
   '<div class="field"><label for="dRows">Ряды</label><input id="dRows" type="text" data-d="rows" value="'+esc(d.rows)+'"></div>'+
   '<div class="field"><label for="dSec">Секций в ряду (до 99)</label><input id="dSec" type="number" inputmode="numeric" data-d="sections" value="'+esc(d.sections)+'"></div>'+
   '<div class="field"><label for="dFl">Этажи, куда можно класть товар</label><input id="dFl" type="text" data-d="floors" value="'+esc(d.floors)+'"></div>'+
@@ -1953,6 +1964,7 @@ function uiGroupHtml(){
     seg('Масштаб страницы','scale',[['auto','Авто'],['85','85%'],['95','95%'],['100','100%'],['115','115%']],UI.scale||'auto')+
     seg('Уведомления о действиях других','notif',[['1','Вкл'],['0','Выкл']],UI.notif==='0'?'0':'1')+
     seg('Список ячеек','dense',[['0','Обычный'],['1','Плотный']],UI.dense?'1':'0')+
+    seg('Зелёная вспышка после сохранения','flash',[['1','Вкл'],['0','Выкл']],UI.flash==='0'?'0':'1')+
     seg('Звуки','snd',[['1','Вкл'],['0','Выкл']],UI.snd==='0'?'0':'1')+
     seg('Громкость звуков','vol',[['0.8','Тихо'],['1.6','Обычно'],['2.6','Громко']],String(UI.vol||'1.6'))+
     '<div class="uirow" style="display:block"><span class="small">Послушать звуки</span><div class="chiprow" style="margin-top:6px">'+
@@ -1973,6 +1985,8 @@ function saveSettings(){
   if(!Number.isInteger(ml)||ml<1||ml>5) return toast('Дат в одной ячейке: от 1 до 5',true);
   if(!Number.isInteger(sec)||sec<1||sec>99) return toast('Секций в ряду: от 1 до 99',true);
   if(!Number.isInteger(warn)||warn<1||warn>100) return toast('Предупреждение о сроке: целое число процентов от 1 до 100',true);
+  var bi=Number(d.bigIn), bo=Number(d.bigOut), ba=Number(d.bigAdj);
+  if([bi,bo,ba].some(function(x){return !Number.isInteger(x)||x<0||x>9999})) return toast('Крупные действия: целые числа от 0 до 9999',true);
   var rows=parseList(d.rows,10,99), floors=parseList(d.floors,1,9);
   if(!rows) return toast('Ряды: двузначные номера через запятую, например 10, 11, 12, 13',true);
   if(!floors) return toast('Этажи: цифры от 1 до 9 через запятую, например 3, 4, 5, 6',true);
@@ -1983,7 +1997,7 @@ function saveSettings(){
   var nt=String(d.noticeText||'').trim(); if(d.noticeOn&&!nt) return toast('Введите текст объявления или выключите его',true);
   c.title=tt.slice(0,60); c.notice={on:!!d.noticeOn,text:nt.slice(0,2000)};
   c.shelf=sh; c.expiredColor=d.expiredColor;
-  c.products=prods; c.cities=d.cities.slice(); c.capacity=cap; c.maxLots=ml; c.sections=sec; c.warnPct=warn; c.warnDays=cfg.warnDays; c.rows=rows; c.floors=floors;
+  c.products=prods; c.cities=d.cities.slice(); c.capacity=cap; c.maxLots=ml; c.bigIn=bi; c.bigOut=bo; c.bigAdj=ba; c.sections=sec; c.warnPct=warn; c.warnDays=cfg.warnDays; c.rows=rows; c.floors=floors;
   busy=true;
   saveCfg(c).then(function(){cfg=normCfg(c);S.settings=false;renderSheet();render();toast('Настройки сохранены')})
     .catch(function(e){toast(errText(e),true)}).then(function(){busy=false});
@@ -1995,7 +2009,10 @@ function medianOf(a){if(!a.length) return 0;a=a.slice().sort(function(x,y){retur
 function isoDiffDays(a,b){return Math.round((Date.parse(b+'T00:00:00Z')-Date.parse(a+'T00:00:00Z'))/86400000)}
 function monTxt(d){var m=Math.round(d/30.4);return m>=1?m+' мес.':Math.round(d)+' дн.'}
 function minAgo(ts){return Math.max(1,Math.round((Date.now()-Date.parse(ts))/60000))}
-function inWarnings(r){
+var FLASHID='';
+function bigTxt(n){return 'большое количество: '+n+' кор. за один раз'}
+function inWarnings(r){var _w=inWarnings0(r), _q=Number(r&&r.q)||0; if(cfg.bigIn>0&&_q>=cfg.bigIn) _w.push(bigTxt(_q)); return _w}
+function inWarnings0(r){
   var w=[], td=todayIso();
   if(F.exp&&F.exp<td) w.push('срок годности уже истёк ('+fmt(F.exp)+')');
   if(F.prod&&F.prod>td) w.push('дата производства в будущем ('+fmt(F.prod)+')');
@@ -2009,7 +2026,8 @@ function inWarnings(r){
   if(dup) w.push('точно такая же запись уже внесена '+minAgo(dup.ts)+' мин. назад');
   return w;
 }
-function outWarnings(ls,city){
+function outWarnings(ls,city){var _w=outWarnings0(ls,city), _t=0; ls.forEach(function(l){_t+=Number(l.qty)||0}); if(cfg.bigOut>0&&_t>=cfg.bigOut) _w.push(bigTxt(_t)); return _w}
+function outWarnings0(ls,city){
   var w=[], td=todayIso(), tot=0;
   ls.forEach(function(l){tot+=l.qty; if(l.exp&&l.exp<td) w.push('дата с истёкшим сроком: '+product(l.product).name+', годен до '+fmt(l.exp)+' (ячейка '+l.cell+')')});
   var recent=moves.filter(function(m){return kindOf(m)==='out'&&ME&&m.by===ME.uid&&m.city===city&&Date.now()-Date.parse(m.ts)<180000});
@@ -2619,6 +2637,7 @@ function woUpdate(){
 }
 function woSave(){
   var p=woPlan(S.wo); if(!p.ok||busy||!canSave()) return;
+  if(!askWarn(['списание '+p.q+' кор.'+(cfg.bigAdj>0&&p.q>=cfg.bigAdj?' — '+bigTxt(p.q):'')+' из ячейки '+S.wo.cell+', вернуть можно только пересчётом'])) return;
   busy=true; woUpdate();
   var l=p.lot, w=S.wo;
   addMove({type:'adj',writeoff:true,reason:p.reason,product:l.product,prod:l.prod,exp:l.exp,cell:w.cell,qty:-p.q,prev:l.qty,now:l.qty-p.q}).then(function(){
@@ -2897,7 +2916,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.24.3</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.25.1</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
