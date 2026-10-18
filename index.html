@@ -563,10 +563,12 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 .wprog i{flex:1;height:5px;border-radius:3px;background:var(--line)}
 .wprog i.f{background:var(--accent)}
 .wstep{font-size:13px;color:var(--muted);margin-bottom:10px}
-.wh1{margin:0 0 12px;font-size:26px;line-height:1.15}
-.wsum{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 8px 8px 14px;border:1.5px solid var(--line);border-left:7px solid var(--pc,var(--line));border-radius:12px;background:var(--surface);margin-bottom:14px}
-.wsum .wn{flex:1;min-width:0;font-size:19px;font-weight:700;line-height:1.25}
-.wsum .wn small{display:block;font-size:16px;font-weight:500;margin-top:2px;font-variant-numeric:tabular-nums}
+.wh1{margin:0 0 8px;font-size:22px;line-height:1.15}
+.wrow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.wrow .lk{min-height:36px}
+.wsum{display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 6px 6px 12px;border:1.5px solid var(--line);border-left:7px solid var(--pc,var(--line));border-radius:12px;background:var(--surface);margin-bottom:10px}
+.wsum .wn{flex:1;min-width:0;font-size:18px;font-weight:700;line-height:1.2}
+.wsum .wn small{display:block;font-size:14px;font-weight:500;margin-top:1px;font-variant-numeric:tabular-nums}
 .lk{font-size:14px;font-weight:600;color:var(--accent);background:none;border:0;min-height:44px;padding:0 8px}
 .choice.big{min-height:72px;font-size:18px}
 .wfoot{position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 10px);display:flex;gap:10px;margin-top:18px;background:var(--bg);padding:8px 0;z-index:5}
@@ -582,17 +584,18 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 .qst button{min-width:56px;min-height:56px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:24px;line-height:1}
 .qst button.mx{font-size:15px;font-weight:600;padding:0 14px}
 .qst input{flex:1;min-width:0;min-height:56px;text-align:center;font-size:22px;font-weight:700}
-.wcell{border:1.5px solid var(--line);border-radius:16px;background:var(--surface);padding:14px;display:grid;gap:12px;margin-bottom:10px}
-.wcell.on{border-color:var(--accent);background:var(--accent-soft)}
-.wch{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.wch .cn{font:800 22px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em}
-.wch .qt{font-size:20px;font-weight:800;padding:5px 12px;border-radius:10px;background:var(--surface-2);white-space:nowrap}
-.wcell.on .qt{background:var(--accent);color:var(--accent-ink)}
-.wdr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:17px;font-weight:600;padding-top:10px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
-.wcell .step{gap:8px}
-.wcell .step button{width:52px;height:46px}
-.wcell .step input{width:72px;min-height:46px;font-size:20px}
-.wcell .step button.all{flex:1;width:auto;font-size:16px;font-weight:600}
+.wlot{border:1.5px solid var(--line);border-radius:14px;background:var(--surface);margin-bottom:10px;overflow:hidden}
+.wdr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px;font-weight:700;padding:8px 12px;background:var(--surface-2);font-variant-numeric:tabular-nums}
+.wcell{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px 8px 12px;border-top:1px solid var(--line)}
+.wcell.on{background:var(--accent-soft)}
+.wch{display:grid;gap:2px;min-width:0}
+.wch .cn{font:800 18px/1.1 ui-monospace,Menlo,monospace;letter-spacing:.05em}
+.wch .qt{font-size:14px;font-weight:700;color:var(--muted);white-space:nowrap}
+.wcell.on .qt{color:var(--accent)}
+.wcell .step{gap:5px;flex:none}
+.wcell .step button{width:40px;height:40px;font-size:20px}
+.wcell .step input{width:48px;min-height:40px;font-size:17px;padding:2px}
+.wcell .step button.all{width:auto;padding:0 12px;font-size:14px;font-weight:600}
 .wtot{display:flex;justify-content:space-between;align-items:center;padding:2px 4px;font-size:16px}
 .wtot b{font-size:20px}
 .wsl{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);font-variant-numeric:tabular-nums}
@@ -1197,19 +1200,20 @@ function renderOut(){
   }
   if(OUTSTEP===2){
     var lots=Array.from(D.lots.values()).filter(function(l){return l.product===O.product}).sort(byExp);
-    h+=wsumOut(2)+'<h1 class="wh1">Из каких ячеек берём?</h1><div class="note" style="margin:-4px 0 12px">Даты: произведено – годен до. Сверху те, у кого срок раньше.</div>'+
-      '<button type="button" class="lk" style="margin-bottom:6px" data-act="outAutoToggle">'+(OUTAUTO?'Скрыть подбор':'Подобрать по количеству')+'</button>'+
+    h+=wsumOut(2)+'<h1 class="wh1">Из каких ячеек берём?</h1>'+
+      '<div class="wrow"><span class="note">Сверху те, у кого срок раньше</span><button type="button" class="lk" data-act="outAutoToggle">'+(OUTAUTO?'Скрыть':'Подобрать')+'</button></div>'+
       (OUTAUTO?'<div class="autopick"><div class="field"><label for="outNeed">Нужно отгрузить, коробок</label><input id="outNeed" type="number" inputmode="numeric" min="1" value="'+esc(O.need)+'" placeholder="например 50"></div><button class="btn ghost" type="button" data-act="outAuto">Подобрать</button></div>':'');
     if(!lots.length) return h+'<div class="card hero-empty"><h2>Этого товара нет на складе</h2><p>Внесите приход, и он появится здесь.</p></div><div class="wfoot"><button class="btn ghost" type="button" data-act="outBack">Назад</button></div>';
     lots.forEach(function(l){
       var li=lotInfo(l), late=daysTo(l.exp)<0;
       var pill=late?'<span class="pill bad">Срок истёк</span>':(li.pct<=cfg.warnPct?'<span class="pill warn">Срок скоро</span>':'');
+      h+='<section class="wlot"><div class="wdr"><span>'+dmy(l.prod)+' – '+dmy(l.exp)+'</span>'+pill+'</div>';
       l.cells.forEach(function(c){
         var k=c.cell+'#'+l.key, v=O.q[k]||0;
         h+='<div class="wcell'+(v?' on':'')+'" data-ck="'+esc(k)+'"><div class="wch"><span class="cn">'+c.cell+'</span><span class="qt">'+c.qty+' кор.</span></div>'+
-          '<div class="wdr"><span>'+dmy(l.prod)+' – '+dmy(l.exp)+'</span>'+pill+'</div>'+
-          '<div class="step"><button type="button" data-act="outDec" aria-label="Меньше">−</button><input type="number" inputmode="numeric" min="0" max="'+c.qty+'" class="qin'+(v?' on':'')+'" data-k="'+esc(k)+'" data-have="'+c.qty+'" value="'+(v||'')+'" placeholder="0" aria-label="Коробок из '+c.cell+'"><button type="button" data-act="outInc" aria-label="Больше">+</button><button type="button" class="all" data-act="outAll">Все '+c.qty+'</button></div></div>';
+          '<div class="step"><button type="button" data-act="outDec" aria-label="Меньше">−</button><input type="number" inputmode="numeric" min="0" max="'+c.qty+'" class="qin'+(v?' on':'')+'" data-k="'+esc(k)+'" data-have="'+c.qty+'" value="'+(v||'')+'" placeholder="0" aria-label="Коробок из '+c.cell+'"><button type="button" data-act="outInc" aria-label="Больше">+</button><button type="button" class="all" data-act="outAll">Все</button></div></div>';
       });
+      h+='</section>';
     });
     return h+'<div class="wtot"><span>Выбрано</span><b><span id="outSel">0</span> кор.</b></div>'+
       '<div class="wfoot"><button class="btn ghost" type="button" data-act="outBack">Назад</button><button id="outNext2" class="btn" type="button" data-act="outNext" disabled>Далее: город</button></div>';
