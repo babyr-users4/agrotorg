@@ -510,7 +510,8 @@ html[data-size="big"] input[type=password]{min-height:56px;font-size:18px}
 .staffrow .sf-on{color:#1a7f4b;font-weight:600}.staffrow .sf-off{color:var(--muted)}\n.staffrow .sf-mt{color:var(--muted);font-size:13px}
 .staffrow .sf-ac{display:flex;gap:6px;flex-wrap:nowrap;align-items:center}
 .staffrow .sf-ac .btn{flex:none;min-height:44px;padding:0 10px;font-size:14px;white-space:nowrap}
-.staffrow .sf-ac select{flex:1 1 0;min-width:0;width:auto;font-size:14px;padding-left:8px;padding-right:4px}
+.staffrow .sf-ac select{flex:1 1 0;min-width:0;width:auto;font-size:14px;padding-left:8px;padding-right:2px}
+.staffrow .sf-ac .btn.danger,.staffrow .sf-ac .btn[data-act=staffOn]{padding:0 8px;font-size:13px}
 .staffrow.off .nm{text-decoration:line-through;color:var(--muted)}
 .staffrow select{min-height:44px;width:auto;max-width:100%}
 html[data-scale="85"]{zoom:.85}html[data-scale="95"]{zoom:.95}html[data-scale="100"]{zoom:1}html[data-scale="115"]{zoom:1.15}
@@ -567,6 +568,8 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 .wprog i{flex:1;height:5px;border-radius:3px;background:var(--line)}
 .wprog i.f{background:var(--accent)}
 .wstep{font-size:13px;color:var(--muted);margin-bottom:10px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wq{font-size:19px!important;font-weight:700;color:var(--ink)!important}
 .wh1{margin:0 0 8px;font-size:22px;line-height:1.15}
 .apick{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:end;margin-bottom:6px}
 .apick .btn{min-height:48px;padding:0 12px;font-size:15px}
@@ -621,7 +624,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.27.0</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.27.1</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -1119,10 +1122,10 @@ function renderIn(){
     return h;
   }
   var srcs=sourcesList().slice(0,6);
-  h+=wsumIn(3)+'<h1 class="wh1">Откуда и куда?</h1>'+(F.planId?planNoteHtml():'')+
-    '<section class="group"><div class="field"><label for="inFrom">Откуда пришло</label><input id="inFrom" type="text" list="srcList" autocomplete="off" placeholder="завод, поставщик, склад" value="'+esc(F.from)+'">'+srcDatalist()+'</div>'+
+  h+=wsumIn(3)+'<h1 class="wh1">Откуда приход?</h1>'+(F.planId?planNoteHtml():'')+
+    '<section class="group"><div class="field"><label for="inFrom" class="sr">Откуда пришло</label><input id="inFrom" type="text" list="srcList" autocomplete="off" placeholder="завод, поставщик, склад" value="'+esc(F.from)+'">'+srcDatalist()+'</div>'+
     (srcs.length?'<div class="mchips" style="flex-wrap:wrap">'+srcs.map(function(x){return '<button type="button" class="mchip" style="flex:0 0 auto;padding:0 12px;min-height:38px" data-act="inSrc" data-v="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>':'')+'</section>'+
-    '<section class="group"><div class="field"><label for="inCell">Ячейка: ряд-секция-этаж</label><input id="inCell" class="cellinp" type="text" inputmode="numeric" autocomplete="off" placeholder="10-01-3" value="'+esc(F.cell)+'"></div>'+
+    '<section class="group"><div class="field"><label for="inCell" class="wq">В какую ячейку поставить?</label><input id="inCell" class="cellinp" type="text" inputmode="numeric" autocomplete="off" placeholder="10-01-3" value="'+esc(F.cell)+'"></div>'+
     '<div id="inCellHint" class="note" style="margin-top:8px"></div><div id="inSuggest" style="margin-top:8px"></div></section>'+
     '<section class="group"><div class="field"><label for="inQty">Сколько коробок</label><div class="qst"><button type="button" data-act="inQtyDec" aria-label="Меньше">−</button><input id="inQty" type="number" inputmode="numeric" min="1" value="'+esc(F.qty)+'"><button type="button" data-act="inQtyInc" aria-label="Больше">+</button><button type="button" class="mx" data-act="inMax">Макс.</button></div></div></section>'+
     (F.planId?'<div id="inRemain" style="margin-bottom:8px"></div>':'')+
@@ -2052,7 +2055,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.27.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.27.1</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -2105,7 +2108,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.27.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.27.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -2132,7 +2135,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.27.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.27.1) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -3203,7 +3206,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.27.0</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.27.1</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -3400,7 +3403,7 @@ function staffRowHtml(u){
   var me=u.uid===ME.uid, off=u.active===false;
   return '<div class="staffrow'+(off?' off':'')+'"><div class="sf-nm">'+esc(u.name||u.login)+(me?' (вы)':'')+'</div><div class="sf-mt">логин: '+esc(u.login||'?')+'</div>'+presHtml(u)+
     '<div class="sf-ac"><button class="btn ghost sm" type="button" data-act="shUser" data-uid="'+esc(u.uid)+'" aria-label="Отправить ссылку">Ссылка</button><select data-staff="'+esc(u.uid)+'" aria-label="Роль: '+esc(u.name||u.login)+'"'+((me||(u.role==='dev'&&!isDevMe()))?' disabled':'')+'>'+Object.keys(ROLES).filter(function(r){return r!=='dev'||isDevMe()||u.role==='dev'}).map(function(r){return '<option value="'+r+'"'+(u.role===r?' selected':'')+'>'+ROLES[r]+'</option>'}).join('')+'</select>'+
-    ((me||(u.role==='dev'&&!isDevMe()))?'':(off?'<button class="btn ghost sm" type="button" data-act="staffOn" data-uid="'+esc(u.uid)+'" aria-label="Включить доступ">Включить</button>':'<button class="btn danger sm" type="button" data-act="staffOff" data-uid="'+esc(u.uid)+'" aria-label="Закрыть доступ">Закрыть</button>'))+'</div></div>';
+    ((me||(u.role==='dev'&&!isDevMe()))?'':(off?'<button class="btn ghost sm" type="button" data-act="staffOn" data-uid="'+esc(u.uid)+'">Включить доступ</button>':'<button class="btn danger sm" type="button" data-act="staffOff" data-uid="'+esc(u.uid)+'">Закрыть доступ</button>'))+'</div></div>';
 }
 function staffListHtml(){
   if(!USERS.length) return '<p class="note">Загрузка списка…</p>';
