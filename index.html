@@ -1523,7 +1523,7 @@ function dsRng(p,e){return dmy(p)+'–'+dmy(e)}
 function dsLots(arr){
   var g={}, ord=[]; arr.forEach(function(m){var k=m.prod+'|'+m.exp; if(!g[k]){g[k]={prod:m.prod,exp:m.exp,q:0};ord.push(k)} g[k].q+=Number(m.qty)||0});
   var ls=ord.map(function(k){return g[k]}).sort(function(a,b){return a.exp<b.exp?-1:a.exp>b.exp?1:0}), tot=ls.reduce(function(s,l){return s+l.q},0);
-  return {tot:tot,lines:ls.map(function(l){return l.q+' кор даты: '+dsRng(l.prod,l.exp)})};
+  return {tot:tot,lines:ls.map(function(l){return l.q+' кор  '+dsRng(l.prod,l.exp)})};
 }
 function dsBlockLines(L,arr){
   var pp={}, po=[]; arr.forEach(function(m){if(!pp[m.product]){pp[m.product]=[];po.push(m.product)} pp[m.product].push(m)});
