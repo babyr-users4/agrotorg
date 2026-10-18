@@ -108,7 +108,9 @@ h2{font:600 18px/1.2 var(--f-head);margin:0;text-wrap:balance}
 [aria-expanded="true"] .chev{transform:rotate(180deg)}
 .lot{padding:12px 14px;border-top:1px solid var(--line);display:grid;gap:8px}
 .lot-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.dates{display:grid;gap:2px;font-size:13px;color:var(--muted);min-width:0}
+.dates{display:grid;gap:2px;font-size:15px;color:var(--ink);min-width:0}
+.mv-h .cellchip{font-size:16px}
+.mv-s b{font-variant-numeric:tabular-nums}
 .dates b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
 .lot-qty{font-size:13px;color:var(--muted);text-align:right;white-space:nowrap}
 .lot-qty b{font:700 24px/1 var(--f-head);color:var(--ink);font-variant-numeric:tabular-nums}
@@ -506,7 +508,9 @@ html[data-size="big"] input[type=password]{min-height:56px;font-size:18px}
 .staffrow{display:grid;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
 .staffrow .sf-nm{font-weight:600}
 .staffrow .sf-on{color:#1a7f4b;font-weight:600}.staffrow .sf-off{color:var(--muted)}\n.staffrow .sf-mt{color:var(--muted);font-size:13px}
-.staffrow .sf-ac{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.staffrow .sf-ac{display:flex;gap:6px;flex-wrap:nowrap;align-items:center}
+.staffrow .sf-ac .btn{flex:none;min-height:44px;padding:0 10px;font-size:14px;white-space:nowrap}
+.staffrow .sf-ac select{flex:1 1 0;min-width:0;width:auto;font-size:14px;padding-left:8px;padding-right:4px}
 .staffrow.off .nm{text-decoration:line-through;color:var(--muted)}
 .staffrow select{min-height:44px;width:auto;max-width:100%}
 html[data-scale="85"]{zoom:.85}html[data-scale="95"]{zoom:.95}html[data-scale="100"]{zoom:1}html[data-scale="115"]{zoom:1.15}
@@ -564,6 +568,9 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 .wprog i.f{background:var(--accent)}
 .wstep{font-size:13px;color:var(--muted);margin-bottom:10px}
 .wh1{margin:0 0 8px;font-size:22px;line-height:1.15}
+.apick{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:end;margin-bottom:6px}
+.apick .btn{min-height:48px;padding:0 12px;font-size:15px}
+.apick .field label{font-size:13px}
 .wrow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
 .wrow .lk{min-height:36px}
 .wsum{display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 6px 6px 12px;border:1.5px solid var(--line);border-left:7px solid var(--pc,var(--line));border-radius:12px;background:var(--surface);margin-bottom:10px}
@@ -614,7 +621,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.26.0</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.27.0</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -803,7 +810,7 @@ function parseCell(text){
 }
 function describeCell(code){
   var cm=D.cells.get(code); if(!cm||!cm.size) return null;
-  return Array.from(cm.values()).map(function(l){return product(l.product).name+' · произв. '+fmt(l.prod)+' · до '+fmt(l.exp)+' · осталось '+fp(lotInfo(l).pct)+'% · '+l.qty+' кор.'});
+  return Array.from(cm.values()).map(function(l){return product(l.product).name+' · '+rng(l.prod,l.exp)+' · осталось '+fp(lotInfo(l).pct)+'% · '+l.qty+' кор.'});
 }
 
 /* ---------- db helpers ---------- */
@@ -831,8 +838,9 @@ function expiryPill(l){
   if(i.left<0) return '<span class="pill lv"'+lvAttr(i)+'>Срок истёк '+fmt(l.exp)+' · 0%</span>';
   return '<span class="pill lv"'+lvAttr(i)+'>Осталось '+fp(i.pct)+'% срока · '+i.left+' дн.</span>';
 }
-function datesHtml(l){return '<div class="dates"><span>Произведено <b>'+fmt(l.prod)+'</b></span><span>Годен до <b>'+fmt(l.exp)+'</b></span></div>'}
-function setTab(t){tab=t;try{localStorage.setItem('sklad.tab',t)}catch(e){}render();window.scrollTo(0,0)}
+function rng(p,e){return dmy(p)+' – '+dmy(e)}
+function datesHtml(l){return '<div class="dates"><b>'+rng(l.prod,l.exp)+'</b></div>'}
+function setTab(t){if(t!==tab&&(tab==='in'||tab==='out')) wizReset(tab); tab=t;try{localStorage.setItem('sklad.tab',t)}catch(e){}render();window.scrollTo(0,0)}
 function allProductIds(extra){
   var ids=cfg.products.map(function(p){return p.id});
   extra.forEach(function(id){if(ids.indexOf(id)<0) ids.push(id)});
@@ -979,6 +987,7 @@ function checkIn(){
   else if(!F.prod) p.push(['todo','Укажите дату производства']);
   else if(!F.exp) p.push(['todo','Укажите срок годности']);
   else if(F.exp<=F.prod) p.push(['bad','Срок годности раньше даты производства']);
+  else if(!F.noFrom&&!String(F.from||'').trim()) p.push(['todo','Укажите, откуда пришло']);
   else if(pc.state==='partial') p.push(['todo','Введите ячейку: 5 цифр (ряд, секция, этаж)']);
   else if(pc.state==='err') p.push(['bad',pc.msg]);
   else if(r.otherProd.length) p.push(['bad','Ячейка '+r.cell+' занята другим товаром. Выберите другую ячейку.']);
@@ -1109,14 +1118,14 @@ function renderIn(){
       '<div class="wfoot"><button class="btn ghost" type="button" data-act="inBack">Назад</button><button id="inNext" class="btn" type="button" data-act="inNext"'+(inDatesOk()?'':' disabled')+'>Далее</button></div>';
     return h;
   }
-  var more=INMORE||!!F.total||!!F.from;
-  h+=wsumIn(3)+'<h1 class="wh1">Куда положить?</h1>'+(F.planId?planNoteHtml():'')+
+  var srcs=sourcesList().slice(0,6);
+  h+=wsumIn(3)+'<h1 class="wh1">Откуда и куда?</h1>'+(F.planId?planNoteHtml():'')+
+    '<section class="group"><div class="field"><label for="inFrom">Откуда пришло</label><input id="inFrom" type="text" list="srcList" autocomplete="off" placeholder="завод, поставщик, склад" value="'+esc(F.from)+'">'+srcDatalist()+'</div>'+
+    (srcs.length?'<div class="mchips" style="flex-wrap:wrap">'+srcs.map(function(x){return '<button type="button" class="mchip" style="flex:0 0 auto;padding:0 12px;min-height:38px" data-act="inSrc" data-v="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>':'')+'</section>'+
     '<section class="group"><div class="field"><label for="inCell">Ячейка: ряд-секция-этаж</label><input id="inCell" class="cellinp" type="text" inputmode="numeric" autocomplete="off" placeholder="10-01-3" value="'+esc(F.cell)+'"></div>'+
     '<div id="inCellHint" class="note" style="margin-top:8px"></div><div id="inSuggest" style="margin-top:8px"></div></section>'+
     '<section class="group"><div class="field"><label for="inQty">Сколько коробок</label><div class="qst"><button type="button" data-act="inQtyDec" aria-label="Меньше">−</button><input id="inQty" type="number" inputmode="numeric" min="1" value="'+esc(F.qty)+'"><button type="button" data-act="inQtyInc" aria-label="Больше">+</button><button type="button" class="mx" data-act="inMax">Макс.</button></div></div></section>'+
-    (more?'<section class="group"><div class="field"><label for="inTotal">Всего пришло, коробок <span class="opt">необязательно</span></label><input id="inTotal" type="number" inputmode="numeric" min="1" placeholder="например 150" value="'+esc(F.total)+'"></div><div id="inRemain" style="margin-top:8px"></div></section>'+
-      '<section class="group"><div class="field"><label for="inFrom">Откуда приход <span class="opt">необязательно</span></label><input id="inFrom" type="text" list="srcList" autocomplete="off" placeholder="завод, поставщик, склад" value="'+esc(F.from)+'">'+srcDatalist()+'</div></section>'
-      :'<button type="button" class="lk" style="margin-bottom:8px" data-act="inMore">+ Дополнительно: откуда пришло, всего в поставке</button>')+
+    (F.planId?'<div id="inRemain" style="margin-bottom:8px"></div>':'')+
     '<div id="inStatus" class="status"></div>'+
     '<div class="wfoot"><button class="btn ghost" type="button" data-act="inBack">Назад</button><button id="inBtn" class="btn" type="button" data-act="inSave">Принять на склад</button></div>'+
     '<div style="text-align:center"><button type="button" class="lk" data-act="inReset">Новый приход</button></div>';
@@ -1201,8 +1210,8 @@ function renderOut(){
   if(OUTSTEP===2){
     var lots=Array.from(D.lots.values()).filter(function(l){return l.product===O.product}).sort(byExp);
     h+=wsumOut(2)+'<h1 class="wh1">Из каких ячеек берём?</h1>'+
-      '<div class="wrow"><span class="note">Сверху те, у кого срок раньше</span><button type="button" class="lk" data-act="outAutoToggle">'+(OUTAUTO?'Скрыть':'Подобрать')+'</button></div>'+
-      (OUTAUTO?'<div class="autopick"><div class="field"><label for="outNeed">Нужно отгрузить, коробок</label><input id="outNeed" type="number" inputmode="numeric" min="1" value="'+esc(O.need)+'" placeholder="например 50"></div><button class="btn ghost" type="button" data-act="outAuto">Подобрать</button></div>':'');
+      '<div class="apick"><div class="field"><label for="outNeed">Нужно отгрузить, кор.</label><input id="outNeed" type="number" inputmode="numeric" min="1" value="'+esc(O.need)+'" placeholder="например 50"></div><button class="btn ghost" type="button" data-act="outAuto">Подобрать</button><button id="outReset" class="btn ghost" type="button" data-act="outReset">Сбросить</button></div>'+
+      '<div class="note" style="margin:0 0 8px">«Подобрать» берёт сначала те даты, у которых срок раньше. Результат можно поправить.</div>';
     if(!lots.length) return h+'<div class="card hero-empty"><h2>Этого товара нет на складе</h2><p>Внесите приход, и он появится здесь.</p></div><div class="wfoot"><button class="btn ghost" type="button" data-act="outBack">Назад</button></div>';
     lots.forEach(function(l){
       var li=lotInfo(l), late=daysTo(l.exp)<0;
@@ -1234,6 +1243,7 @@ function updateDock(){
   var ls=outLines(), sum=ls.reduce(function(s,l){return s+l.qty},0);
   var sel=$('#outSel'); if(sel) sel.textContent=sum;
   var n2=$('#outNext2'); if(n2) n2.disabled=!sum;
+  var rs=$('#outReset'); if(rs) rs.disabled=!sum;
   $$('.wcell').forEach(function(c){c.classList.toggle('on',(O.q[c.dataset.ck]||0)>0)});
   var ds=$('#dockSum'), b=$('#outBtn');
   if(ds) ds.innerHTML=sum?'Выбрано <b>'+sum+'</b> кор. из '+ls.length+' яч.'+(O.city?' → <b>'+esc(O.city)+'</b>':' · выберите город'):'Ничего не выбрано';
@@ -1243,6 +1253,20 @@ function updateDock(){
   }
 }
 function wtop(){window.scrollTo(0,0)}
+/* сброс введённого при возврате назад и при уходе со вкладки */
+function inLeave(target){
+  if(INSTEP>=3&&target<3){F.cell='';F.qty=''; if(!F.planId) F.from=''}
+  if(INSTEP>=2&&target<2){F.prod='';F.exp='';F.placed=0}
+}
+function outLeave(target){
+  if(OUTSTEP>=3&&target<3){O.city=''}
+  if(OUTSTEP>=2&&target<2){O.q={};O.need=''}
+}
+function wizReset(which){
+  if(which==='in'){F={product:'',prod:'',exp:'',total:'',cell:'',qty:'',placed:0,from:'',planId:''}; INSTEP=1; INMORE=false}
+  if(which==='out'){O={product:'',q:{},city:'',need:''}; OUTSTEP=1; OUTAUTO=false}
+}
+function wizResetAll(){wizReset('in'); wizReset('out')}
 /* ---------- views: отгрузка ---------- */
 function renderOut0(){
   var pcs=cfg.products.map(function(p){
@@ -1353,11 +1377,11 @@ function origText(m){
 function mvItem(m){
   var k=kindOf(m), t=timeKey(m.ts), q=Number(m.qty)||0, head, where, extra='';
   var nm=pname(m.product);
-  if(k==='in'){head='<b>+'+q+' кор.</b>'+(m.from?'<span class="pill in">из: '+esc(m.from)+'</span>':'');where=nm+' · <span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span>';
+  if(k==='in'){head='<span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span><b>+'+q+' кор.</b>';where=nm+(m.from?' · <span class="pill in">из: '+esc(m.from)+'</span>':'');
     if(S.srcEdit&&S.srcEdit.id===m.id) extra='<div class="field" style="margin-top:6px"><label for="srcIn">Откуда приход</label><input id="srcIn" type="text" list="srcList" autocomplete="off" placeholder="завод, поставщик, склад" value="'+esc(S.srcEdit.val)+'">'+srcDatalist()+'</div><div class="mv-a"><button class="btn sm" type="button" data-act="srcSave">Сохранить</button><button class="btn ghost sm" type="button" data-act="srcCancel">Отмена</button></div>';
     else if(!m.from) extra='<div class="mv-s">Откуда: не указано</div>';
     if(S.ie&&S.ie.id===m.id) extra=ieHtml(m)}
-  else if(k==='out'){head='<b>−'+q+' кор.</b><span class="pill in">в: '+esc(m.city||'?')+'</span>';where=nm+' · <span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span>'}
+  else if(k==='out'){head='<span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span><b>−'+q+' кор.</b>';where=nm+' · <span class="pill in">в: '+esc(m.city||'?')+'</span>'}
   else if(k==='mv'){head='<b>'+q+' кор.</b><span class="pill neutral">перемещение</span>';where=nm+' · <span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span> → <span class="mono cellchip cc-'+k+'">'+esc(m.to)+'</span>'}
   else{
     head='<b>'+(q>0?'+':q<0?'−':'')+Math.abs(q)+' кор.</b><span class="pill neutral">'+(m.writeoff?'списано':m.manual?'добавлено вручную':'инвентаризация')+'</span>';
@@ -1366,7 +1390,7 @@ function mvItem(m){
   }
   return '<li class="card mv'+tdCls(m)+(m.id&&m.id===FLASHID&&UI.flash!=='0'?' flash':'')+'">'+tdTag(m)+'<div class="mv-h">'+head+'<span class="when">'+t+'</span>'+(k==='out'||k==='in'?chkHtml(m):'')+'</div>'+
     '<div class="mv-b">'+where+'</div>'+
-    '<div class="mv-s">Произв. '+fmt(m.prod)+' · годен до '+fmt(m.exp)+'</div>'+extra+whoLine(m)+chkNote(m)+
+    '<div class="mv-s"><b>'+rng(m.prod,m.exp)+'</b></div>'+extra+whoLine(m)+chkNote(m)+
     (m.orig?'<div class="mv-s" style="color:var(--warn)">'+esc(origText(m))+'</div>':'')+
     (S.confirmDel===m.id?'<div class="mv-a"><span class="note">Отменить эту запись?</span><button class="btn danger sm" type="button" data-act="delYes" data-id="'+esc(m.id)+'">Да, отменить</button><button class="btn ghost sm" type="button" data-act="delNo">Нет</button></div>':
       inActions(m,k))+'</li>';
@@ -1449,7 +1473,7 @@ function cityHtml(){
         var lots=Object.keys(p.lots).map(function(k){return p.lots[k]}).sort(byExp);
         return '<div class="pgroup"><div class="pgroup-h"><b>'+pname(p.id)+'</b><b>'+p.total+' кор.</b></div>'+
           lots.map(function(l){
-            return '<div class="lotbox"><div class="lotline"><span>Произв. '+fmt(l.prod)+' · до '+fmt(l.exp)+'</span><b>'+l.qty+' кор.</b></div>'+
+            return '<div class="lotbox"><div class="lotline"><span>'+rng(l.prod,l.exp)+'</span><b>'+l.qty+' кор.</b></div>'+
               '<div class="small">Отгружено: '+l.order.map(function(d){return d+' — '+l.days[d]}).join(' · ')+'</div></div>';
           }).join('')+'</div>';
       }).join(''):'')+'</section>';
@@ -1886,7 +1910,7 @@ function planCard(m){
   var q=Number(m.qty)||0;
   return '<section class="card prod"><div class="prod-h" style="align-items:flex-start"><div style="min-width:0"><h2>'+pname(m.product)+'</h2>'+
     '<span class="sub">Ждём: <b>'+esc(etaText(m.eta))+'</b></span><span class="sub">Откуда: <b>'+esc(m.from||'не указано')+'</b></span>'+
-    ((m.prod&&m.exp)?'<span class="sub">Произв. '+fmt(m.prod)+' · годен до '+fmt(m.exp)+'</span>':'')+(m.note?'<span class="sub">'+esc(m.note)+'</span>':'')+
+    ((m.prod&&m.exp)?'<span class="sub">'+rng(m.prod,m.exp)+'</span>':'')+(m.note?'<span class="sub">'+esc(m.note)+'</span>':'')+
     '</div><div class="tot"><span><b>'+q+'</b> кор.</span></div></div>'+
     '<div class="cc-act">'+(S.planDel===m.id
       ?'<span class="note">Удалить из ожидаемых?</span><button class="btn danger sm" type="button" data-act="plDelYes" data-id="'+esc(m.id)+'">Да</button><button class="btn ghost sm" type="button" data-act="plDelNo">Нет</button>'
@@ -2028,7 +2052,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.26.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.27.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -2081,7 +2105,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.26.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.27.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -2108,7 +2132,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.26.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.27.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -2413,9 +2437,10 @@ document.addEventListener('click',function(e){
     case 'bkAuto2': if(el.dataset.v==='0'){AUTO2.on=false}else{AUTO2.on=true;AUTO2.days=Number(el.dataset.v)} au2Save(); return renderSheet();
     case 'pf': S.pf=el.dataset.id; S.logLimit=50; return render();
     case 'inNext': if(INSTEP===1&&F.product) INSTEP=2; else if(INSTEP===2&&inDatesOk()) INSTEP=3; render(); return wtop();
-    case 'inBack': INSTEP=Math.max(1,INSTEP-1); render(); return wtop();
-    case 'inGo': INSTEP=Number(el.dataset.s)||1; render(); return wtop();
-    case 'inMore': INMORE=true; return render();
+    case 'inBack': inLeave(Math.max(1,INSTEP-1)); INSTEP=Math.max(1,INSTEP-1); render(); return wtop();
+    case 'inGo': var tg=Number(el.dataset.s)||1; if(tg<INSTEP) inLeave(tg); INSTEP=tg; render(); return wtop();
+    case 'inSrc': F.from=el.dataset.v; var fi=$('#inFrom'); if(fi) fi.value=F.from; return updateIn();
+    case 'outReset': O.q={}; O.need=''; return render();
     case 'inMon':
       if(!F.prod&&!F.exp) return toast('Сначала укажите дату производства',true);
       F.exp=addMonthsIso(F.exp||F.prod,Number(el.dataset.n)); F.placed=0;
@@ -2427,8 +2452,8 @@ document.addEventListener('click',function(e){
     case 'wpCancel': return wpClose();
     case 'wpPick': return wpPick(el);
     case 'outNext': if(OUTSTEP===1&&O.product&&stockOf(O.product)>0) OUTSTEP=2; else if(OUTSTEP===2&&outLines().length) OUTSTEP=3; render(); return wtop();
-    case 'outBack': OUTSTEP=Math.max(1,OUTSTEP-1); render(); return wtop();
-    case 'outGo': OUTSTEP=Number(el.dataset.s)||1; render(); return wtop();
+    case 'outBack': outLeave(Math.max(1,OUTSTEP-1)); OUTSTEP=Math.max(1,OUTSTEP-1); render(); return wtop();
+    case 'outGo': var tg2=Number(el.dataset.s)||1; if(tg2<OUTSTEP) outLeave(tg2); OUTSTEP=tg2; render(); return wtop();
     case 'outAutoToggle': OUTAUTO=!OUTAUTO; return render();
     case 'inProduct': if(F.product!==el.dataset.id) F.planId=''; F.product=el.dataset.id; F.placed=0; return render();
     case 'inCell': F.cell=el.dataset.cell; var ci=$('#inCell'); if(ci) ci.value=F.cell; return updateIn();
@@ -2585,7 +2610,7 @@ document.addEventListener('input',function(e){
   if(t.id==='rpFrom'&&S.rep){S.from=t.value;return}
   if(t.id==='rpTo'&&S.rep){S.to=t.value;return}
   if(t.id==='inTotal'){F.total=t.value;return updateIn()}
-  if(t.id==='inFrom'){F.from=t.value;return}
+  if(t.id==='inFrom'){F.from=t.value;return updateIn()}
   if(t.id==='inQty'){F.qty=t.value;return updateIn()}
   if(t.id==='inCell'){var f=fmtCellInput(t.value);t.value=f;F.cell=f;return updateIn()}
   if(t.id==='outNeed'){O.need=t.value;return}
@@ -2742,7 +2767,7 @@ function startFirebase(cfg){
 function onUser(u){
   if(BOOT) return;
   unsubAll();
-  if(!u){KNOWN=null;NQ=[];var nfr=document.getElementById('nfRoot');if(nfr)nfr.innerHTML='';pubTitle=null;closeNotice();noticeShown=false;cfgReady=false;ME=null;USERS=[];moves=[];ALLM=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
+  if(!u){wizResetAll();KNOWN=null;NQ=[];var nfr=document.getElementById('nfRoot');if(nfr)nfr.innerHTML='';pubTitle=null;closeNotice();noticeShown=false;cfgReady=false;ME=null;USERS=[];moves=[];ALLM=[];D=derive([]);loaded=false;db=null;dbState='connecting';renderHeader();render();return screenLogin()}
   FS.doc('users/'+u.uid).get().then(function(s){
     if(!s.exists) return screenWait('Вы вошли, но доступ ещё не выдан. Попросите администратора добавить ваш логин в разделе «Настройки → Сотрудники».',true);
     var d=s.data(); if(d.active===false) return screenWait('Ваш доступ закрыт администратором.',true);
@@ -2819,7 +2844,7 @@ function histItem(m){
   if(k==='mv') where=nm+' · '+cchip(m.cell,'mv')+' → '+cchip(m.to,'mv');
   else if(k==='plan') where=nm+' · ожидается '+fmt(m.eta)+(m.from?' · из: '+esc(m.from):'');
   else where=nm+' · '+cchip(m.cell,k);
-  var dates=(k!=='plan'&&m.prod)?'<div class="mv-s">Произв. '+fmt(m.prod)+' · годен до '+fmt(m.exp)+'</div>':'';
+  var dates=(k!=='plan'&&m.prod)?'<div class="mv-s"><b>'+rng(m.prod,m.exp)+'</b></div>':'';
   var who=(m.writeoff?'<div class="mv-s"><b>Причина: '+esc(m.reason||'не указана')+'</b></div>':'')+(m.orig?'<div class="mv-s" style="color:var(--warn)">'+esc(origText(m))+'</div>':'')+'<div class="mv-s">Кто: <b>'+esc(m.byName||'не указано')+'</b> · '+esc(whenText(m.ts))+(m.editedByName?' · исправил: '+esc(m.editedByName):'')+'</div>';
   var st='';
   if(gone) st='<div class="mv-s hist-del">Отменено: '+esc(m.delByName||'?')+' · '+esc(whenText(m.delAt))+(m.delWhy?' ('+esc(m.delWhy)+')':'')+'</div>';
@@ -3178,7 +3203,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.26.0</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.27.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -3374,8 +3399,8 @@ function accountGroupHtml0(){
 function staffRowHtml(u){
   var me=u.uid===ME.uid, off=u.active===false;
   return '<div class="staffrow'+(off?' off':'')+'"><div class="sf-nm">'+esc(u.name||u.login)+(me?' (вы)':'')+'</div><div class="sf-mt">логин: '+esc(u.login||'?')+'</div>'+presHtml(u)+
-    '<div class="sf-ac"><button class="btn ghost sm" type="button" data-act="shUser" data-uid="'+esc(u.uid)+'">Отправить ссылку</button><select data-staff="'+esc(u.uid)+'" aria-label="Роль: '+esc(u.name||u.login)+'"'+((me||(u.role==='dev'&&!isDevMe()))?' disabled':'')+'>'+Object.keys(ROLES).filter(function(r){return r!=='dev'||isDevMe()||u.role==='dev'}).map(function(r){return '<option value="'+r+'"'+(u.role===r?' selected':'')+'>'+ROLES[r]+'</option>'}).join('')+'</select>'+
-    ((me||(u.role==='dev'&&!isDevMe()))?'':(off?'<button class="btn ghost sm" type="button" data-act="staffOn" data-uid="'+esc(u.uid)+'">Включить доступ</button>':'<button class="btn danger sm" type="button" data-act="staffOff" data-uid="'+esc(u.uid)+'">Закрыть доступ</button>'))+'</div></div>';
+    '<div class="sf-ac"><button class="btn ghost sm" type="button" data-act="shUser" data-uid="'+esc(u.uid)+'" aria-label="Отправить ссылку">Ссылка</button><select data-staff="'+esc(u.uid)+'" aria-label="Роль: '+esc(u.name||u.login)+'"'+((me||(u.role==='dev'&&!isDevMe()))?' disabled':'')+'>'+Object.keys(ROLES).filter(function(r){return r!=='dev'||isDevMe()||u.role==='dev'}).map(function(r){return '<option value="'+r+'"'+(u.role===r?' selected':'')+'>'+ROLES[r]+'</option>'}).join('')+'</select>'+
+    ((me||(u.role==='dev'&&!isDevMe()))?'':(off?'<button class="btn ghost sm" type="button" data-act="staffOn" data-uid="'+esc(u.uid)+'" aria-label="Включить доступ">Включить</button>':'<button class="btn danger sm" type="button" data-act="staffOff" data-uid="'+esc(u.uid)+'" aria-label="Закрыть доступ">Закрыть</button>'))+'</div></div>';
 }
 function staffListHtml(){
   if(!USERS.length) return '<p class="note">Загрузка списка…</p>';
@@ -3620,7 +3645,7 @@ function chkSum(list,type){
 /* ---- новая ячейка с товаром ---- */
 function ncState(){return {product:'',prod:'',exp:'',cell:'',qty:''}}
 function checkNew(N){
-  var sv=F; F=Object.assign({total:'',placed:0,from:'',planId:''},N);
+  var sv=F; F=Object.assign({total:'',placed:0,from:'',planId:'',noFrom:true},N);
   try{return checkIn()}finally{F=sv}
 }
 function renderNcSheet(root){
