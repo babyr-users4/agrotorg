@@ -205,13 +205,14 @@ input.cellinp{font:600 24px/1 var(--f-mono);letter-spacing:.08em;text-align:cent
 .seg:has([data-act="stockView"]){margin-left:-6px;margin-right:-6px}
 .mv-a .btn.sm[data-act="dsCopy"],.mv-a .btn.sm[data-act="dsShare"]{min-width:150px;flex:1 1 150px}
 .fpanel .chiprow{gap:5px;margin-bottom:8px}
-.fpanel .fchip,html[data-size] .fpanel .fchip{min-height:30px!important;padding:0 9px!important;font-size:12.5px!important;line-height:1.1}
-.fpanel .fchip .pdot{width:8px;height:8px;margin-right:4px}
+.fpanel .chiprow{flex-wrap:nowrap;gap:4px}
+.fpanel .fchip,html[data-size] .fpanel .fchip{flex:1 1 auto;min-width:0;min-height:38px!important;padding:0 6px!important;font-size:14px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fpanel .fchip .pdot{display:none}
+html .fpanel .fchip[data-act=pf],html[data-size] .fpanel .fchip[data-act=pf],html .fpanel .fchip[data-act=who],html[data-size] .fpanel .fchip[data-act=who]{font-size:12px!important;padding:0 2px!important;flex:1 1 auto;overflow:visible;text-overflow:clip}
 .fpanel .two{margin-bottom:8px;gap:8px}
 .fpanel .field label{font-size:12px;margin-bottom:2px}
 .fpanel input[type=date]{min-height:38px;padding:4px 8px}
 .fbar{margin-bottom:6px}
-.fpanel .chiprow:first-child{flex-wrap:nowrap}.fpanel .chiprow:first-child .fchip{flex:1 1 0;padding:0 2px;font-size:12.5px;min-width:0}
 
 /* 0.20: шапка */
 .top{padding:8px 14px;gap:8px}
@@ -1391,7 +1392,7 @@ function timeKey(ts){var d=new Date(ts);return isNaN(d)?'':pad(d.getHours())+':'
 function sumQty(list){return list.reduce(function(s,m){return s+m.qty},0)}
 
 function logFilters0(){
-  var P=[['all','Всё'],['today','Сегодня'],['3','3 дня'],['7','Неделя'],['30','Месяц'],['custom','Свой']];
+  var P=[['custom','Свой'],['today','Сегодня'],['7','Неделя'],['30','Месяц']];
   var h='<div class="chiprow">'+P.map(function(p){return '<button class="fchip" type="button" data-act="period" data-p="'+p[0]+'" aria-pressed="'+(S.period===p[0])+'">'+p[1]+'</button>'}).join('')+'</div>';
   if(S.period==='custom') h+='<div class="two" style="margin-bottom:14px"><div class="field"><label for="lgFrom">С даты</label><input id="lgFrom" type="date" value="'+esc(S.from)+'"></div><div class="field"><label for="lgTo">По дату</label><input id="lgTo" type="date" value="'+esc(S.to)+'"></div></div>';
   h+='<div class="chiprow"><button class="fchip" type="button" data-act="pf" data-id="all" aria-pressed="'+(S.pf==='all')+'">Все товары</button>'+
@@ -1522,8 +1523,11 @@ function dsRng(p,e){return dmy(p)+'–'+dmy(e)}
 function dsLots(arr){
   var g={}, ord=[]; arr.forEach(function(m){var k=m.prod+'|'+m.exp; if(!g[k]){g[k]={prod:m.prod,exp:m.exp,q:0};ord.push(k)} g[k].q+=Number(m.qty)||0});
   var ls=ord.map(function(k){return g[k]}).sort(function(a,b){return a.exp<b.exp?-1:a.exp>b.exp?1:0}), tot=ls.reduce(function(s,l){return s+l.q},0);
-  if(ls.length===1) return {tot:tot,one:' даты: '+dsRng(ls[0].prod,ls[0].exp),lines:[]};
-  return {tot:tot,one:'',lines:ls.map(function(l,i){return l.q+' кор даты: '+dsRng(l.prod,l.exp)})};
+  return {tot:tot,lines:ls.map(function(l){return l.q+' кор даты: '+dsRng(l.prod,l.exp)})};
+}
+function dsBlockLines(L,arr){
+  var pp={}, po=[]; arr.forEach(function(m){if(!pp[m.product]){pp[m.product]=[];po.push(m.product)} pp[m.product].push(m)});
+  po.forEach(function(id,i){var d=dsLots(pp[id]); if(i>0) L.push(''); L.push(product(id).name+' — '+d.tot+' кор'); d.lines.forEach(function(x){L.push(x)})});
 }
 function dsFromOf(arr){
   var s=[]; arr.forEach(function(m){var f=String(m.from||'').trim(); if(!f){ var a=moves.filter(function(x){return kindOf(x)==='in'&&x.product===m.product&&x.prod===m.prod&&x.exp===m.exp&&x.from})[0]; f=a?String(a.from).trim():''} if(f&&s.indexOf(f)<0) s.push(f)});
@@ -1537,22 +1541,14 @@ function dsText(iso){
   var L=['Итог за '+dayLabel(dts)+' · '+(cfg.title||'Агроторг')];
   if(!ins.length&&!outs.length&&!mvs.length&&!adjs.length) L.push('','За этот день записей нет.');
   if(ins.length){
-    L.push('','ПРИНЯТО: '+sumQty(ins)+' кор.');
-    var ip={}, io=[]; ins.forEach(function(m){if(!ip[m.product]){ip[m.product]=[];io.push(m.product)} ip[m.product].push(m)});
-    io.forEach(function(id){var fr=dsFromOf(ip[id]), d=dsLots(ip[id]); L.push('');
-      if(fr.length) L.push('Приход из '+fr.join(', '));
-      L.push(product(id).name+' '+d.tot+' кор'+d.one); d.lines.forEach(function(x){L.push(x)})});
+    var sg={}, so=[]; ins.forEach(function(m){var f=String(m.from||'').trim().toUpperCase(); if(!sg[f]){sg[f]=[];so.push(f)} sg[f].push(m)});
+    so.forEach(function(f){L.push('',f?'Приход из '+f:'Приход'); dsBlockLines(L,sg[f])});
   }
   if(outs.length){
-    L.push('','ОТГРУЖЕНО: '+sumQty(outs)+' кор.');
     var oc={}, oo=[]; outs.forEach(function(m){var c=m.city||'без города'; if(!oc[c]){oc[c]=[];oo.push(c)} oc[c].push(m)});
     oo.forEach(function(c){
       var tm=oc[c], st=depState(tm), tag=st==='ok'?' ✓ уехало':st==='bad'?' ✕ не уехало':'';
-      var pp={}, po=[]; tm.forEach(function(m){if(!pp[m.product]){pp[m.product]=[];po.push(m.product)} pp[m.product].push(m)});
-      L.push('','Отгрузка в '+c+tag);
-      po.forEach(function(id){var fr=dsFromOf(pp[id]), d=dsLots(pp[id]);
-        L.push(product(id).name+' '+d.tot+' кор'+d.one); d.lines.forEach(function(x){L.push(x)});
-        if(fr.length) L.push('Приход из '+fr.join(', '))});
+      L.push('','Отгрузка в '+String(c).toUpperCase()+tag); dsBlockLines(L,tm);
     });
   }
   if(mvs.length) L.push('','ПЕРЕМЕЩЕНО: '+sumQty(mvs)+' кор. (записей: '+mvs.length+')');
@@ -2449,7 +2445,7 @@ document.addEventListener('click',function(e){
     case 'edSave': return applyEdit();
     case 'logFilt': S.logFiltOpen=!S.logFiltOpen; return render();
     case 'logView': S.logView=el.dataset.v; S.logLimit=50; S.confirmDel=null; return render();
-    case 'period': S.period=el.dataset.p; S.logLimit=50; return render();
+    case 'period': S.period=(S.period===el.dataset.p?'all':el.dataset.p); S.logLimit=50; return render();
     case 'bigOn': S.draft.bigOn=el.dataset.v==='1'; return renderSheet();
     case 'noticeOn': S.draft.noticeOn=el.dataset.v==='1'; return renderSheet();
     case 'calcOpen': S.calc=calcDef(); renderSheet(); return updateCalc();
