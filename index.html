@@ -205,7 +205,8 @@ input.cellinp{font:600 24px/1 var(--f-mono);letter-spacing:.08em;text-align:cent
 .seg:has([data-act="stockView"]){margin-left:-6px;margin-right:-6px}
 .mv-a .btn.sm[data-act="dsCopy"],.mv-a .btn.sm[data-act="dsShare"]{min-width:150px;flex:1 1 150px}
 .fpanel .chiprow{gap:5px;margin-bottom:8px}
-.fpanel .fchip{min-height:32px;padding:0 10px;font-size:13px}
+.fpanel .fchip,html[data-size] .fpanel .fchip{min-height:30px!important;padding:0 9px!important;font-size:12.5px!important;line-height:1.1}
+.fpanel .fchip .pdot{width:8px;height:8px;margin-right:4px}
 .fpanel .two{margin-bottom:8px;gap:8px}
 .fpanel .field label{font-size:12px;margin-bottom:2px}
 .fpanel input[type=date]{min-height:38px;padding:4px 8px}
@@ -1521,8 +1522,8 @@ function dsRng(p,e){return dmy(p)+'–'+dmy(e)}
 function dsLots(arr){
   var g={}, ord=[]; arr.forEach(function(m){var k=m.prod+'|'+m.exp; if(!g[k]){g[k]={prod:m.prod,exp:m.exp,q:0};ord.push(k)} g[k].q+=Number(m.qty)||0});
   var ls=ord.map(function(k){return g[k]}).sort(function(a,b){return a.exp<b.exp?-1:a.exp>b.exp?1:0}), tot=ls.reduce(function(s,l){return s+l.q},0);
-  if(ls.length===1) return tot+' кор. даты: '+dsRng(ls[0].prod,ls[0].exp);
-  return tot+' кор. '+ls.map(function(l,i){return (i===0?'из '+l.q+' кор даты: ':i===ls.length-1?'а остальные '+l.q+' даты: ':'ещё '+l.q+' кор даты: ')+dsRng(l.prod,l.exp)}).join(', ');
+  if(ls.length===1) return {tot:tot,one:' даты: '+dsRng(ls[0].prod,ls[0].exp),lines:[]};
+  return {tot:tot,one:'',lines:ls.map(function(l,i){return l.q+' кор даты: '+dsRng(l.prod,l.exp)})};
 }
 function dsFromOf(arr){
   var s=[]; arr.forEach(function(m){var f=String(m.from||'').trim(); if(!f){ var a=moves.filter(function(x){return kindOf(x)==='in'&&x.product===m.product&&x.prod===m.prod&&x.exp===m.exp&&x.from})[0]; f=a?String(a.from).trim():''} if(f&&s.indexOf(f)<0) s.push(f)});
@@ -1538,7 +1539,9 @@ function dsText(iso){
   if(ins.length){
     L.push('','ПРИНЯТО: '+sumQty(ins)+' кор.');
     var ip={}, io=[]; ins.forEach(function(m){if(!ip[m.product]){ip[m.product]=[];io.push(m.product)} ip[m.product].push(m)});
-    io.forEach(function(id){var fr=dsFromOf(ip[id]); L.push('• принято '+product(id).name+' '+dsLots(ip[id])+(fr.length?'. Откуда: '+fr.join(', '):''))});
+    io.forEach(function(id){var fr=dsFromOf(ip[id]), d=dsLots(ip[id]); L.push('');
+      if(fr.length) L.push('Приход из '+fr.join(', '));
+      L.push(product(id).name+' '+d.tot+' кор'+d.one); d.lines.forEach(function(x){L.push(x)})});
   }
   if(outs.length){
     L.push('','ОТГРУЖЕНО: '+sumQty(outs)+' кор.');
@@ -1546,7 +1549,10 @@ function dsText(iso){
     oo.forEach(function(c){
       var tm=oc[c], st=depState(tm), tag=st==='ok'?' ✓ уехало':st==='bad'?' ✕ не уехало':'';
       var pp={}, po=[]; tm.forEach(function(m){if(!pp[m.product]){pp[m.product]=[];po.push(m.product)} pp[m.product].push(m)});
-      po.forEach(function(id,i){var fr=dsFromOf(pp[id]); L.push('• '+c+(po.length>1||true?' — '+product(id).short:'')+' '+dsLots(pp[id])+(fr.length?'. Приход из: '+fr.join(', '):'')+(i===0?tag:''))});
+      L.push('','Отгрузка в '+c+tag);
+      po.forEach(function(id){var fr=dsFromOf(pp[id]), d=dsLots(pp[id]);
+        L.push(product(id).name+' '+d.tot+' кор'+d.one); d.lines.forEach(function(x){L.push(x)});
+        if(fr.length) L.push('Приход из '+fr.join(', '))});
     });
   }
   if(mvs.length) L.push('','ПЕРЕМЕЩЕНО: '+sumQty(mvs)+' кор. (записей: '+mvs.length+')');
