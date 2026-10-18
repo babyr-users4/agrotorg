@@ -213,6 +213,35 @@ html .fpanel .fchip[data-act=pf],html[data-size] .fpanel .fchip[data-act=pf],htm
 .fpanel .field label{font-size:12px;margin-bottom:2px}
 .fpanel input[type=date]{min-height:38px;padding:4px 8px}
 .fbar{margin-bottom:6px}
+html .card.mv.td-out,html .card.mv.td-in{border-color:rgba(22,194,94,.4);box-shadow:inset 4px 0 0 rgba(22,194,94,.65);background:rgba(22,194,94,.05)}
+html .tdtag{background:rgba(12,154,72,.75);font-weight:700}
+html .mvc.td-in .mv-h,html .mvc.td-out .mv-h{background:rgba(22,194,94,.1)}
+html .mvc.td-in .mvsb,html .mvc.td-out .mvsb{background:rgba(255,255,255,.03)}
+.card.mvc{padding:0;overflow:hidden;gap:0}
+.mvc .mv-h{padding:10px 14px;gap:10px}
+.mvc.in .mv-h{background:var(--ok-bg)}.mvc.out .mv-h{background:var(--warn-bg)}
+.mvc .mv-h .cellchip{font-size:24px;padding:0;background:transparent;letter-spacing:.05em}
+.mvc .mv-h b{margin-left:auto;font-size:22px;background:var(--bg);padding:3px 14px;border-radius:12px}
+.mvc .tdtag{margin:8px 14px 0}
+.mvbody{padding:10px 14px 6px;display:grid;gap:4px}
+.mvc .mv-b{font-size:17px;font-weight:700}
+.mvc .mvd{font-size:16px;color:var(--ink);font-weight:600}
+.mvl{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px;color:var(--muted);margin-top:2px}
+.mvl b{color:var(--ink)}
+.mvpill{font-size:16px;font-weight:800;color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:999px;text-align:right;overflow-wrap:anywhere}
+.mvsb{margin:4px 14px 8px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);display:grid;gap:8px}
+.mvsbh{display:flex;align-items:center;gap:8px}
+.mvsbh .cklab{width:62px;flex:none;border:0;text-align:left;font-size:11px;line-height:1.2;padding:0}
+.mvsbh>div{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ck2{display:flex;align-items:center;justify-content:center;gap:7px;min-height:46px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:14px;font-weight:600}
+.ck2 i{font-style:normal;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:14px;font-weight:800}
+.ck2.ok[aria-pressed="true"]{color:#1a9b5a;border-color:#1a9b5a;background:rgba(26,155,90,.12);font-weight:800}
+.ck2.ok[aria-pressed="true"] i{background:#1a9b5a;border-color:#1a9b5a;color:#fff}
+.ck2.bad[aria-pressed="true"]{color:#e0584a;border-color:#c0392b;background:rgba(192,57,43,.12);font-weight:800}
+.ck2.bad[aria-pressed="true"] i{background:#c0392b;border-color:#c0392b;color:#fff}
+.ck2:disabled{opacity:.5}
+.sn{font-size:14px;font-weight:600;padding:0 2px}.sn.ok{color:#1a9b5a}.sn.bad{color:#e0584a}.sn small{font-weight:400;color:var(--muted);font-size:13px}
+.mvact{padding:0 10px 10px}.mvact .mv-a4{margin-top:0}.mvact .mv-a{margin:0;padding:0 4px}
 
 /* 0.20: шапка */
 .top{padding:8px 14px;gap:8px}
@@ -1411,6 +1440,26 @@ function origText(m){
   if(o.qty!=null&&o.qty!==m.qty) p.push(o.qty+' кор.');
   return p.length?'Исправлено · было: '+p.join(', '):'Исправлено';
 }
+function mvCard(m,k,extra){
+  var inn=k==='in', q=Number(m.qty)||0, dis=canSave()?'':' disabled', id=esc(m.id);
+  var who=m.byName?(inn?'Внёс':'Отгрузил')+' <b>'+esc(m.byName)+'</b>'+(m.editedByName?' · исправил: '+esc(m.editedByName):''):'';
+  var pill=inn?(m.from?'из '+esc(m.from):''):'в '+esc(m.city||'?');
+  var lab=inn?['Ячейка','заблок.','разблок.']:['С ячейки','взято','не взято'];
+  var btn=function(v,mark,txt){return '<button type="button" class="ck2 '+v+'" data-act="chk" data-v="'+v+'" data-id="'+id+'" aria-pressed="'+((m.chk||'bad')===v)+'"'+dis+'><i>'+mark+'</i>'+txt+'</button>'};
+  var note='';
+  if(m.chk){
+    var nt=inn?(m.chk==='ok'?'Заблокировал':'Разблокировал'):(m.chk==='ok'?'С ячейки взял':'Не взято с ячейки');
+    note='<div class="sn '+m.chk+'">'+(m.chk==='ok'?'✓ ':'✕ ')+nt+(m.chkByName?' '+esc(m.chkByName):'')+(m.chkAt?' <small>· '+esc(whenText(m.chkAt))+'</small>':'')+'</div>';
+  }
+  return '<li class="card mv mvc '+k+tdCls(m)+(m.id&&m.id===FLASHID&&UI.flash!=='0'?' flash':'')+'">'+tdTag(m)+
+    '<div class="mv-h"><span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span><b>'+(inn?'+':'−')+q+' кор.</b></div>'+
+    '<div class="mvbody"><div class="mv-b">'+pname(m.product)+'</div><div class="mv-s mvd"><b>'+rng(m.prod,m.exp)+'</b></div>'+
+    '<div class="mvl"><span>'+(who?who+' · ':'')+timeKey(m.ts)+'</span>'+(pill?'<span class="mvpill">'+pill+'</span>':'')+'</div></div>'+extra+
+    '<div class="mvsb"><div class="mvsbh"><span class="cklab">'+lab[0]+'</span><div role="group" aria-label="'+lab[0]+'">'+btn('ok','✓',lab[1])+btn('bad','✕',lab[2])+'</div></div>'+note+'</div>'+
+    (m.orig?'<div class="mv-s" style="color:var(--warn);padding:0 14px 8px">'+esc(origText(m))+'</div>':'')+
+    (S.confirmDel===m.id?'<div class="mv-a" style="padding:0 14px 12px"><span class="note">Отменить эту запись?</span><button class="btn danger sm" type="button" data-act="delYes" data-id="'+id+'">Да, отменить</button><button class="btn ghost sm" type="button" data-act="delNo">Нет</button></div>':
+      '<div class="mvact">'+inActions(m,k)+'</div>')+'</li>';
+}
 function mvItem(m){
   var k=kindOf(m), t=timeKey(m.ts), q=Number(m.qty)||0, head, where, extra='';
   var nm=pname(m.product);
@@ -1425,6 +1474,7 @@ function mvItem(m){
     where=nm+' · <span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span>';
     extra=(m.writeoff?'<div class="mv-s"><b>Причина: '+esc(m.reason||'не указана')+'</b></div>':'')+'<div class="mv-s">'+(q===0?'Пересчитано, совпало: '+esc(m.now)+' кор.':'Было '+esc(m.prev)+' → стало '+esc(m.now)+' кор.')+'</div>';
   }
+  if(k==='in'||k==='out') return mvCard(m,k,extra);
   return '<li class="card mv'+tdCls(m)+(m.id&&m.id===FLASHID&&UI.flash!=='0'?' flash':'')+'">'+tdTag(m)+'<div class="mv-h">'+head+'<span class="when">'+t+'</span>'+(k==='out'||k==='in'?chkHtml(m):'')+'</div>'+
     '<div class="mv-b">'+where+'</div>'+
     '<div class="mv-s"><b>'+rng(m.prod,m.exp)+'</b></div>'+extra+whoLine(m)+chkNote(m)+
@@ -3690,9 +3740,9 @@ function chkNote(m){
   return '<div class="mv-s">'+t+(m.chkByName?': '+esc(m.chkByName):'')+(m.chkAt?' · '+esc(whenText(m.chkAt)):'')+'</div>';
 }
 function chkSum(list,type){
-  var ok=0,bad=0; list.forEach(function(m){if(m.chk==='ok')ok++;else if(m.chk==='bad')bad++});
+  var ok=0,bad=0; list.forEach(function(m){if(m.chk==='ok')ok++;else bad++});
   var n=list.length-ok-bad;
-  return '<p class="sumtxt" style="margin-top:-2px">'+(type==='in'?'Заблок.: ✓ '+ok+' · Разблок.: ✕ '+bad:'Взято с ячейки: ✓ '+ok+' · Не взято: ✕ '+bad)+' · без отметки '+n+'</p>';
+  return '<p class="sumtxt" style="margin-top:-2px">'+(type==='in'?'Заблок.: ✓ '+ok+' · Разблок.: ✕ '+bad:'Взято с ячейки: ✓ '+ok+' · Не взято: ✕ '+bad)+'</p>';
 }
 /* ---- новая ячейка с товаром ---- */
 function ncState(){return {product:'',prod:'',exp:'',cell:'',qty:''}}
