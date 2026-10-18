@@ -558,11 +558,60 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 .tdtag{justify-self:start;font-size:12px;font-weight:800;letter-spacing:.03em;color:#fff;background:#0c9a48;border-radius:999px;padding:3px 10px}
 .calcres .stats{margin:12px 0}
 @media (max-width:430px){.topr{gap:6px}.brand{font-size:16.5px}.top{gap:8px}}
+
+.wprog{display:flex;gap:6px;margin:4px 0 6px}
+.wprog i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.wprog i.f{background:var(--accent)}
+.wstep{font-size:13px;color:var(--muted);margin-bottom:10px}
+.wh1{margin:0 0 12px;font-size:26px;line-height:1.15}
+.wsum{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 8px 8px 14px;border:1.5px solid var(--line);border-left:7px solid var(--pc,var(--line));border-radius:12px;background:var(--surface);margin-bottom:14px}
+.wsum .wn{flex:1;min-width:0;font-size:19px;font-weight:700;line-height:1.25}
+.wsum .wn small{display:block;font-size:16px;font-weight:500;margin-top:2px;font-variant-numeric:tabular-nums}
+.lk{font-size:14px;font-weight:600;color:var(--accent);background:none;border:0;min-height:44px;padding:0 8px}
+.choice.big{min-height:72px;font-size:18px}
+.wfoot{position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 10px);display:flex;gap:10px;margin-top:18px;background:var(--bg);padding:8px 0;z-index:5}
+.wfoot .btn{flex:1;min-height:54px;font-size:17px;font-weight:700}
+.wfoot .btn.ghost{flex:0 0 110px}
+.wfoot .btn:disabled{opacity:.45}
+.drow{display:flex;gap:8px}
+.drow input{flex:1;min-width:0;min-height:56px;font-size:20px}
+.cal{flex:0 0 56px;min-height:56px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--accent);display:grid;place-items:center}
+.mchips{display:flex;gap:8px;margin-top:8px}
+.mchip{flex:1;min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:15px;font-weight:600}
+.qst{display:flex;gap:8px}
+.qst button{min-width:56px;min-height:56px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:24px;line-height:1}
+.qst button.mx{font-size:15px;font-weight:600;padding:0 14px}
+.qst input{flex:1;min-width:0;min-height:56px;text-align:center;font-size:22px;font-weight:700}
+.wcell{border:1.5px solid var(--line);border-radius:16px;background:var(--surface);padding:14px;display:grid;gap:12px;margin-bottom:10px}
+.wcell.on{border-color:var(--accent);background:var(--accent-soft)}
+.wch{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.wch .cn{font:800 22px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em}
+.wch .qt{font-size:20px;font-weight:800;padding:5px 12px;border-radius:10px;background:var(--surface-2);white-space:nowrap}
+.wcell.on .qt{background:var(--accent);color:var(--accent-ink)}
+.wdr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:17px;font-weight:600;padding-top:10px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
+.wcell .step{gap:8px}
+.wcell .step button{width:52px;height:46px}
+.wcell .step input{width:72px;min-height:46px;font-size:20px}
+.wcell .step button.all{flex:1;width:auto;font-size:16px;font-weight:600}
+.wtot{display:flex;justify-content:space-between;align-items:center;padding:2px 4px;font-size:16px}
+.wtot b{font-size:20px}
+.wsl{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);font-variant-numeric:tabular-nums}
+.wsl .mono{font-weight:800;letter-spacing:.06em}
+.wpov{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.55);display:flex;align-items:flex-end}
+.wpsh{width:100%;max-width:520px;margin:0 auto;background:var(--surface);border-radius:22px 22px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));display:grid;gap:12px}
+.wpsh .hd{display:flex;justify-content:space-between;align-items:center}
+.wpsh h2{margin:0;font-size:18px}
+.wheels{position:relative;display:flex;gap:8px;height:220px}
+.wcol{flex:1;overflow-y:auto;scroll-snap-type:y mandatory;padding:88px 0;scrollbar-width:none;text-align:center}
+.wcol::-webkit-scrollbar{display:none}
+.wcol div{height:44px;line-height:44px;scroll-snap-align:center;font-size:22px;color:var(--muted);cursor:pointer}
+.wcol div.sel{color:var(--ink);font-weight:700;font-size:26px}
+.wband{position:absolute;left:0;right:0;top:88px;height:44px;border-radius:12px;background:var(--accent-soft);opacity:.5;pointer-events:none;border:1px solid var(--accent)}
 </style>
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.25.3</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.26.0</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -889,7 +938,7 @@ function renderStock0(){
 }
 
 /* ---------- views: приход ---------- */
-function renderIn(){
+function renderIn0(){
   var choices=cfg.products.map(function(p){return '<button type="button" class="choice pcol"'+pcol(p.id)+' data-act="inProduct" data-id="'+esc(p.id)+'" aria-pressed="'+(F.product===p.id)+'"><span>'+esc(p.name)+'</span></button>'}).join('');
   return banner()+'<h1>Приход</h1><div id="planBlock">'+planBlockHtml()+'</div><p class="lede">Новая поставка или товар, который уже лежит на стеллаже. В одной ячейке один товар. Лимит коробок в ячейке: '+capsText()+'. Можно держать до '+cfg.maxLots+' разных дат.</p>'+
   '<section class="group"><h2 class="lbl">Товар</h2><div class="choices">'+choices+'</div></section>'+
@@ -937,7 +986,7 @@ function checkIn(){
   r.problems=p; return r;
 }
 
-function updateIn(){
+function updateIn0(){
   if(tab!=='in') return;
   var r=checkIn();
   var sh=$('#inShelf');
@@ -1008,8 +1057,190 @@ function updateIn(){
   }
 }
 
-/* ---------- views: отгрузка ---------- */
+
+/* ---------- 0.26.0: мастер «по шагам» ---------- */
+var INSTEP=1, OUTSTEP=1, INMORE=false, OUTAUTO=false, WP=null, WPT=null;
+function dmy(iso){if(!iso||iso.length<10) return ''; var p=iso.split('-'); return p[2]+'.'+p[1]+'.'+p[0]}
+function maskDate(v){var d=String(v).replace(/\D/g,'').slice(0,8); return d.slice(0,2)+(d.length>2?'.'+d.slice(2,4):'')+(d.length>4?'.'+d.slice(4):'')}
+function parseDigits(s){
+  var d=String(s).replace(/\D/g,''), dd, mm, yy;
+  if(d.length===6){dd=+d.slice(0,2);mm=+d.slice(2,4);yy=2000+(+d.slice(4))}
+  else if(d.length===8){dd=+d.slice(0,2);mm=+d.slice(2,4);yy=+d.slice(4)}
+  else return '';
+  if(yy<2000||yy>2100||mm<1||mm>12||dd<1) return '';
+  var dt=new Date(yy,mm-1,dd); if(dt.getFullYear()!==yy||dt.getMonth()!==mm-1||dt.getDate()!==dd) return '';
+  return yy+'-'+pad(mm)+'-'+pad(dd);
+}
+function addMonthsIso(iso,n){
+  var p=iso.split('-').map(Number), m=p[1]-1+n, ny=p[0]+Math.floor(m/12), nm=((m%12)+12)%12;
+  var last=new Date(ny,nm+1,0).getDate();
+  return ny+'-'+pad(nm+1)+'-'+pad(Math.min(p[2],last));
+}
+function wprog(n){return '<div class="wprog">'+[1,2,3].map(function(i){return '<i'+(i<=n?' class="f"':'')+'></i>'}).join('')+'</div><div class="wstep">Шаг '+n+' из 3</div>'}
+function inDatesOk(){return !!(F.prod&&F.exp&&F.exp>F.prod)}
+function inReady(){return !!(F.product&&inDatesOk())}
+function stockOf(pid){var s=0; D.lots.forEach(function(l){if(l.product===pid) s+=l.qty}); return s}
+function wsumIn(step){
+  var p=product(F.product);
+  return '<div class="wsum"'+pcol(F.product)+'><div class="wn">'+esc(p.name)+(step===3&&inDatesOk()?'<small>'+dmy(F.prod)+' – '+dmy(F.exp)+'</small>':'')+'</div><button type="button" class="lk" data-act="inGo" data-s="'+(step===3?2:1)+'">Изменить</button></div>';
+}
+var CALSVG='<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>';
+function renderIn(){
+  if(INSTEP>1&&!F.product) INSTEP=1;
+  if(INSTEP>2&&!inDatesOk()) INSTEP=2;
+  var h=banner()+(INSTEP===1?'<h1>Приход</h1>':'')+wprog(INSTEP);
+  if(INSTEP===1){
+    h+='<div id="planBlock">'+planBlockHtml()+'</div><h1 class="wh1">Какой товар пришёл?</h1><div class="choices">'+
+      cfg.products.map(function(p){return '<button type="button" class="choice big pcol"'+pcol(p.id)+' data-act="inProduct" data-id="'+esc(p.id)+'" aria-pressed="'+(F.product===p.id)+'"><span>'+esc(p.name)+'</span></button>'}).join('')+'</div>'+
+      '<div class="wfoot"><button id="inNext" class="btn" type="button" data-act="inNext"'+(F.product?'':' disabled')+'>Далее</button></div>';
+    return h;
+  }
+  if(INSTEP===2){
+    h+=wsumIn(2)+'<h1 class="wh1">Даты на упаковке</h1>'+
+      '<section class="group"><div class="field"><label for="inProd">Дата производства</label><div class="drow"><input id="inProd" type="text" inputmode="numeric" autocomplete="off" placeholder="дд.мм.гггг" value="'+esc(dmy(F.prod))+'"><button type="button" class="cal" data-act="wpOpen" data-f="prod" aria-label="Выбрать дату производства">'+CALSVG+'</button></div></div>'+
+      '<div class="note" style="margin-top:6px">Наберите цифрами: 010926 → 01.09.2026. Или нажмите на календарь.</div></section>'+
+      '<section class="group"><div class="field"><label for="inExp">Годен до</label><div class="drow"><input id="inExp" type="text" inputmode="numeric" autocomplete="off" placeholder="дд.мм.гггг" value="'+esc(dmy(F.exp))+'"><button type="button" class="cal" data-act="wpOpen" data-f="exp" aria-label="Выбрать срок годности">'+CALSVG+'</button></div></div>'+
+      '<div class="mchips">'+[3,6,9,12].map(function(n){return '<button type="button" class="mchip" data-act="inMon" data-n="'+n+'">+'+n+' мес</button>'}).join('')+'</div>'+
+      '<div class="note" style="margin-top:6px">Нажимайте несколько раз: каждое нажатие прибавляет месяцы к дате.</div>'+
+      '<div id="inShelf" class="note" style="margin-top:8px"></div></section>'+
+      '<div class="wfoot"><button class="btn ghost" type="button" data-act="inBack">Назад</button><button id="inNext" class="btn" type="button" data-act="inNext"'+(inDatesOk()?'':' disabled')+'>Далее</button></div>';
+    return h;
+  }
+  var more=INMORE||!!F.total||!!F.from;
+  h+=wsumIn(3)+'<h1 class="wh1">Куда положить?</h1>'+(F.planId?planNoteHtml():'')+
+    '<section class="group"><div class="field"><label for="inCell">Ячейка: ряд-секция-этаж</label><input id="inCell" class="cellinp" type="text" inputmode="numeric" autocomplete="off" placeholder="10-01-3" value="'+esc(F.cell)+'"></div>'+
+    '<div id="inCellHint" class="note" style="margin-top:8px"></div><div id="inSuggest" style="margin-top:8px"></div></section>'+
+    '<section class="group"><div class="field"><label for="inQty">Сколько коробок</label><div class="qst"><button type="button" data-act="inQtyDec" aria-label="Меньше">−</button><input id="inQty" type="number" inputmode="numeric" min="1" value="'+esc(F.qty)+'"><button type="button" data-act="inQtyInc" aria-label="Больше">+</button><button type="button" class="mx" data-act="inMax">Макс.</button></div></div></section>'+
+    (more?'<section class="group"><div class="field"><label for="inTotal">Всего пришло, коробок <span class="opt">необязательно</span></label><input id="inTotal" type="number" inputmode="numeric" min="1" placeholder="например 150" value="'+esc(F.total)+'"></div><div id="inRemain" style="margin-top:8px"></div></section>'+
+      '<section class="group"><div class="field"><label for="inFrom">Откуда приход <span class="opt">необязательно</span></label><input id="inFrom" type="text" list="srcList" autocomplete="off" placeholder="завод, поставщик, склад" value="'+esc(F.from)+'">'+srcDatalist()+'</div></section>'
+      :'<button type="button" class="lk" style="margin-bottom:8px" data-act="inMore">+ Дополнительно: откуда пришло, всего в поставке</button>')+
+    '<div id="inStatus" class="status"></div>'+
+    '<div class="wfoot"><button class="btn ghost" type="button" data-act="inBack">Назад</button><button id="inBtn" class="btn" type="button" data-act="inSave">Принять на склад</button></div>'+
+    '<div style="text-align:center"><button type="button" class="lk" data-act="inReset">Новый приход</button></div>';
+  return h;
+}
+function updateIn(){
+  if(tab!=='in') return;
+  updateIn0();
+  var sh=$('#inShelf');
+  if(sh&&F.prod&&F.exp&&F.exp<=F.prod){sh.className='note bad';sh.textContent='Срок годности раньше даты производства'}
+  var nx=$('#inNext'); if(nx) nx.disabled=INSTEP===1?!F.product:!inDatesOk();
+  var btn=$('#inBtn');
+  if(btn&&!busy){var r=checkIn(); btn.textContent=(!r.problems.length&&r.q>0)?'Принять '+r.q+' кор.':'Принять на склад'}
+}
+/* колёсики даты */
+function wpYears(){var y=new Date().getFullYear(),a=[]; for(var i=y-3;i<=y+6;i++) a.push(i); return a}
+function wpOpen(f){
+  var iso=F[f]||(f==='exp'&&F.prod?addMonthsIso(F.prod,6):todayIso());
+  var p=iso.split('-').map(Number); WP={f:f,d:p[2],m:p[1],y:p[0]};
+  var r=document.getElementById('wpRoot'); if(r) r.remove();
+  r=document.createElement('div'); r.id='wpRoot'; r.className='wpov';
+  var days=[],mons=[]; for(var i=1;i<=31;i++) days.push(i); for(var j=1;j<=12;j++) mons.push(j);
+  var ys=wpYears(); if(ys.indexOf(WP.y)<0) ys.push(WP.y);
+  var col=function(id,arr,sel,ff){return '<div class="wcol" id="'+id+'" role="listbox" data-n="'+arr.length+'">'+arr.map(function(v){return '<div role="option" data-act="wpPick" data-c="'+id+'" data-v="'+v+'"'+(v===sel?' class="sel"':'')+'>'+ff(v)+'</div>'}).join('')+'</div>'};
+  r.innerHTML='<div class="wpsh" role="dialog" aria-modal="true" aria-label="Выбор даты"><div class="hd"><h2>'+(f==='prod'?'Дата производства':'Годен до')+'</h2><button type="button" class="lk" data-act="wpCancel">Отмена</button></div>'+
+    '<div class="wheels">'+col('wcD',days,WP.d,pad)+col('wcM',mons,WP.m,pad)+col('wcY',ys,WP.y,String)+'<div class="wband"></div></div>'+
+    '<div class="note" style="text-align:center">День · месяц · год. Крутите пальцем вверх и вниз.</div>'+
+    '<button type="button" class="btn" id="wpDone" data-act="wpDone">Выбрать</button></div>';
+  document.body.appendChild(r);
+  [['wcD','d',days],['wcM','m',mons],['wcY','y',ys]].forEach(function(c){
+    var el=document.getElementById(c[0]), tm=null; el.scrollTop=c[2].indexOf(WP[c[1]])*44;
+    el.addEventListener('scroll',function(){
+      clearTimeout(tm); tm=setTimeout(function(){
+        if(!WP) return;
+        var i=Math.max(0,Math.min(c[2].length-1,Math.round(el.scrollTop/44)));
+        WP[c[1]]=c[2][i]; wpSync();
+      },70);
+    });
+  });
+  wpSync();
+}
+function wpIso(){
+  var last=new Date(WP.y,WP.m,0).getDate();
+  return WP.y+'-'+pad(WP.m)+'-'+pad(Math.min(WP.d,last));
+}
+function wpSync(){
+  [['wcD','d'],['wcM','m'],['wcY','y']].forEach(function(c){
+    var el=document.getElementById(c[0]); if(!el) return;
+    Array.prototype.forEach.call(el.children,function(x){x.classList.toggle('sel',Number(x.dataset.v)===WP[c[1]])});
+  });
+  var b=document.getElementById('wpDone'); if(b) b.textContent='Выбрать '+dmy(wpIso());
+}
+function wpPick(el){
+  var c=document.getElementById(el.dataset.c); if(!c||!WP) return;
+  var idx=Array.prototype.indexOf.call(c.children,el); c.scrollTo?c.scrollTo({top:idx*44,behavior:'smooth'}):(c.scrollTop=idx*44);
+  var key={wcD:'d',wcM:'m',wcY:'y'}[el.dataset.c]; WP[key]=Number(el.dataset.v); wpSync();
+}
+function wpClose(){var r=document.getElementById('wpRoot'); if(r) r.remove(); WP=null}
+function wpDone(){
+  if(!WP) return;
+  var iso=wpIso(); F[WP.f]=iso; F.placed=0; wpClose(); render();
+}
+
+/* отгрузка */
+function wsumOut(step){
+  var p=product(O.product), ls=outLines(), sum=ls.reduce(function(s,l){return s+l.qty},0);
+  var sub=step===2?'на складе '+stockOf(O.product)+' кор.':'выбрано '+sum+' кор. из '+ls.length+' яч.';
+  return '<div class="wsum"'+pcol(O.product)+'><div class="wn">'+esc(p.name)+'<small>'+sub+'</small></div><button type="button" class="lk" data-act="outGo" data-s="'+(step===3?2:1)+'">Изменить</button></div>';
+}
 function renderOut(){
+  if(OUTSTEP>1&&!O.product) OUTSTEP=1;
+  if(OUTSTEP===3&&!outLines().length) OUTSTEP=2;
+  var h=banner()+(OUTSTEP===1?'<h1>Отгрузка</h1>':'')+wprog(OUTSTEP);
+  if(OUTSTEP===1){
+    h+='<h1 class="wh1">Что отгружаем?</h1><div class="choices">'+cfg.products.map(function(p){
+      return '<button type="button" class="choice big pcol"'+pcol(p.id)+' data-act="outProduct" data-id="'+esc(p.id)+'" aria-pressed="'+(O.product===p.id)+'"><span>'+esc(p.name)+'</span><small>'+stockOf(p.id)+' кор.</small></button>';
+    }).join('')+'</div>';
+    var has=O.product&&stockOf(O.product)>0;
+    if(O.product&&!has) h+='<div class="note bad" style="margin-top:10px">Этого товара нет на складе. Внесите приход, и он появится здесь.</div>';
+    return h+'<div class="wfoot"><button id="outNext1" class="btn" type="button" data-act="outNext"'+(has?'':' disabled')+'>Далее</button></div>';
+  }
+  if(OUTSTEP===2){
+    var lots=Array.from(D.lots.values()).filter(function(l){return l.product===O.product}).sort(byExp);
+    h+=wsumOut(2)+'<h1 class="wh1">Из каких ячеек берём?</h1><div class="note" style="margin:-4px 0 12px">Даты: произведено – годен до. Сверху те, у кого срок раньше.</div>'+
+      '<button type="button" class="lk" style="margin-bottom:6px" data-act="outAutoToggle">'+(OUTAUTO?'Скрыть подбор':'Подобрать по количеству')+'</button>'+
+      (OUTAUTO?'<div class="autopick"><div class="field"><label for="outNeed">Нужно отгрузить, коробок</label><input id="outNeed" type="number" inputmode="numeric" min="1" value="'+esc(O.need)+'" placeholder="например 50"></div><button class="btn ghost" type="button" data-act="outAuto">Подобрать</button></div>':'');
+    if(!lots.length) return h+'<div class="card hero-empty"><h2>Этого товара нет на складе</h2><p>Внесите приход, и он появится здесь.</p></div><div class="wfoot"><button class="btn ghost" type="button" data-act="outBack">Назад</button></div>';
+    lots.forEach(function(l){
+      var li=lotInfo(l), late=daysTo(l.exp)<0;
+      var pill=late?'<span class="pill bad">Срок истёк</span>':(li.pct<=cfg.warnPct?'<span class="pill warn">Срок скоро</span>':'');
+      l.cells.forEach(function(c){
+        var k=c.cell+'#'+l.key, v=O.q[k]||0;
+        h+='<div class="wcell'+(v?' on':'')+'" data-ck="'+esc(k)+'"><div class="wch"><span class="cn">'+c.cell+'</span><span class="qt">'+c.qty+' кор.</span></div>'+
+          '<div class="wdr"><span>'+dmy(l.prod)+' – '+dmy(l.exp)+'</span>'+pill+'</div>'+
+          '<div class="step"><button type="button" data-act="outDec" aria-label="Меньше">−</button><input type="number" inputmode="numeric" min="0" max="'+c.qty+'" class="qin'+(v?' on':'')+'" data-k="'+esc(k)+'" data-have="'+c.qty+'" value="'+(v||'')+'" placeholder="0" aria-label="Коробок из '+c.cell+'"><button type="button" data-act="outInc" aria-label="Больше">+</button><button type="button" class="all" data-act="outAll">Все '+c.qty+'</button></div></div>';
+      });
+    });
+    return h+'<div class="wtot"><span>Выбрано</span><b><span id="outSel">0</span> кор.</b></div>'+
+      '<div class="wfoot"><button class="btn ghost" type="button" data-act="outBack">Назад</button><button id="outNext2" class="btn" type="button" data-act="outNext" disabled>Далее: город</button></div>';
+  }
+  var ls=outLines();
+  h+=wsumOut(3)+'<h1 class="wh1">Куда отправляем?</h1>'+
+    '<div class="stack" style="margin-bottom:16px">'+ls.map(function(l){return '<div class="wsl"><span class="mono">'+l.cell+'</span><span>'+dmy(l.prod)+' – '+dmy(l.exp)+'</span><b>'+l.qty+' кор.</b></div>'}).join('')+'</div>'+
+    '<section class="group"><h2 class="lbl">Город назначения</h2><div class="chiprow">'+
+    cfg.cities.map(function(c){return '<button class="fchip" type="button" data-act="outCity" data-c="'+esc(c)+'" aria-pressed="'+(O.city===c)+'">'+esc(c)+'</button>'}).join('')+
+    '<button class="fchip" type="button" data-act="outNewCity" aria-pressed="false">+ Город</button></div>'+
+    (S.newCity||!cfg.cities.length?'<div class="add"><input id="outCityName" type="text" placeholder="Название города" autocomplete="off" aria-label="Название города"><button class="btn" type="button" data-act="outAddCity">Добавить</button></div>':'')+'</section>'+
+    '<div id="dockSum" class="note" style="text-align:center"></div>'+
+    '<div class="wfoot"><button class="btn ghost" type="button" data-act="outBack">Назад</button><button id="outBtn" class="btn" type="button" data-act="outSave">Отгрузить</button></div>';
+  return h;
+}
+function updateDock(){
+  if(tab!=='out') return;
+  var ls=outLines(), sum=ls.reduce(function(s,l){return s+l.qty},0);
+  var sel=$('#outSel'); if(sel) sel.textContent=sum;
+  var n2=$('#outNext2'); if(n2) n2.disabled=!sum;
+  $$('.wcell').forEach(function(c){c.classList.toggle('on',(O.q[c.dataset.ck]||0)>0)});
+  var ds=$('#dockSum'), b=$('#outBtn');
+  if(ds) ds.innerHTML=sum?'Выбрано <b>'+sum+'</b> кор. из '+ls.length+' яч.'+(O.city?' → <b>'+esc(O.city)+'</b>':' · выберите город'):'Ничего не выбрано';
+  if(b){
+    b.disabled=!sum||!O.city||busy||!canSave();
+    b.textContent=busy?'Сохраняю…':(sum&&O.city?'Отгрузить '+sum+' кор. в '+O.city:'Отгрузить');
+  }
+}
+function wtop(){window.scrollTo(0,0)}
+/* ---------- views: отгрузка ---------- */
+function renderOut0(){
   var pcs=cfg.products.map(function(p){
     var s=0; D.lots.forEach(function(l){if(l.product===p.id)s+=l.qty});
     return '<button type="button" class="choice pcol"'+pcol(p.id)+' data-act="outProduct" data-id="'+esc(p.id)+'" aria-pressed="'+(O.product===p.id)+'"><span>'+esc(p.name)+'</span><small>'+s+' кор.</small></button>';
@@ -1045,7 +1276,7 @@ function outLines(){
   });
   return lines;
 }
-function updateDock(){
+function updateDock0(){
   if(tab!=='out') return;
   var ls=outLines(), sum=ls.reduce(function(s,l){return s+l.qty},0);
   var ds=$('#dockSum'), b=$('#outBtn'); if(!ds||!b) return;
@@ -1793,7 +2024,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.25.3</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.26.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -1846,7 +2077,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.25.3 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.26.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -1873,7 +2104,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.25.3) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.26.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -2074,7 +2305,7 @@ function saveOut(){
   ls.reduce(function(p,l){return p.then(function(){
     return addMove({type:'out',product:l.product,prod:l.prod,exp:l.exp,cell:l.cell,qty:l.qty,city:city}).then(function(){done++;sum+=l.qty});
   })},Promise.resolve()).then(function(){
-    O.q={};O.need='';busy=false;toast('Отгружено '+sum+' кор. → '+city);render();
+    O.q={};O.need='';OUTSTEP=1;busy=false;toast('Отгружено '+sum+' кор. → '+city);render();
   }).catch(function(e){
     busy=false; O.q={}; render();
     toast((done?'Записано '+done+' из '+ls.length+' строк. ':'')+errText(e),true);
@@ -2177,16 +2408,34 @@ document.addEventListener('click',function(e){
     case 'bkSave2': return bkSave2();
     case 'bkAuto2': if(el.dataset.v==='0'){AUTO2.on=false}else{AUTO2.on=true;AUTO2.days=Number(el.dataset.v)} au2Save(); return renderSheet();
     case 'pf': S.pf=el.dataset.id; S.logLimit=50; return render();
+    case 'inNext': if(INSTEP===1&&F.product) INSTEP=2; else if(INSTEP===2&&inDatesOk()) INSTEP=3; render(); return wtop();
+    case 'inBack': INSTEP=Math.max(1,INSTEP-1); render(); return wtop();
+    case 'inGo': INSTEP=Number(el.dataset.s)||1; render(); return wtop();
+    case 'inMore': INMORE=true; return render();
+    case 'inMon':
+      if(!F.prod&&!F.exp) return toast('Сначала укажите дату производства',true);
+      F.exp=addMonthsIso(F.exp||F.prod,Number(el.dataset.n)); F.placed=0;
+      var ex=$('#inExp'); if(ex) ex.value=dmy(F.exp); return updateIn();
+    case 'inQtyDec': case 'inQtyInc':
+      var nq=(Number(F.qty)||0)+(a==='inQtyInc'?1:-1); F.qty=nq>=1?String(nq):''; var qi2=$('#inQty'); if(qi2) qi2.value=F.qty; return updateIn();
+    case 'wpOpen': return wpOpen(el.dataset.f);
+    case 'wpDone': return wpDone();
+    case 'wpCancel': return wpClose();
+    case 'wpPick': return wpPick(el);
+    case 'outNext': if(OUTSTEP===1&&O.product&&stockOf(O.product)>0) OUTSTEP=2; else if(OUTSTEP===2&&outLines().length) OUTSTEP=3; render(); return wtop();
+    case 'outBack': OUTSTEP=Math.max(1,OUTSTEP-1); render(); return wtop();
+    case 'outGo': OUTSTEP=Number(el.dataset.s)||1; render(); return wtop();
+    case 'outAutoToggle': OUTAUTO=!OUTAUTO; return render();
     case 'inProduct': if(F.product!==el.dataset.id) F.planId=''; F.product=el.dataset.id; F.placed=0; return render();
     case 'inCell': F.cell=el.dataset.cell; var ci=$('#inCell'); if(ci) ci.value=F.cell; return updateIn();
     case 'inMax': var r=checkIn(); if(r.max!=null&&r.max>0){F.qty=String(r.max);var qi=$('#inQty');if(qi)qi.value=F.qty;} else if(r.free==null) toast('Сначала укажите ячейку',true); return updateIn();
     case 'inSave': return saveIn();
-    case 'inReset': F={product:'',prod:'',exp:'',total:'',cell:'',qty:'',placed:0,from:'',planId:''}; return render();
+    case 'inReset': INSTEP=1; INMORE=false; F={product:'',prod:'',exp:'',total:'',cell:'',qty:'',placed:0,from:'',planId:''}; return render();
     case 'outProduct': O.product=el.dataset.id; O.q={}; O.need=''; return render();
     case 'outAuto': return autoPick();
     case 'outSave': return saveOut();
     case 'outDec': case 'outInc': case 'outAll':
-      var inp=el.closest('.pick').querySelector('input'), have=Number(inp.dataset.have), v=Number(inp.value)||0;
+      var inp=el.closest('.step').querySelector('input'), have=Number(inp.dataset.have), v=Number(inp.value)||0;
       v=a==='outDec'?v-1:a==='outInc'?v+1:have; v=Math.max(0,Math.min(have,v));
       inp.value=v||''; inp.classList.toggle('on',v>0); O.q[inp.dataset.k]=v; return updateDock();
     case 'outCity': O.city=el.dataset.c; return render();
@@ -2266,7 +2515,7 @@ document.addEventListener('click',function(e){
     case 'mapPf': S.map.pf=el.dataset.id; return render();
     case 'mapCell': S.mapSel=el.dataset.cell; return renderSheet();
     case 'mapClose': S.mapSel=null; return renderSheet();
-    case 'mapPut': F.cell=el.dataset.cell; S.mapSel=null; renderSheet(); return setTab('in');
+    case 'mapPut': F.cell=el.dataset.cell; INSTEP=inReady()?3:(F.product?2:1); S.mapSel=null; renderSheet(); return setTab('in');
     case 'plToggle': S.plOpen=!S.plOpen; return render();
     case 'plGo': S.plOpen=true; return setTab('in');
     case 'plNew': S.pl={product:'',qty:'',eta:'',from:'',prod:'',exp:'',note:''}; renderSheet(); return updatePlan();
@@ -2277,7 +2526,7 @@ document.addEventListener('click',function(e){
     case 'plAccept':
       var pm=moves.filter(function(x){return x.id===el.dataset.id})[0]; if(!pm) return;
       F={product:pm.product,prod:pm.prod||'',exp:pm.exp||'',total:String(pm.qty),cell:'',qty:'',placed:0,from:pm.from||'',planId:pm.id};
-      S.plOpen=false; render(); window.scrollTo(0,0); toast('Форма заполнена по плану. Укажите ячейку'+(pm.prod&&pm.exp?'':' и даты')); return;
+      S.plOpen=false; INSTEP=inReady()?3:2; render(); window.scrollTo(0,0); toast('Форма заполнена по плану. Укажите ячейку'+(pm.prod&&pm.exp?'':' и даты')); return;
     case 'plDone': return setPlan(el.dataset.id,{status:'received',receivedAt:new Date().toISOString()}).then(function(){toast('Закрыто: приход уже внесён')}).catch(function(er){toast(errText(er),true)});
     case 'plDelAsk': S.planDel=el.dataset.id; return render();
     case 'plDelNo': S.planDel=null; return render();
@@ -2314,8 +2563,8 @@ document.addEventListener('input',function(e){
   if(t.id==='gSearch'){S.gq=t.value;S.gLimit=30;clearTimeout(recTm);recTm=setTimeout(function(){recAdd(S.gq)},1800);return gUpdate()}
   if(t.id==='dsDate'){S.ds.date=t.value;return dsUpdate()}
   if(t.id==='cSearch'){var cf=fmtCellInput(t.value);t.value=cf;S.cq=cf;S.cLimit=40;var cr=$('#cResults');if(cr) cr.innerHTML=cellsListHtml();return}
-  if(t.id==='inProd'){F.prod=t.value;F.placed=0;return updateIn()}
-  if(t.id==='inExp'){F.exp=t.value;F.placed=0;return updateIn()}
+  if(t.id==='inProd'){t.value=maskDate(t.value);F.prod=parseDigits(t.value);F.placed=0;return updateIn()}
+  if(t.id==='inExp'){t.value=maskDate(t.value);F.exp=parseDigits(t.value);F.placed=0;return updateIn()}
   if(t.id==='srcIn'&&S.srcEdit){S.srcEdit.val=t.value;return}
   if(t.id==='rqText'&&S.rq){S.rq.text=t.value;var sb=$('#rqSend');if(sb) sb.disabled=!rqOk()||busy;return}
   if(t.id==='woQty'&&S.wo){S.wo.qty=t.value;return woUpdate()}
@@ -2925,7 +3174,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.25.3</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.26.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
