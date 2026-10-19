@@ -1540,7 +1540,7 @@ function journalHtml(type){
   });
   var dayTotal={}; list.forEach(function(m){var k=dayKey(m.ts);dayTotal[k]=(dayTotal[k]||0)+m.qty});
   h+=groups.map(function(g){
-    var dk=type+'|'+g.k, op=(S.dayOpen&&dk in S.dayOpen)?S.dayOpen[dk]:g.items.some(isToday);
+    var dk=type+'|'+g.k, op=(S.dayOpen&&dk in S.dayOpen)?S.dayOpen[dk]:!!window.__DAYOPEN;
     var srcs=[]; list.forEach(function(m){if(dayKey(m.ts)!==g.k)return; var x=type==='in'?m.from:m.city; if(x&&srcs.indexOf(x)<0)srcs.push(x)});
     return '<button type="button" class="day dayb" data-act="dayTog" data-k="'+esc(dk)+'" aria-expanded="'+op+'"><span class="dl"><i>'+(op?'▾':'▸')+'</i>'+g.label+'</span><span class="dm">'+(srcs.length?'<em>'+esc((type==='in'?'из ':'в ')+srcs.join(', '))+'</em>':'')+'<b>'+dayTotal[g.k]+'</b> кор.</span></button>'+(op?'<ul class="mvlist">'+g.items.map(mvItem).join('')+'</ul>':'');
   }).join('');
