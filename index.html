@@ -213,6 +213,23 @@ html .fpanel .fchip[data-act=pf],html[data-size] .fpanel .fchip[data-act=pf],htm
 .fpanel .field label{font-size:12px;margin-bottom:2px}
 .fpanel input[type=date]{min-height:38px;padding:4px 8px}
 .fbar{margin-bottom:6px}
+html body .mvc .mv-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px}
+html body .mvc .zl{display:flex;align-items:baseline;gap:9px;min-width:0}
+html body .mvc .mv-h .cellchip{font-size:22px}
+html body .mvc .mv-h b.zq{margin:0;font-size:20px;padding:0;background:none;white-space:nowrap}
+html body .mvc .mvpill{font-size:16px;font-weight:700;padding:3px 13px;white-space:nowrap;flex:none}
+html body .mvc .mvbody{padding:8px 14px 4px;gap:3px}
+html body .mvc .z2{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+html body .mvc .zn{display:inline-flex;align-items:center;gap:7px;font-size:17px;font-weight:700;white-space:nowrap}
+html body .mvc .zn .pd{width:10px;height:10px;border-radius:3px;background:var(--pc);flex:none;display:inline-block}
+html body .mvc .zd{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+html body .mvc .mvsbh .cklab{width:74px;font-size:13px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.03em}
+html body .dayb{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--muted);font:inherit;font-size:15px;font-weight:700;padding:10px 2px;margin:4px 0 8px;display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;cursor:pointer}
+html body .dayb .dl{display:flex;align-items:center;gap:8px;white-space:nowrap}
+html body .dayb .dl i{font-style:normal;color:var(--accent);width:14px}
+html body .dayb .dm{display:flex;align-items:baseline;gap:8px;min-width:0;justify-content:flex-end}
+html body .dayb .dm em{font-style:normal;font-size:13px;font-weight:600;color:var(--accent);overflow:hidden;text-overflow:ellipsis;max-width:150px;white-space:nowrap}
+html body .dayb .dm b{color:var(--ink)}
 .dscard{padding:0;margin-bottom:10px;overflow:hidden}
 .dshead{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:0 14px;background:var(--surface);border:0;color:var(--ink);font-size:16px;text-align:left}
 .dshead span{font-weight:700}
@@ -1459,19 +1476,20 @@ function origText(m){
 }
 function mvCard(m,k,extra){
   var inn=k==='in', q=Number(m.qty)||0, dis=canSave()?'':' disabled', id=esc(m.id);
-  var who=m.byName?(inn?'Внёс':'Отгрузил')+' <b>'+esc(m.byName)+'</b>'+(m.editedByName?' · исправил: '+esc(m.editedByName):''):'';
   var pill=inn?(m.from?'из '+esc(m.from):''):'в '+esc(m.city||'?');
   var lab=inn?['Ячейка','заблок.','разблок.']:['С ячейки','взято','не взято'];
   var btn=function(v,mark,txt){return '<button type="button" class="ck2 '+v+'" data-act="chk" data-v="'+v+'" data-id="'+id+'" aria-pressed="'+((m.chk||'bad')===v)+'"'+dis+'><i>'+mark+'</i>'+txt+'</button>'};
+  var p=product(m.product), pc=(cfg.products.filter(function(x){return x.id===m.product})[0]||{}).color||'#8A94A6';
+  var who=m.byName?(inn?'Внёс':'Отгрузил')+' <b>'+esc(m.byName)+'</b>'+(m.editedByName?' · исправил: '+esc(m.editedByName):'')+' · '+timeKey(m.ts):timeKey(m.ts);
   var note='';
   if(m.chk){
     var nt=inn?(m.chk==='ok'?'Заблокировал':'Разблокировал'):(m.chk==='ok'?'С ячейки взял':'Не взято с ячейки');
     note='<div class="sn '+m.chk+'">'+(m.chk==='ok'?'✓ ':'✕ ')+nt+(m.chkByName?' '+esc(m.chkByName):'')+(m.chkAt?' <small>· '+esc(whenText(m.chkAt))+'</small>':'')+'</div>';
   }
-  return '<li class="card mv mvc '+k+tdCls(m)+(m.id&&m.id===FLASHID&&UI.flash!=='0'?' flash':'')+'">'+tdTag(m)+
-    '<div class="mv-h"><span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span><b>'+(inn?'+':'−')+q+' кор.</b></div>'+
-    '<div class="mvbody"><div class="mv-b">'+pname(m.product)+'</div><div class="mv-s mvd"><b>'+rng(m.prod,m.exp)+'</b></div>'+
-    '<div class="mvl"><span>'+(who?who+' · ':'')+timeKey(m.ts)+'</span>'+(pill?'<span class="mvpill">'+pill+'</span>':'')+'</div></div>'+extra+
+  return '<li class="card mv mvc '+k+tdCls(m)+(m.id&&m.id===FLASHID&&UI.flash!=='0'?' flash':'')+'">'+
+    '<div class="mv-h"><span class="zl"><span class="mono cellchip cc-'+k+'">'+esc(m.cell)+'</span><b class="zq">'+(inn?'+':'−')+q+' кор.</b></span>'+(pill?'<span class="mvpill">'+pill+'</span>':'')+'</div>'+
+    '<div class="mvbody"><div class="z2"><span class="zn" style="--pc:'+pc+'"><i class="pd"></i>'+esc(p.short||p.name)+'</span><span class="zd">'+rng(m.prod,m.exp)+'</span></div>'+
+    '<div class="mvl"><span>'+who+'</span></div></div>'+extra+
     '<div class="mvsb"><div class="mvsbh"><span class="cklab">'+lab[0]+'</span><div role="group" aria-label="'+lab[0]+'">'+btn('ok','✓',lab[1])+btn('bad','✕',lab[2])+'</div></div>'+note+'</div>'+
     (m.orig?'<div class="mv-s" style="color:var(--warn);padding:0 14px 8px">'+esc(origText(m))+'</div>':'')+
     (S.confirmDel===m.id?'<div class="mv-a" style="padding:0 14px 12px"><span class="note">Отменить эту запись?</span><button class="btn danger sm" type="button" data-act="delYes" data-id="'+id+'">Да, отменить</button><button class="btn ghost sm" type="button" data-act="delNo">Нет</button></div>':
@@ -1522,7 +1540,9 @@ function journalHtml(type){
   });
   var dayTotal={}; list.forEach(function(m){var k=dayKey(m.ts);dayTotal[k]=(dayTotal[k]||0)+m.qty});
   h+=groups.map(function(g){
-    return '<div class="day"><span>'+g.label+'</span><span><b>'+dayTotal[g.k]+'</b> кор.</span></div><ul class="mvlist">'+g.items.map(mvItem).join('')+'</ul>';
+    var dk=type+'|'+g.k, op=(S.dayOpen&&dk in S.dayOpen)?S.dayOpen[dk]:g.items.some(isToday);
+    var srcs=[]; list.forEach(function(m){if(dayKey(m.ts)!==g.k)return; var x=type==='in'?m.from:m.city; if(x&&srcs.indexOf(x)<0)srcs.push(x)});
+    return '<button type="button" class="day dayb" data-act="dayTog" data-k="'+esc(dk)+'" aria-expanded="'+op+'"><span class="dl"><i>'+(op?'▾':'▸')+'</i>'+g.label+'</span><span class="dm">'+(srcs.length?'<em>'+esc((type==='in'?'из ':'в ')+srcs.join(', '))+'</em>':'')+'<b>'+dayTotal[g.k]+'</b> кор.</span></button>'+(op?'<ul class="mvlist">'+g.items.map(mvItem).join('')+'</ul>':'');
   }).join('');
   if(list.length>S.logLimit) h+='<button class="btn ghost" type="button" style="width:100%;margin-top:14px" data-act="logMore">Показать ещё</button>';
   return h;
@@ -2523,6 +2543,7 @@ document.addEventListener('click',function(e){
     case 'edProduct': S.edit.product=el.dataset.id; $$('[data-act="edProduct"]').forEach(function(b){b.setAttribute('aria-pressed',String(b===el))}); return updateEdit();
     case 'edScope': S.edit.scope=el.dataset.v; $$('[data-act="edScope"]').forEach(function(b){b.setAttribute('aria-pressed',String(b===el))}); return updateEdit();
     case 'edSave': return applyEdit();
+    case 'dayTog': S.dayOpen=S.dayOpen||{}; S.dayOpen[el.dataset.k]=el.getAttribute('aria-expanded')!=='true'; return render();
     case 'dsToggle': S.dsOpen=!S.dsOpen; return render();
     case 'logFilt': S.logFiltOpen=!S.logFiltOpen; return render();
     case 'logView': S.logView=el.dataset.v; S.logLimit=50; S.confirmDel=null; return render();
