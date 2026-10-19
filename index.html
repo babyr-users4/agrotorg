@@ -213,6 +213,12 @@ html .fpanel .fchip[data-act=pf],html[data-size] .fpanel .fchip[data-act=pf],htm
 .fpanel .field label{font-size:12px;margin-bottom:2px}
 .fpanel input[type=date]{min-height:38px;padding:4px 8px}
 .fbar{margin-bottom:6px}
+.dscard{padding:0;margin-bottom:10px;overflow:hidden}
+.dshead{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:0 14px;background:var(--surface);border:0;color:var(--ink);font-size:16px;text-align:left}
+.dshead span{font-weight:700}
+.dshead b{color:var(--accent);font-weight:700}
+.dshead i{margin-left:auto;font-style:normal;color:var(--muted)}
+.dsbody{padding:0 14px 14px;border-top:1px solid var(--line);padding-top:12px}
 html body .card.mv.td-in,html body .card.mv.td-out,html body .card.mv.mvc.td-in,html body .card.mv.mvc.td-out,html body .card.prod.td-city{border-color:rgba(22,194,94,.35)!important;box-shadow:inset 4px 0 0 rgba(22,194,94,.5)!important;background:rgba(22,194,94,.045)!important}
 html body .mvc.td-in .mvsb,html body .mvc.td-out .mvsb{background:rgba(255,255,255,.03)!important}
 html body .tdtag,html body .cdep .tdtag{background:rgba(22,194,94,.16);color:#4ade80;border:1px solid rgba(22,194,94,.4);font-weight:700}
@@ -1621,6 +1627,19 @@ function dsText(iso){
   return L.join('\n');
 }
 function dsBlock(){
+  var open=!!S.dsOpen, d=dsDate(), td=todayIso(), y=new Date(); y.setDate(y.getDate()-1);
+  var yi=y.getFullYear()+'-'+pad2(y.getMonth()+1)+'-'+pad2(y.getDate());
+  var lab=d===td?'сегодня':d===yi?'вчера':dmy(d);
+  var head='<button type="button" class="dshead" data-act="dsToggle" aria-expanded="'+open+'"><span>Итог дня</span><b>'+esc(lab)+'</b><i>'+(open?'▴':'▾')+'</i></button>';
+  if(!open) return '<section class="card dscard">'+head+'</section>';
+  return '<section class="card dscard">'+head+'<div class="dsbody">'+
+    '<p class="note" style="margin:0 0 10px">Готовый текст: нажмите «Скопировать» и вставьте в Telegram или WhatsApp.</p>'+
+    '<div class="chiprow"><button class="fchip" type="button" data-act="dsDay" data-d="'+td+'" aria-pressed="'+(d===td)+'">Сегодня</button><button class="fchip" type="button" data-act="dsDay" data-d="'+yi+'" aria-pressed="'+(d===yi)+'">Вчера</button></div>'+
+    '<div class="field"><label for="dsDate">Другая дата</label><input id="dsDate" type="date" value="'+esc(d)+'"></div>'+
+    '<pre id="dsOut" class="dsbox">'+esc(dsText(d))+'</pre>'+
+    '<div class="mv-a"><button class="btn sm" type="button" data-act="dsCopy">Скопировать итог</button>'+(navigator.share?'<button class="btn ghost sm" type="button" data-act="dsShare">Поделиться…</button>':'')+'</div></div></section>';
+}
+function dsBlockOld(){
   var d=dsDate(), td=todayIso(), y=new Date(); y.setDate(y.getDate()-1);
   var yi=y.getFullYear()+'-'+pad2(y.getMonth()+1)+'-'+pad2(y.getDate());
   return '<section class="card" style="padding:14px;margin-bottom:14px"><h2 style="margin:0 0 4px;font-size:18px">Итог дня</h2>'+
@@ -1651,7 +1670,7 @@ function statsHtml(){
   var woOf=function(id){var s=0;periodMoves('adj').forEach(function(m){if(m.writeoff&&(id==null||m.product===id)) s-=(Number(m.qty)||0)});return s};
   var kv=function(a,b,w,s){var d=a-b;return '<div class="kv"><div><span>Принято</span><b>+'+a+'</b></div><div><span>Отгружено</span><b>−'+b+'</b></div><div><span>Списано</span><b>'+(w?'−'+w:'0')+'</b></div><div><span>Остаток</span><b>'+s+'</b></div></div>'};
   var adjs=periodMoves('adj'), ap=0, am=0, swo=0; adjs.forEach(function(m){var q=Number(m.qty)||0; if(m.writeoff) swo-=q; else if(q>0) ap+=q; else am-=q});
-  var h=dsBlock()+'<p class="sumtxt">Статистика '+periodLabel()+'. Считаются записи по дате внесения.'+((ap||am)?' Инвентаризация: <b>+'+ap+'</b> / <b>−'+am+'</b> кор.':'')+(swo?' Списано: <b>'+swo+'</b> кор.':'')+'</p>';
+  var h='<p class="sumtxt">Статистика '+periodLabel()+'. Считаются записи по дате внесения.'+((ap||am)?' Инвентаризация: <b>+'+ap+'</b> / <b>−'+am+'</b> кор.':'')+(swo?' Списано: <b>'+swo+'</b> кор.':'')+'</p>';
   if(S.pf==='all') h+='<section class="card prod" style="margin-bottom:14px"><div class="prod-h"><h2>Всего</h2></div>'+kv(tin,tout,woOf(null),D.boxes)+'</section>';
   h+='<div class="stack">'+ids.map(function(id){
     var a=sumQty(ins.filter(function(m){return m.product===id})), b=sumQty(outs.filter(function(m){return m.product===id}));
@@ -1663,7 +1682,7 @@ function renderLog(){
   if(!loaded) return banner()+'<div class="stack"><div class="skel"></div></div>';
   var V=[['in','Приходы'],['out','Отгрузки'],['city','Города'],['misc','Прочее'],['stats','Итоги']];
   var h=banner()+'<h1>Журнал</h1><div class="seg" role="group" aria-label="Раздел журнала" style="margin-top:12px">'+
-    V.map(function(v){return '<button type="button" data-act="logView" data-v="'+v[0]+'" aria-pressed="'+(S.logView===v[0])+'">'+v[1]+'</button>'}).join('')+'</div><p class="loghint">'+(LOGHINT[S.logView]||'')+'</p>'+logFilters();
+    V.map(function(v){return '<button type="button" data-act="logView" data-v="'+v[0]+'" aria-pressed="'+(S.logView===v[0])+'">'+v[1]+'</button>'}).join('')+'</div><p class="loghint">'+(LOGHINT[S.logView]||'')+'</p>'+(S.logView==='stats'?dsBlock():'')+logFilters();
   if(S.logView==='in') return h+journalHtml('in');
   if(S.logView==='out') return h+journalHtml('out');
   if(S.logView==='city') return h+cityHtml();
@@ -2504,6 +2523,7 @@ document.addEventListener('click',function(e){
     case 'edProduct': S.edit.product=el.dataset.id; $$('[data-act="edProduct"]').forEach(function(b){b.setAttribute('aria-pressed',String(b===el))}); return updateEdit();
     case 'edScope': S.edit.scope=el.dataset.v; $$('[data-act="edScope"]').forEach(function(b){b.setAttribute('aria-pressed',String(b===el))}); return updateEdit();
     case 'edSave': return applyEdit();
+    case 'dsToggle': S.dsOpen=!S.dsOpen; return render();
     case 'logFilt': S.logFiltOpen=!S.logFiltOpen; return render();
     case 'logView': S.logView=el.dataset.v; S.logLimit=50; S.confirmDel=null; return render();
     case 'period': S.period=(S.period===el.dataset.p?'all':el.dataset.p); S.logLimit=50; return render();
