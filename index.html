@@ -213,6 +213,8 @@ html .fpanel .fchip[data-act=pf],html[data-size] .fpanel .fchip[data-act=pf],htm
 .fpanel .field label{font-size:12px;margin-bottom:2px}
 .fpanel input[type=date]{min-height:38px;padding:4px 8px}
 .fbar{margin-bottom:6px}
+html body .dayb.dtoday{background:rgba(22,194,94,.08);border:1px solid rgba(22,194,94,.35);box-shadow:inset 4px 0 0 rgba(22,194,94,.55);border-radius:12px;padding:10px 12px;color:var(--ink)}
+html body .dayb .tdchip{text-decoration:none;font-size:12px;font-weight:700;color:#1a9b5a;background:rgba(22,194,94,.15);padding:2px 9px;border-radius:999px;margin-left:2px}
 html body .mvc .mv-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px}
 html body .mvc .zl{display:flex;align-items:baseline;gap:9px;min-width:0}
 html body .mvc .mv-h .cellchip{font-size:22px}
@@ -1542,7 +1544,8 @@ function journalHtml(type){
   h+=groups.map(function(g){
     var dk=type+'|'+g.k, op=(S.dayOpen&&dk in S.dayOpen)?S.dayOpen[dk]:!!window.__DAYOPEN;
     var srcs=[]; list.forEach(function(m){if(dayKey(m.ts)!==g.k)return; var x=type==='in'?m.from:m.city; if(x&&srcs.indexOf(x)<0)srcs.push(x)});
-    return '<button type="button" class="day dayb" data-act="dayTog" data-k="'+esc(dk)+'" aria-expanded="'+op+'"><span class="dl"><i>'+(op?'▾':'▸')+'</i>'+g.label+'</span><span class="dm">'+(srcs.length?'<em>'+esc((type==='in'?'из ':'в ')+srcs.join(', '))+'</em>':'')+'<b>'+dayTotal[g.k]+'</b> кор.</span></button>'+(op?'<ul class="mvlist">'+g.items.map(mvItem).join('')+'</ul>':'');
+    var isT=g.items.some(isToday);
+    return '<button type="button" class="day dayb'+(isT?' dtoday':'')+'" data-act="dayTog" data-k="'+esc(dk)+'" aria-expanded="'+op+'"><span class="dl"><i>'+(op?'▾':'▸')+'</i>'+g.label+(isT?'<u class="tdchip">сегодня</u>':'')+'</span><span class="dm">'+(srcs.length?'<em>'+esc((type==='in'?'из ':'в ')+srcs.join(', '))+'</em>':'')+'<b>'+dayTotal[g.k]+'</b> кор.</span></button>'+(op?'<ul class="mvlist">'+g.items.map(mvItem).join('')+'</ul>':'');
   }).join('');
   if(list.length>S.logLimit) h+='<button class="btn ghost" type="button" style="width:100%;margin-top:14px" data-act="logMore">Показать ещё</button>';
   return h;
