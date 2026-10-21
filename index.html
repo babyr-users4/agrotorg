@@ -213,15 +213,6 @@ html .fpanel .fchip[data-act=pf],html[data-size] .fpanel .fchip[data-act=pf],htm
 .fpanel .field label{font-size:12px;margin-bottom:2px}
 .fpanel input[type=date]{min-height:38px;padding:4px 8px}
 .fbar{margin-bottom:6px}
-#warnRoot{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.72);display:grid;place-items:center;padding:16px;overflow:auto}
-.wbox{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 20px 18px;display:grid;gap:12px}
-.wbox .wic{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:rgba(224,162,26,.18);font-size:26px;justify-self:center}
-.wbox h2{margin:0;font-size:22px;text-align:center}
-.wbox .wl{margin:0 0 8px;font-size:16px;font-weight:700;line-height:1.4}
-.wbox ul{margin:0;padding-left:20px;display:grid;gap:8px;font-size:15px;line-height:1.45;color:var(--ink)}
-.wbox .btn{width:100%;min-height:50px;font-size:16px}
-.wbox .btn:disabled{opacity:.55}
-.wbar{height:4px;border-radius:3px;background:var(--line);overflow:hidden}.wbar i{display:block;height:100%;width:0;background:#e0a21a}
 html body .dayb.dtoday{background:rgba(22,194,94,.08);border:1px solid rgba(22,194,94,.35);box-shadow:inset 4px 0 0 rgba(22,194,94,.55);border-radius:12px;padding:10px 12px;color:var(--ink)}
 html body .dayb .tdchip{text-decoration:none;font-size:12px;font-weight:700;color:#1a9b5a;background:rgba(22,194,94,.15);padding:2px 9px;border-radius:999px;margin-left:2px}
 html body .mvc .mv-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px}
@@ -711,7 +702,7 @@ details.hint p{margin:8px 0 0;color:var(--muted);line-height:1.45}
 
 <div class="shell">
   <header class="top">
-    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.28.1</small><small id="sub"></small></div></div>
+    <div class="brandwrap"><span class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="brand"><span id="appName">Агроторг</span><small class="ver">Авторская программа учёта Версия: 0.28.0</small><small id="sub"></small></div></div>
     <div class="topr">
       <span class="sync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span>
       <button class="icon-btn rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button>
@@ -2215,7 +2206,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.28.1</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.28.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -2268,7 +2259,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.28.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.28.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -2295,7 +2286,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.28.1) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.28.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -3369,7 +3360,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.28.1</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.28.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -3673,28 +3664,6 @@ document.addEventListener('click',function(e){
 },true);
 
 var noticeShown=false, cfgReady=false;
-var WARN={secs:5, title:'Внимание', lead:'Программа дорабатывается и может работать некорректно.',
-  items:['После каждого действия (приход, отгрузка, перемещение, правка) проверяйте, что данные сохранились верно: ячейка, товар, количество, сроки.',
-    'Не повторяйте действие, если не уверены, что оно прошло. Сначала посмотрите журнал.',
-    'Заметили ошибку или сбой — сообщите руководителю и пришлите скриншот.']};
-function showWarn(){
-  if(window.__NOWARN||!document.body) return;
-  var r=document.createElement('div'); r.id='warnRoot';
-  r.innerHTML='<div class="wbox" role="alertdialog" aria-modal="true" aria-labelledby="wTitle" aria-describedby="wText"><div class="wic" aria-hidden="true">⚠️</div><h2 id="wTitle">'+esc(WARN.title)+'</h2>'+
-    '<div id="wText"><p class="wl">'+esc(WARN.lead)+'</p><ul>'+WARN.items.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'+
-    '<button class="btn" type="button" id="wOk" disabled>Прочитал(а) · '+WARN.secs+'</button><div class="wbar" aria-hidden="true"><i></i></div></div>';
-  document.body.appendChild(r);
-  var b=document.getElementById('wOk'), left=WARN.secs, bar=r.querySelector('.wbar i');
-  bar.style.transition='width '+WARN.secs+'s linear'; setTimeout(function(){bar.style.width='100%'},30);
-  b.focus();
-  var iv=setInterval(function(){
-    left--; if(left>0){ b.textContent='Прочитал(а) · '+left; return }
-    clearInterval(iv); b.disabled=false; b.textContent='Понятно, продолжить'; b.focus();
-  },1000);
-  b.onclick=function(){ if(b.disabled) return; r.remove() };
-}
-document.addEventListener('keydown',function(e){var w=document.getElementById('warnRoot'); if(!w) return; if(e.key==='Escape'){e.preventDefault();e.stopPropagation()} },true);
-showWarn();
 function curTitle(){return cfgReady?cfg.title:appTitle()}
 function appTitle(){try{return localStorage.getItem('agrotorg.title')||'Агроторг'}catch(e){return 'Агроторг'}}
 function closeNotice(){var r=document.getElementById('noticeRoot');r.style.display='none';r.innerHTML=''}
