@@ -866,18 +866,30 @@ html body .seg:has([data-act=stockView]){margin-left:0;margin-right:0;padding:4p
 html body .seg:has([data-act=stockView]) button,html[data-size] body .seg:has([data-act=stockView]) button{min-height:42px!important;font-size:15px!important;border-radius:9px;padding:0 6px}
 .uiall{display:grid;gap:8px;justify-items:start;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .uiall .note{margin:0}
-#tourRoot{position:fixed;inset:0;z-index:150;pointer-events:none}
-#tourRoot .tdim{position:fixed;inset:0;background:rgba(3,6,12,.72);pointer-events:auto}
-#tourRoot .thole{position:fixed;border-radius:14px;box-shadow:0 0 0 3px #FFC93C,0 0 0 9999px rgba(3,6,12,.72);pointer-events:none;transition:all .2s}
-#tourRoot .ttip{position:fixed;left:12px;right:12px;max-width:460px;margin:0 auto;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);pointer-events:auto}
-#tourRoot .tst{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#E0A21A}
-#tourRoot .tt{font-size:19px;font-weight:800}
-#tourRoot p{margin:0;font-size:15px;line-height:1.45}
-#tourRoot .trow{display:flex;align-items:center;gap:8px}
-#tourRoot .tsp{flex:1}
-#tourRoot .tdots{display:flex;gap:4px;flex-wrap:wrap}#tourRoot .tdots i{width:7px;height:7px;border-radius:50%;background:var(--line)}#tourRoot .tdots i.on{background:#E0A21A;width:16px;border-radius:4px}
-#tourRoot .btn.sm{min-height:40px;padding:0 16px}
-.tourroles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.tourroles .btn{width:100%;padding:0 4px}
+html body .cyc{padding:0;overflow:hidden}
+html body .cyc.open{border-color:var(--accent)}
+.cyh{display:flex;align-items:center;gap:10px;padding:14px;width:100%}
+.cym{flex:1;min-width:0;display:grid;gap:3px;text-align:left}
+.cyn{font:800 20px/1.2 var(--f-head)}
+.cys{font-size:13px;color:var(--muted)}
+.cyok{color:var(--ok);font-weight:800;margin-left:6px}.cyno{font-weight:700;margin-left:6px}
+.cyt{white-space:nowrap;font-size:13px;color:var(--muted)}.cyt b{font:800 22px/1 var(--f-head);color:var(--ink)}
+.cyar{color:var(--muted);font-size:14px}
+html body .cyseg{margin:0 14px 10px}
+.cyday{border-top:1px solid var(--line);padding:10px 14px;display:grid;gap:4px}
+.cydh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cydh b{font-size:15px}.cydq{color:var(--muted);font-size:13.5px}.cysp{flex:1}
+.cydep{height:32px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:13.5px;font-weight:700}
+.cydep.on{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.cypart{font-size:12px;color:var(--warn);font-weight:700}
+.cywho{font-size:12.5px;color:var(--ok);font-weight:700}
+.cyl{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:3px 0;font-size:14px}
+.cyp{display:inline-flex;align-items:center;gap:6px}.cyp .pd{width:9px;height:9px;border-radius:3px;background:var(--pc);display:inline-block}
+.cyd{color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.cyq{white-space:nowrap;color:var(--muted);font-size:13px}.cyq b{color:var(--ink);font-size:15px}
+.cylot{padding:6px 0 6px 12px;border-left:2px solid var(--line);margin:2px 0}
+.cyl2{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.cywhen{font-size:12.5px;color:var(--muted);margin-top:2px}
 /* журнал и прочее */
 html body .fsum{border-radius:12px}
 html body .day{font-family:var(--f-head);font-weight:700}
@@ -888,7 +900,7 @@ html body .tabs button[aria-current="page"]{font-weight:800}
 </style>
 
 <div class="shell">
-  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><span class="hsync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span><small class="ver" hidden>Авторская программа учёта Версия: 0.32.1</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
+  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><span class="hsync"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></span><small class="ver" hidden>Авторская программа учёта Версия: 0.33.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button></div></header>
   <main id="view"></main>
@@ -1201,7 +1213,7 @@ function renderStock0(){
             '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+fp(li.pct)+'%</span></span>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+
-    '<p class="note" style="margin-top:12px">Нажмите на товар, чтобы увидеть даты по датам и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.32.1</p>';
+    '<p class="note" style="margin-top:12px">Нажмите на товар, чтобы увидеть даты по датам и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.33.0</p>';
   }else if(S.view==='map'){
     h+=renderMap();
   }else{
@@ -1852,7 +1864,51 @@ function depRow(c){
   if(S.openCity[c.name]){var old=days.filter(function(d){return d.k!==tk}); if(old.length) h+='<div class="cdh">Отправки по дням</div>'+old.map(function(d){return depLine(c,d,false)}).join('')}
   return h;
 }
+function cityLines(tm){
+  var g={}, order=[];
+  tm.forEach(function(m){var k=m.product+'|'+m.prod+'|'+m.exp; if(!g[k]){g[k]={p:m.product,prod:m.prod,exp:m.exp,q:0};order.push(k)} g[k].q+=Number(m.qty)||0});
+  return order.map(function(k){var l=g[k], p=product(l.p);
+    return '<div class="cyl"><span class="cyp">'+pdot(l.p)+'<b>'+esc(p.short||p.name)+'</b></span><span class="cyd">'+rng(l.prod,l.exp)+'</span><span class="cyq"><b>'+l.q+'</b> кор</span></div>'}).join('');
+}
+function cityDepBtn(c,d){
+  var st=depState(d.tm), part=!st&&d.tm.some(function(m){return m.dep==='ok'}), dis=canSave()?'':' disabled';
+  return '<button type="button" class="cydep'+(st==='ok'?' on':'')+'" data-act="dep" data-v="ok" data-c="'+esc(c.name)+'" data-d="'+esc(d.k)+'" aria-pressed="'+(st==='ok')+'"'+dis+'>'+(st==='ok'?'✓ Уехало':'Уехало?')+'</button>'+(part?'<span class="cypart">частично</span>':'');
+}
+function cityDepWho(d){
+  if(depState(d.tm)!=='ok') return '';
+  var ref=d.tm.filter(function(m){return m.dep==='ok'}).sort(function(a,b){return String(b.depAt||'')<String(a.depAt||'')?-1:1})[0];
+  return ref&&(ref.depByName||ref.depAt)?'<div class="cywho">отметил'+(ref.depByName?' '+esc(ref.depByName):'')+(ref.depAt?' '+(isToday({ts:ref.depAt})?timeKey(ref.depAt):dayKey(ref.depAt).slice(0,5)+' '+timeKey(ref.depAt)):'')+'</div>':'';
+}
+function cityDays(c){return Object.keys(c.dm||{}).map(function(k){return c.dm[k]}).sort(function(a,b){return String(b.ts)<String(a.ts)?-1:1})}
 function cityHtml(){
+  var list=cityData(), all=list.reduce(function(s,c){return s+c.total},0), mode=S.cityMode||'day';
+  var h='<p class="sumtxt">Отправлено <b>'+all+' кор.</b> · городов: '+list.length+' · '+periodLabel()+'</p>';
+  if(!list.length) return h+'<div class="card empty" style="border-top:1px solid var(--line)">Отгрузок за этот период нет.</div>';
+  return h+'<div class="stack">'+list.map(function(c){
+    var open=!!S.openCity[c.name], days=cityDays(c), last=days[0];
+    var prods=Object.keys(c.prods).map(function(k){return c.prods[k]}).sort(function(a,b){return b.total-a.total});
+    var lastTxt=last?(isToday({ts:last.ts})?'сегодня':dayKey(last.ts).slice(0,5)):'';
+    var lastSt=last?(depState(last.tm)==='ok'?'<span class="cyok">✓ уехало</span>':'<span class="cyno">не отмечено</span>'):'';
+    var x='<section class="card cyc'+(open?' open':'')+'"><button type="button" class="btn-reset cyh" data-act="toggleCity" data-c="'+esc(c.name)+'" aria-expanded="'+open+'">'+
+      '<span class="cym"><b class="cyn">'+esc(c.name)+'</b><span class="cys">'+prods.map(function(p){return esc(product(p.id).short)+' '+p.total}).join(' · ')+'</span>'+
+      (open?'':'<span class="cys">последняя: '+lastTxt+' '+lastSt+'</span>')+'</span>'+
+      '<span class="cyt"><b>'+c.total+'</b> кор</span><span class="cyar" aria-hidden="true">'+(open?'▴':'▾')+'</span></button>';
+    if(open){
+      x+='<div class="seg cyseg" role="group" aria-label="Как показать"><button type="button" data-act="cityMode" data-v="day" aria-pressed="'+(mode==='day')+'">По дням</button><button type="button" data-act="cityMode" data-v="prod" aria-pressed="'+(mode==='prod')+'">По товарам</button></div>';
+      if(mode==='day') x+=days.map(function(d){
+        var td=isToday({ts:d.ts});
+        return '<div class="cyday"><div class="cydh"><b>'+esc(d.label)+(td?' · сегодня':'')+'</b><span class="cydq">· '+d.q+' кор</span><span class="cysp"></span>'+cityDepBtn(c,d)+'</div>'+cityDepWho(d)+cityLines(d.tm)+'</div>';
+      }).join('');
+      else x+=prods.map(function(p){
+        var lots=Object.keys(p.lots).map(function(k){return p.lots[k]}).sort(byExp);
+        return '<div class="cyday"><div class="cydh"><span class="cyp">'+pname(p.id)+'</span><span class="cysp"></span><b>'+p.total+' кор</b></div>'+
+          lots.map(function(l){return '<div class="cylot"><div class="cyl2"><span>'+rng(l.prod,l.exp)+'</span><b>'+l.qty+' кор</b></div><div class="cywhen">когда: '+l.order.slice().reverse().map(function(dk){return dk.slice(0,5)+' — '+l.days[dk]}).join(' · ')+'</div></div>'}).join('')+'</div>';
+      }).join('');
+    }
+    return x+'</section>';
+  }).join('')+'</div>';
+}
+function cityHtmlOld(){
   var list=cityData(), all=list.reduce(function(s,c){return s+c.total},0);
   var h='<p class="sumtxt">Отправлено <b>'+all+' кор.</b> · городов: '+list.length+' · '+periodLabel()+'</p>';
   if(!list.length) return h+'<div class="card empty" style="border-top:1px solid var(--line)">Отгрузок за этот период нет.</div>';
@@ -2489,7 +2545,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.32.1</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.33.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -2542,7 +2598,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.32.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.33.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -2569,7 +2625,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.32.1) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.33.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -2658,8 +2714,7 @@ function shelfGroupHtml(d){
     '<p class="note" style="margin:0 0 10px">Остаточный срок — сколько процентов срока годности ещё осталось. Задайте пороги по убыванию, например 50, 25, 10. Предпросмотр: '+prev+'</p>'+
     '<button class="btn ghost sm" type="button" data-act="shReset">Сбросить цвета</button></section>';
 }
-function uiGroupHtml(){return tourGroupHtml()+uiGroupHtmlT()}
-function uiGroupHtmlT(){
+function uiGroupHtml(){
   var h=uiGroupHtml0(), i=h.lastIndexOf('</section>'); if(i<0) return h;
   var own=uiOwn().filter(function(k){return cfg.uiDef&&(k in cfg.uiDef)});
   var b='<div class="uiall">';
@@ -2875,7 +2930,7 @@ document.addEventListener('click',function(e){
       var c2=clone(cfg); c2.uiDef=ud2; uiOwnSet([]);
       return saveCfg(JSON.parse(JSON.stringify(c2))).then(function(){toast('Готово: оформление общее для всех');renderSheet()}).catch(function(e){toast(errText(e),true)});
     case 'uiReset': uiOwnSet([]); uiFromDef(); toast('Оформление как у всех'); return renderSheet();
-    case 'tourGo': return tourStart(el.dataset.r||null);
+    case 'cityMode': S.cityMode=el.dataset.v; return render();
     case 'dsToggle': S.dsOpen=!S.dsOpen; return render();
     case 'logFilt': S.logFiltOpen=!S.logFiltOpen; return render();
     case 'logView': S.logView=el.dataset.v; S.logLimit=50; S.confirmDel=null; return render();
@@ -3295,7 +3350,7 @@ function startData(){
   UNSUB.push(FS.collection('moves').onSnapshot(function(snap){
     ALLM=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())}); moves=ALLM.filter(function(m){return !m.del});
     var first=!loaded; notifyNew(first); loaded=true;
-    if(first){D=derive(moves);render();setTimeout(tourMaybe,700)} else {refresh(); if(TOUR) setTimeout(tourPlace,30)}
+    if(first){D=derive(moves);render()} else refresh();
   },function(){dbState='none';loaded=true;renderHeader();render()}));
   REQ=[]; reqLoaded=false; reqNew={};
   UNSUB.push(FS.collection('requests').onSnapshot(rqSnap,function(){}));
@@ -3692,7 +3747,7 @@ function openSettings(){openSettings0(); pushLoadKey().then(function(){if(S.sett
 /* ---------- вкладки настроек ---------- */
 var STAB_ADM=[['wh','Склад'],['look','Вид и звук'],['ntf','Уведомления'],['ppl','Люди'],['dat','Данные']];
 var STAB_USR=[['ppl','Аккаунт'],['look','Вид и звук'],['ntf','Уведомления']];
-var STAB_OF={'Подтверждение крупных действий':'wh','Товары':'wh','Города отгрузки':'wh','Откуда приходы':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление':'look','Обучение':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
+var STAB_OF={'Подтверждение крупных действий':'wh','Товары':'wh','Города отгрузки':'wh','Откуда приходы':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
 function settingsTabs(){
   if(!S.settings) return;
   var sh=document.querySelector('#sheetRoot .sheet[aria-label="Настройки"]'); if(!sh) return;
@@ -3705,7 +3760,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.32.1</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.33.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -4009,92 +4064,6 @@ document.addEventListener('click',function(e){
 },true);
 
 var noticeShown=false, cfgReady=false;
-var TOUR_STEPS={
-  stock:{tab:'stock',prep:function(){S.view='lots'},sel:'.seg:has([data-act=stockView])',title:'Склад',
-    text:'Здесь всё, что лежит на складе. Переключайте вид: <b>по товарам</b>, <b>по ячейкам</b> или <b>карта</b> склада. Поиск выше найдёт ячейку, товар или дату.'},
-  shelf:{tab:'stock',prep:function(){S.view='lots'},sel:'.legend.lg2',title:'Сроки годности',
-    text:'Цвет показывает, сколько осталось срока: <b style="color:#1a9b5a">зелёный</b> — больше половины, дальше жёлтый и оранжевый, <b style="color:#e0584a">красный</b> — меньше 10%. Отгружайте сначала то, у чего срок раньше.'},
-  in:{tab:'in',sel:'#view .choices',title:'Приход',
-    text:'Приход в три шага: <b>товар</b> → <b>даты</b> производства и годности → <b>откуда</b>, <b>ячейка</b> и сколько коробок. Ячейку можно набирать без дефисов: 10013 = 10-01-3.'},
-  out:{tab:'out',sel:'#view .choices',title:'Отгрузка',
-    text:'Выберите товар, затем ячейки — кнопка «Подобрать» сама возьмёт сначала ранние сроки — и город. Отгрузка сразу попадёт в «Набрать».'},
-  nab:{tab:'out',sel:'.nabsec',title:'Набрать',
-    text:'После отгрузки здесь появляется город. Откройте его, пройдите по ячейкам и у каждой нажмите <b>«Взять»</b>. Пока вы набираете, у всех горит <b style="color:#E0A21A">«набирает …»</b>.'},
-  log:{tab:'log',prep:function(){S.logView='in'},sel:'.seg[aria-label="Раздел журнала"]',title:'Журнал',
-    text:'Вся история: кто, что и когда принял и отгрузил, города и <b>итоги</b>. В «Итогах» есть итог дня — его можно скопировать и отправить.'},
-  cells:{tab:'cells',sel:'[data-act=ncOpen]',title:'Ячейки',
-    text:'Найдите ячейку, чтобы исправить сроки или количество, переместить коробки, пересчитать или списать.'},
-  set:{tab:'stock',sel:'.hicons [data-act=openSettings]',title:'Настройки',
-    text:'Товары, города, сотрудники и их роли, объявление при входе и оформление «для всех». Здесь же можно снова пройти это обучение.'},
-  viewlog:{tab:'log',prep:function(){S.logView='in'},sel:'.seg[aria-label="Раздел журнала"]',title:'Журнал',
-    text:'Вся история: кто, что и когда принял и отгрузил, города и итоги. У вас режим «только просмотр» — менять данные нельзя, только смотреть.'}
-};
-var TOUR_ROLE={keeper:['stock','shelf','in','out','nab','log','cells'],admin:['stock','shelf','in','out','nab','log','cells','set'],viewer:['stock','shelf','viewlog']};
-var TOUR=null;
-function tourRoleOf(){var r=ME&&ME.role; return r==='dev'||r==='admin'?'admin':r==='viewer'?'viewer':'keeper'}
-function tourStart(role){
-  S.settings=false; if(typeof renderSheet==='function') renderSheet();
-  TOUR={role:role||tourRoleOf(),i:0}; tourShow();
-}
-function tourEnd(){TOUR=null; var r=document.getElementById('tourRoot'); if(r) r.remove(); try{localStorage.setItem('agro.tourDone','1')}catch(e){} setTab('stock')}
-function tourShow(){
-  if(!TOUR) return;
-  var list=TOUR_ROLE[TOUR.role], st=TOUR_STEPS[list[TOUR.i]];
-  if(st.prep) st.prep();
-  setTab(st.tab); if(st.prep){st.prep(); render()}
-  var r=document.getElementById('tourRoot'); if(!r){r=document.createElement('div');r.id='tourRoot';document.body.appendChild(r)}
-  var last=TOUR.i===list.length-1;
-  r.innerHTML='<div class="tdim" id="tDim"></div><div class="thole" id="tHole" hidden></div>'+
-    '<div class="ttip" id="tTip" role="dialog" aria-modal="true" aria-labelledby="tTitle"><span class="tst">Обучение · шаг '+(TOUR.i+1)+' из '+list.length+'</span>'+
-    '<b class="tt" id="tTitle">'+st.title+'</b><p>'+st.text+'</p>'+
-    '<div class="trow"><span class="tdots">'+list.map(function(x,j){return '<i class="'+(j===TOUR.i?'on':'')+'"></i>'}).join('')+'</span><span class="tsp"></span>'+
-    (TOUR.i>0?'<button type="button" class="btn ghost sm" data-tour="back">Назад</button>':'<button type="button" class="linkbtn" data-tour="skip">Пропустить</button>')+
-    '<button type="button" class="btn sm" data-tour="next">'+(last?'Готово':'Далее')+'</button></div></div>';
-  setTimeout(tourPlace,60);
-}
-function tourK(){ // поправка на масштаб страницы (zoom): координаты экрана → CSS-пиксели
-  var p=document.createElement('div'); p.style.cssText='position:fixed;left:0;top:0;width:100px;height:1px;visibility:hidden';
-  document.getElementById('tourRoot').appendChild(p); var k=p.getBoundingClientRect().width/100; p.remove(); return k>0?k:1;
-}
-function tourPlace(){
-  if(!TOUR) return;
-  var st=TOUR_STEPS[TOUR_ROLE[TOUR.role][TOUR.i]], el=document.querySelector(st.sel); window.__tourSel=st.sel;
-  var hole=document.getElementById('tHole'), tip=document.getElementById('tTip'), dim=document.getElementById('tDim'); if(!tip) return;
-  var k=tourK(), vh=window.innerHeight, th=tip.getBoundingClientRect().height;
-  if(el){
-    el.scrollIntoView({block:'center'});
-    var b=el.getBoundingClientRect(), pad=6;
-    hole.hidden=false; dim.style.display='none';
-    hole.style.left=((b.left-pad)/k)+'px'; hole.style.top=((b.top-pad)/k)+'px'; hole.style.width=((b.width+pad*2)/k)+'px'; hole.style.height=((b.height+pad*2)/k)+'px';
-    var below=b.bottom+pad+14, top=(below+th<vh-70?below:Math.max(10,b.top-pad-14-th));
-    tip.style.top=(top/k)+'px';
-  } else {
-    hole.hidden=true; dim.style.display=''; tip.style.top=(Math.max(20,(vh-th)/2)/k)+'px';
-  }
-}
-window.addEventListener('resize',function(){if(TOUR)tourPlace()});
-document.addEventListener('click',function(e){
-  var b=e.target.closest&&e.target.closest('[data-tour]');
-  if(!TOUR){return}
-  if(!b){ if(e.target.closest&&e.target.closest('#tourRoot')) return; e.stopPropagation(); e.preventDefault(); return }
-  e.stopPropagation(); e.preventDefault();
-  var a=b.dataset.tour, n=TOUR_ROLE[TOUR.role].length;
-  if(a==='skip') return tourEnd();
-  if(a==='back'){TOUR.i=Math.max(0,TOUR.i-1); return tourShow()}
-  if(a==='next'){ if(TOUR.i>=n-1) return tourEnd(); TOUR.i++; return tourShow() }
-},true);
-document.addEventListener('keydown',function(e){if(TOUR&&e.key==='Escape'){e.preventDefault();tourEnd()}},true);
-function tourMaybe(){
-  if(window.__NOTOUR||TOUR||!ME) return;
-  try{if(localStorage.getItem('agro.tourDone')==='1') return}catch(e){return}
-  tourStart();
-}
-function tourGroupHtml(){
-  return '<section class="group"><h2 class="lbl">Обучение</h2><p class="note" style="margin:0 0 10px">Короткая экскурсия по программе. Сама показывается при первом входе на этом телефоне.</p>'+
-    '<button class="btn" type="button" style="width:100%" data-act="tourGo" data-r="">Пройти обучение</button>'+
-    (isDevMe()?'<p class="lbl" style="margin:14px 0 8px">Для разработчика: посмотреть как</p><div class="tourroles"><button class="btn ghost sm" type="button" data-act="tourGo" data-r="keeper">Кладовщик</button><button class="btn ghost sm" type="button" data-act="tourGo" data-r="admin">Админ</button><button class="btn ghost sm" type="button" data-act="tourGo" data-r="viewer">Гость</button></div>'+
-      '<p class="note" style="margin:8px 0 0">Кладовщик — 7 шагов · админ — 8 · гость — 3</p>':'')+'</section>';
-}
 /* удержание «−/+» в ручном выборе отгрузки: количество меняется быстро, пока палец на кнопке */
 (function(){
   var tmr=null, rep=null, held=false;
