@@ -438,6 +438,47 @@ html[data-glass="1"]:not([data-theme="dark"]) .sheet{background:rgba(238,242,250
 html[data-glass="1"]:not([data-theme="dark"]) .sheet .bar-top{background:rgba(255,255,255,.5)!important}
 html[data-glass="1"]:not([data-theme="dark"]) :is(.wpsh,.dupbox,.wbox,.nbox,#achPop .apbox,#shPop .shw,#okPop .okb){background:rgba(255,255,255,.62)!important;--surface:rgba(255,255,255,.5);--surface-2:rgba(255,255,255,.55);--line:rgba(255,255,255,.85)}
 }
+
+/* 0.49.0 */
+html[data-glass="1"] :is(.btn.danger,.nic.ok){color:#0E131B}
+html[data-glass="1"][data-theme="light"] :is(.btn.danger,.nic.ok){color:#fff}
+@media (prefers-color-scheme: light){html[data-glass="1"]:not([data-theme="dark"]) :is(.btn.danger,.nic.ok){color:#fff}}
+/* список сотрудников */
+.strow{border-bottom:1px solid var(--line)}
+.strow .st-h{display:flex;align-items:center;gap:10px;width:100%;padding:10px 2px;text-align:left;color:var(--ink);font:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.strow .st-h .av{width:36px;height:36px;font-size:15px}
+.strow .st-nm{flex:1;min-width:0;font-weight:700;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.strow .st-nm small{font-weight:600;color:var(--muted);font-size:13px}
+.strow .st-rl{flex:none;font-size:12px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}
+.strow .st-dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--line)}
+.strow .st-dot.on{background:#2ECC71;box-shadow:0 0 0 3px rgba(46,204,113,.2)}
+.strow .st-ch{flex:none;width:18px;height:18px;transition:transform .2s;opacity:.6}
+.strow.open .st-ch{transform:rotate(180deg)}
+.strow.off .st-nm{opacity:.55}.strow.off .st-rl{color:var(--bad);border-color:var(--bad)}
+.strow .st-b{display:grid;gap:8px;padding:2px 2px 14px 48px;animation:stb .2s ease-out}
+@keyframes stb{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.strow .st-b .sf-ac{display:flex;gap:6px;align-items:center}
+.strow .st-b .sf-ac select{flex:1 1 0;min-width:0;width:auto;font-size:14px}
+.strow .st-b .sf-ac .btn{flex:none;min-height:44px;padding:0 12px;font-size:14px;white-space:nowrap}
+.strow .st-b .st-ac2{display:flex;gap:6px;flex-wrap:wrap}
+.strow .st-b .st-ac2 .btn{min-height:42px;font-size:14px;padding:0 12px}
+.strow .st-b .btn.stdel{background:transparent;border:1.5px solid var(--bad);color:var(--bad)}
+.st-addh{display:flex;align-items:center;gap:10px;width:100%;padding:12px 2px;margin-top:4px;text-align:left;color:var(--accent);font:inherit;font-weight:700;font-size:16px;background:none;border:0;border-bottom:1px solid var(--line);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.st-addh .st-plus{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:22px;font-weight:600;border:1.5px dashed var(--accent);flex:none}
+.st-addh .st-nm{flex:1}
+.st-addh .st-ch{width:18px;height:18px;opacity:.6;transition:transform .2s;flex:none}
+.st-addh[aria-expanded=true] .st-ch{transform:rotate(180deg)}
+.st-add{padding:12px 0 6px;animation:stb .2s ease-out}
+.st-add[hidden]{display:none}
+/* окно масштаба */
+#scRoot{position:fixed;inset:0;z-index:150;background:rgba(3,6,12,.6);display:grid;place-items:center;padding:16px}
+#scRoot .nbox{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;display:grid;gap:12px;text-align:center}
+#scRoot .scic{font-size:40px;line-height:1}
+#scRoot h2{margin:0;font-size:20px}
+#scRoot p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.45}
+#scRoot p b{color:var(--ink)}
+#scRoot .btn{min-height:50px;font-size:16px}
+html[data-glass="1"] #scRoot{-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 #okPop{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px;background:rgba(6,10,18,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 #okPop.on{opacity:1}
 #okPop .okb{pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:22px 24px 20px;text-align:center;min-width:250px;max-width:340px;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1);box-shadow:0 20px 50px rgba(0,0,0,.45)}
@@ -1342,7 +1383,7 @@ var t0=Date.now();
   setTimeout(chk,150)})();
 })();</script>
 <div class="shell">
-  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.48.2</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
+  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.49.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button></div><div class="hsync hrow"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></div></header>
   <main id="view"></main>
@@ -1824,7 +1865,7 @@ function renderStock0(){
             '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+fp(li.pct)+'%</span></span>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+
-    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.48.2</p>';
+    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.49.0</p>';
   }else if(S.view==='map'){
     h+=renderMap();
   }else{
@@ -3315,7 +3356,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.48.2</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.49.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -3368,7 +3409,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.48.2 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.49.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -3395,7 +3436,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.48.2) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.49.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -3830,6 +3871,9 @@ document.addEventListener('click',function(e){
       return Promise.all(dtm.map(function(x){return withRetry(function(){return db.doc('moves/'+x.id).update({dep:dnv,depBy:dnv&&ME?ME.uid:null,depByName:dnv&&ME?ME.name:null,depAt:dnv?diso:null})})})).catch(function(er){toast(errText(er),true)});
     case 'who': S.who=el.dataset.id; S.logLimit=50; return render();
     case 'staffAdd': return staffAdd();
+    case 'stAddTog': (function(){S.stAdd=!S.stAdd; el.setAttribute('aria-expanded',String(S.stAdd)); var f=el.nextElementSibling; if(f){f.hidden=!S.stAdd; if(S.stAdd){var i=document.getElementById('stName'); if(i) i.focus()}}})(); return;
+    case 'stTog': S.stEx=S.stEx===el.dataset.uid?null:el.dataset.uid; return staffListRefresh();
+    case 'staffDel': return staffDel(el.dataset.uid);
     case 'staffOff': return staffSet(el.dataset.uid,{active:false});
     case 'staffOn': return staffSet(el.dataset.uid,{active:true});
     case 'myPass': return changePass();
@@ -4658,7 +4702,28 @@ function pushGroupHtml(){
 }
 function glassApply(){var on=!!(cfg&&cfg.glass), h=document.documentElement; if(on) h.setAttribute('data-glass','1'); else h.removeAttribute('data-glass'); try{localStorage.setItem('agro.glass',on?'1':'0')}catch(e){}
   if(on&&!document.getElementById('glassBg')){var g=document.createElement('div'); g.id='glassBg'; g.setAttribute('aria-hidden','true'); document.body.insertBefore(g,document.body.firstChild)}}
-function renderHeader(){try{glassApply()}catch(e){}achBtnSync();try{festApply()}catch(e){}
+var SCALE_ASKED=false;
+var SCL={auto:'Авто','85':'85%','95':'95%','100':'100%','115':'115%'};
+function scaleSame(a,b){a=String(a||'auto');b=String(b||'auto'); if(a===b) return true; var ph=innerWidth<=700; if(ph&&((a==='auto'&&b==='95')||(a==='95'&&b==='auto'))) return true; return false}
+function scaleAsk(){
+  if(SCALE_ASKED||!ME||!loaded||!cfg||!cfg.uiDef||!cfg.uiDef.scale) return;
+  var def=String(cfg.uiDef.scale), cur=uiCur('scale');
+  if(uiOwn().indexOf('scale')<0||scaleSame(cur,def)){SCALE_ASKED=true; return}
+  try{if(localStorage.getItem('agro.scaleNo')===def){SCALE_ASKED=true; return}}catch(e){}
+  if(document.getElementById('authRoot')&&getComputedStyle(document.getElementById('authRoot')).display!=='none') return;
+  var nr=document.getElementById('noticeRoot'); if((nr&&nr.style.display==='grid')||document.querySelector('.sheet')||document.getElementById('splash')&&!document.getElementById('splash').hidden&&getComputedStyle(document.getElementById('splash')).opacity!=='0'){setTimeout(scaleAsk,1500); return}
+  SCALE_ASKED=true;
+  var r=document.createElement('div'); r.id='scRoot';
+  r.innerHTML='<div class="nbox" role="dialog" aria-modal="true" aria-labelledby="scT"><div class="scic" aria-hidden="true">🔍</div><h2 id="scT">Включить общий масштаб?</h2>'+
+    '<p>Для всех сотрудников настроен масштаб <b>'+(SCL[def]||def)+'</b>. На этом телефоне сейчас <b>'+(SCL[cur]||cur)+'</b>.</p>'+
+    '<button class="btn" type="button" data-sc="yes">Включить '+(SCL[def]||def)+'</button><button class="btn ghost" type="button" data-sc="no">Оставить мой '+(SCL[cur]||cur)+'</button>'+
+    '<p style="font-size:13px">Поменять можно в любой момент: Настройки → Вид и звук → Масштаб.</p></div>';
+  document.body.appendChild(r);
+  r.addEventListener('click',function(e){var b=e.target.closest('[data-sc]'); if(!b) return; r.remove();
+    if(b.dataset.sc==='yes'){UI.scale=def; uiOwnSet(uiOwn().filter(function(k){return k!=='scale'})); applyUI(true); try{pillSync(true)}catch(x){} toast('Масштаб '+(SCL[def]||def)+' включён')}
+    else {try{localStorage.setItem('agro.scaleNo',def)}catch(x){}}});
+}
+function renderHeader(){try{glassApply()}catch(e){} setTimeout(function(){try{scaleAsk()}catch(e){}},1200);achBtnSync();try{festApply()}catch(e){}
   renderHeader0(); rqRefresh(); var sbx=$('#sub'); if(sbx) sbx.textContent=''; presRefresh();
   if(!S.pushChk&&ME){S.pushChk=true;pushBoot()}
 }
@@ -4681,7 +4746,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.48.2</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.49.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -5204,6 +5269,41 @@ function accountGroupHtml0(){
     '<details class="hint"><summary>Как поставить значок на главный экран</summary><p><b>Android (Chrome):</b> кнопка ⋮ вверху справа → «Добавить на главный экран» или «Установить приложение».</p><p><b>iPhone (Safari):</b> кнопка «Поделиться» (квадрат со стрелкой) → «На экран Домой». Открывать нужно именно в Safari.</p><p>После этого программа открывается как обычное приложение, без адресной строки. Войти придётся один раз заново.</p></details>'+
     '<button class="btn ghost sm" type="button" style="margin-top:10px" data-act="logout">Выйти из программы</button></section>';
 }
+function staffRowHtml2(u){
+  var me=u.uid===ME.uid, off=u.active===false, open=S.stEx===u.uid, nm=u.name||u.login||'?';
+  var seen=u.lastSeen?new Date(u.lastSeen).getTime():0, online=me||(seen&&Date.now()-seen<240000);
+  var lockRole=me||(u.role==='dev'&&!isDevMe()), canOff=!lockRole, canDel=!me&&!(u.role==='dev'&&!isDevMe());
+  var h='<div class="strow'+(off?' off':'')+(open?' open':'')+'"><button type="button" class="st-h" data-act="stTog" data-uid="'+esc(u.uid)+'" aria-expanded="'+open+'">'+
+    avHtml(u.uid,nm)+'<span class="st-nm">'+nk(nm,u.uid)+(me?' <small>(вы)</small>':'')+'</span>'+
+    '<span class="st-rl">'+(off?'доступ закрыт':esc(ROLES[u.role]||u.role||''))+'</span><span class="st-dot'+(online&&!off?' on':'')+'" title="'+(online?'в сети':'не в сети')+'"></span>'+
+    '<svg class="st-ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>';
+  if(open){
+    h+='<div class="st-b">'+(NICKS[u.uid]&&NICKS[u.uid].ti?'<div class="sf-mt"><span class="nkt">'+esc(NICKS[u.uid].ti)+'</span></div>':'')+
+      '<div class="sf-mt">логин: <b>'+esc(u.login||'?')+'</b></div>'+presHtml(u)+
+      '<div class="sf-ac"><button class="btn ghost sm" type="button" data-act="shUser" data-uid="'+esc(u.uid)+'">Ссылка</button><select data-staff="'+esc(u.uid)+'" aria-label="Роль: '+esc(nm)+'"'+(lockRole?' disabled':'')+'>'+
+      Object.keys(ROLES).filter(function(r){return r!=='dev'||isDevMe()||u.role==='dev'}).map(function(r){return '<option value="'+r+'"'+(u.role===r?' selected':'')+'>'+ROLES[r]+'</option>'}).join('')+'</select></div>'+
+      ((canOff||canDel)?'<div class="st-ac2">'+(canOff?(off?'<button class="btn ghost sm" type="button" data-act="staffOn" data-uid="'+esc(u.uid)+'">Включить доступ</button>':'<button class="btn danger sm" type="button" data-act="staffOff" data-uid="'+esc(u.uid)+'">Закрыть доступ</button>'):'')+
+        (canDel?'<button class="btn sm stdel" type="button" data-act="staffDel" data-uid="'+esc(u.uid)+'">Удалить навсегда</button>':'')+'</div>':'')+
+      '</div>';
+  }
+  return h+'</div>';
+}
+function staffListRefresh(){var el=document.getElementById('staffList'); if(el) el.innerHTML=staffListHtml()}
+function staffDel(uid){
+  if(!ME||!isAdm()||uid===ME.uid||busy) return;
+  var u=USERS.filter(function(x){return x.uid===uid})[0]; if(!u) return;
+  if(u.role==='dev'&&!isDevMe()) return toast('Разработчика удалить нельзя',true);
+  if(!canSave()) return toast('Нет связи — попробуйте позже',true);
+  var nm=u.name||u.login;
+  if(!confirm('Удалить сотрудника «'+nm+'» навсегда?\n\n• Он больше не сможет войти.\n• Его записи в журнале останутся с его именем.\n• Логин «'+(u.login||'')+'» использовать снова не получится — для нового сотрудника придумайте другой.\n\nОтменить удаление нельзя.')) return;
+  busy=true;
+  FS.doc('users/'+uid).delete().then(function(){
+    busy=false; S.stEx=null; toast('Сотрудник «'+nm+'» удалён');
+    if(isDevMe()&&NICKS[uid]){var m=clone(NICKS); delete m[uid]; FS.doc('config/nicks').set({map:m}).catch(function(){})}
+    if(cfg.fest&&cfg.fest.bd&&cfg.fest.bd[uid]){var c2=clone(cfg); delete c2.fest.bd[uid]; saveCfg(c2).catch(function(){})}
+    staffListRefresh();
+  }).catch(function(e){busy=false; toast(errText(e),true)});
+}
 function staffRowHtml(u){
   var me=u.uid===ME.uid, off=u.active===false;
   return '<div class="staffrow'+(off?' off':'')+'"><div class="sf-nm">'+nkp(u.name||u.login,u.uid)+(NICKS[u.uid]&&NICKS[u.uid].ti?'<span class="nkt">'+esc(NICKS[u.uid].ti)+'</span>':'')+(me?' (вы)':'')+'</div><div class="sf-mt">логин: '+esc(u.login||'?')+'</div>'+presHtml(u)+
@@ -5256,11 +5356,11 @@ function nkSave(uid,d){
 }
 function staffListHtml(){
   if(!USERS.length) return '<p class="note">Загрузка списка…</p>';
-  return USERS.slice().sort(function(a,b){return String(a.name||'').localeCompare(String(b.name||''),'ru')}).map(staffRowHtml).join('');
+  return USERS.slice().sort(function(a,b){var x=(a.active===false)-(b.active===false); return x||String(a.name||'').localeCompare(String(b.name||''),'ru')}).map(staffRowHtml2).join('');
 }
 function staffGroupHtml(){
   return '<section class="group"><h2 class="lbl">Сотрудники</h2><div id="staffList">'+staffListHtml()+'</div>'+
-    '<h3 style="font-size:15px;margin:14px 0 8px">Добавить сотрудника</h3><div class="stack">'+
+    '<button type="button" class="st-addh" data-act="stAddTog" aria-expanded="'+!!S.stAdd+'"><span class="st-plus" aria-hidden="true">+</span><span class="st-nm">Добавить сотрудника</span><svg class="st-ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="stack st-add"'+(S.stAdd?'':' hidden')+'>'+
     '<div class="field"><label for="stName">Имя</label><input id="stName" type="text" autocomplete="off"></div>'+
     '<div class="field"><label for="stLogin">Логин (латиницей)</label><input id="stLogin" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="off"></div>'+
     '<div class="field"><label for="stPass">Пароль (от 6 знаков)</label><input id="stPass" type="text" autocapitalize="none" autocomplete="off"></div>'+
