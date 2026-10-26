@@ -643,6 +643,35 @@ html[data-glass="1"] #lblPop .lbw{background:rgba(22,29,44,.82);-webkit-backdrop
 /* 0.57.0 ждёт отправки */
 .pendtag{display:none}.pendtag.on{display:inline-flex;align-items:center;margin-left:8px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:800;background:color-mix(in srgb,#E0A21A 18%,transparent);color:#F2C14E;border:1px solid color-mix(in srgb,#E0A21A 60%,transparent);white-space:nowrap}
 .pendtag.off{background:color-mix(in srgb,#8A94A8 18%,transparent);color:var(--muted);border-color:var(--line)}
+
+/* 0.58.0 иконки */
+.ic{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em;flex:none;display:inline-block}
+.icy{color:#F2C14E}
+.icirc{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;flex:none}.icirc.y{background:color-mix(in srgb,#E0A21A 18%,transparent);color:#F2C14E}.icirc .ic{width:22px;height:22px;vertical-align:0}
+.wic .ic{width:44px;height:44px;color:#F2C14E;vertical-align:0}
+.scic .ic{width:40px;height:40px;color:var(--accent);vertical-align:0}
+.pendtag .ic{width:14px;height:14px;margin-right:4px}
+.bclbl .ic{margin-right:4px}
+/* 0.58.0 «Сегодня» сворачивается */
+.tday .tdhb{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;color:var(--ink);font:inherit;padding:2px;text-align:left;cursor:pointer;min-height:30px}
+.tdhb .t1{font:800 18px/1.2 var(--f-head)}
+.tdhb .tdd0{font-size:13px;color:var(--muted);flex:1}
+.tdhb .sm{display:none;flex:1;gap:10px;justify-content:flex-end;font-weight:800;font-size:15px;white-space:nowrap;align-items:center;font-variant-numeric:tabular-nums}
+.tdhb .sm .a{color:#36C377}.tdhb .sm .b{color:var(--accent)}.tdhb .sm .c{color:#F2C14E}.tdhb .sm .z{color:var(--muted)}.tdhb .sm .f{display:flex;color:#F2C14E}
+.tdhb .cv{color:var(--muted);transition:transform .2s;transform:rotate(180deg)}
+.tday.col .tdhb .tdd0{display:none}.tday.col .tdhb .sm{display:flex}.tday.col .tdhb .cv{transform:none}
+.tday.col .tdg,.tday.col .tdshr{display:none}
+.tday.col{padding-top:12px;padding-bottom:12px}
+.tdshr{display:flex;align-items:center;gap:10px;width:100%;border:0;border-top:1px solid var(--line);background:none;color:var(--ink);padding:12px 4px 4px;font:inherit;font-weight:700;font-size:15px;text-align:left;cursor:pointer}
+.tdshr>.ic{color:#F2C14E}.tdshr span{flex:1}.tdshr em{font-style:normal;color:var(--accent);font-weight:800;font-size:14px;display:flex;align-items:center;gap:2px}
+/* 0.58.0 «Склад сейчас» */
+.skw{border:1.5px solid color-mix(in srgb,var(--accent) 55%,transparent);border-radius:20px;padding:12px 10px 10px;margin-bottom:14px;background:color-mix(in srgb,var(--accent) 7%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 6%,transparent)}
+.skh{display:flex;align-items:center;gap:8px;margin:0 6px 10px}.skh b{font:800 21px/1.2 var(--f-head)}.skh span{margin-left:auto;font-size:13px;color:var(--muted);font-weight:700}.skh .ic{width:22px;height:22px;color:var(--accent);vertical-align:0}
+.skw .stats{margin:0}
+.skw .stat{padding:10px 12px 11px}
+.skw .stat b{font-size:34px;line-height:1.05;margin:0 0 2px}
+.skw .stat span{font-size:14.5px;line-height:1.2;white-space:nowrap}
+@media (max-width:389px){.skw{padding:10px 8px 8px}.skw .stat{padding:9px 9px 10px}.skw .stat b{font-size:28px}.skw .stat span{font-size:13px;white-space:normal}.skh b{font-size:19px}}
 #okPop{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px;background:rgba(6,10,18,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 #okPop.on{opacity:1}
 #okPop .okb{pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:22px 24px 20px;text-align:center;min-width:250px;max-width:340px;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1);box-shadow:0 20px 50px rgba(0,0,0,.45)}
@@ -1547,7 +1576,7 @@ var t0=Date.now();
   setTimeout(chk,150)})();
 })();</script>
 <div class="shell">
-  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.57.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
+  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.58.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button></div><div class="hsync hrow"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></div></header>
   <main id="view"></main>
@@ -2206,7 +2235,7 @@ function bcRender(pc){
   var st=lots.length?lots.map(function(l){return esc(product(l.product).short||product(l.product).name)+' · '+l.qty+' кор.'}).join('<br>'):'Ячейка пустая';
   var m=/^(\d\d)-(\d\d)-(\d)$/.exec(c), FL=[1,2,3,4,5,6];
   o.innerHTML='<div class="bclabel">'+c128Svg(d)+'<div class="bcdig">'+d.split('').join(' ')+'</div><div class="bcbig nofull">'+cellFull(c)+'</div></div>'+
-    '<p class="bcst">'+st+'</p><button type="button" class="btn sm bclbl" data-bc="lbl">🖨 Наклейка этой ячейки (PDF)</button><div class="bcnav"><button type="button" class="btn sm" data-bc="hist">История ячейки</button><button type="button" class="btn ghost sm" data-bc="put"'+(canSave()?'':' disabled')+'>Принять сюда</button></div>'+
+    '<p class="bcst">'+st+'</p><button type="button" class="btn sm bclbl" data-bc="lbl">'+IC('printer')+' Наклейка этой ячейки (PDF)</button><div class="bcnav"><button type="button" class="btn sm" data-bc="hist">История ячейки</button><button type="button" class="btn ghost sm" data-bc="put"'+(canSave()?'':' disabled')+'>Принять сюда</button></div>'+
     '<div class="bcnav"><button type="button" class="btn ghost sm" data-bc="s-"'+(+m[2]<=1?' disabled':'')+'>← Секция</button><button type="button" class="btn ghost sm" data-bc="s+"'+(+m[2]>=cfg.sections?' disabled':'')+'>Секция →</button></div>'+
     '<div class="bcfl"><span>Этаж</span>'+FL.map(function(f){return '<button type="button" class="fchip" data-bc="f'+f+'" aria-pressed="'+(+m[3]===f)+'">'+f+'</button>'}).join('')+'</div>';
 }
@@ -2380,8 +2409,8 @@ function pendSet(n,fromCache){
   var ch=(n!==PEND)||(!!fromCache!==OFFL); PEND=n; OFFL=!!fromCache; if(!ch) return;
   var el=document.getElementById('pendTag');
   if(!el){ var h=document.querySelector('.hsync'); if(!h) return; el=document.createElement('span'); el.id='pendTag'; el.setAttribute('role','status'); h.appendChild(el) }
-  if(PEND>0){ el.className='pendtag on'; el.textContent='⏳ ждёт отправки: '+PEND }
-  else if(OFFL&&navigator.onLine===false){ el.className='pendtag on off'; el.textContent='📴 нет сети' }
+  if(PEND>0){ el.className='pendtag on'; el.innerHTML=IC('clock')+' ждёт отправки: '+PEND }
+  else if(OFFL&&navigator.onLine===false){ el.className='pendtag on off'; el.innerHTML=IC('wifioff')+' нет сети' }
   else { el.className='pendtag'; el.textContent='' }
 }
 window.addEventListener('online',function(){ pendSet(PEND,OFFL&&navigator.onLine===false) });
@@ -2473,7 +2502,7 @@ function todayHtml(){
   var ng=nabGroups().filter(function(g){return g.done<g.total}), go=ng.filter(function(g){return g.done>0})[0];
   var d=new Date();
   if(!qin&&!qout&&!ng.length&&!man.length&&!ins.length&&!outs.length) return '<section class="card tday tday0" aria-label="Сегодня пока без движений"><b>Сегодня</b><span class="d">'+WD[d.getDay()]+', '+dayKey(d.toISOString()).slice(0,5)+'</span><span class="q"><i aria-hidden="true"></i>пока без движений</span></section>';
-  SHF.on=shiftReady(); return '<section class="card tday'+(SHF.on?' tdsh':'')+'"><div class="tdh">'+'<b>Сегодня</b><span>'+WD[d.getDay()]+', '+dayKey(d.toISOString()).slice(0,5)+'</span></div><div class="tdg">'+
+  SHF.on=shiftReady(); var _col=tdCol(); return '<section class="card tday'+(SHF.on?' tdsh':'')+(_col?' col':'')+'"><button type="button" class="tdhb" data-act="tdTog" aria-expanded="'+!_col+'"><span class="t1">Сегодня</span><span class="tdd0">'+WD[d.getDay()]+', '+dayKey(d.toISOString()).slice(0,5)+'</span><span class="sm">'+(qin?'<span class="a">+'+qin+'</span>':'')+(qout?'<span class="b">−'+qout+'</span>':'')+(ng.length?'<span class="c">'+ng.length+' ждут</span>':'')+(!qin&&!qout&&!ng.length?'<span class="z">0</span>':'')+(SHF.on?'<span class="f" title="Итог смены готов">'+IC('flag')+'</span>':'')+'</span>'+IC('down','cv')+'</button><div class="tdg">'+
     '<button type="button" class="tdc" data-act="todayGo" data-v="in"><b class="tin">'+(qin?'+':'')+qin+'</b><span>принято кор'+(nc?'<br>в '+nc+' яч.':'')+'</span></button>'+
     '<button type="button" class="tdc" data-act="todayGo" data-v="out"><b class="tout">'+(qout?'−':'')+qout+'</b><span>отгружено кор'+(cities.length?'<br>'+esc(cities.slice(0,2).join(', '))+(cities.length>2?' +'+(cities.length-2):''):'')+'</span></button>'+
     '<button type="button" class="tdc" data-act="todayGo" data-v="nab"><b class="tnab">'+ng.length+'</b><span>'+(ng.length?'ждут набора':'набирать нечего')+(go?'<br>● набирает '+(go.picker?nk(go.picker,go.pickerUid):''):'')+'</span></button>'+
@@ -2484,7 +2513,27 @@ var GSW={game:false,t:null,FEST:5000,GAME:2000};
 function gameStrip(){
   return '<button type="button" class="gstrip" data-act="playOpen" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i><span>Скоро: игра для склада</span><b>Играть ›</b></button>';
 }
-function gameSwap(){
+
+/* ===== линейные иконки (вместо рабочих эмодзи) ===== */
+var ICP={flag:'<path d="M5 21V4"/><path d="M5 4h11l-2.2 4L16 12H5"/>',
+ alert:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+ printer:'<path d="M6 9V3h12v6"/><rect x="6" y="14" width="12" height="7" rx="1"/><path d="M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/>',
+ wifioff:'<path d="M3 3l18 18"/><path d="M8.5 16.4a5 5 0 0 1 7 0"/><path d="M5 12.8a10 10 0 0 1 4.6-2.6"/><path d="M14.4 10.2A10 10 0 0 1 19 12.8"/><path d="M1.5 9.3a15 15 0 0 1 5-3"/><path d="M12 20h.01"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ undo:'<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>',
+ lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+ box:'<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+ zoom:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/>',
+ check:'<path d="M20 6 9 17l-5-5"/>', x:'<path d="M18 6 6 18M6 6l12 12"/>',
+ ban:'<circle cx="12" cy="12" r="9"/><path d="m5.7 5.7 12.6 12.6"/>',
+ down:'<path d="m6 9 6 6 6-6"/>', chev:'<path d="m9 6 6 6-6 6"/>'};
+function IC(n,c){ return '<svg class="ic'+(c?' '+c:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(ICP[n]||'')+'</svg>' }
+/* «Сегодня» свёрнуто/развёрнуто — у каждого своё */
+function tdCol(){ try{ return localStorage.getItem('agro.tdCol')!=='0' }catch(e){ return true } }
+/* плашка «Установить на главный экран» — только в первый раз, дальше в настройках */
+var INST_FIRST=(function(){ try{ var v=localStorage.getItem('agro.instSeen'); if(!v){ localStorage.setItem('agro.instSeen',new Date().toISOString()); return true } return false }catch(e){ return true } })();
+function gameSwap(){ var fb0=festBanner(); return fb0||'' }
+function gameSwap9(){
   var fb=festBanner();
   if(!fb) return '<div class="gswap solo">'+gameStrip()+'</div>';
   var gs=gameStrip(); if(!GSW.game) gs=gs.replace('<button ','<button tabindex="-1" ');
@@ -2520,7 +2569,7 @@ var SHF={on:false,open:false};
 function shiftMin(){var t=String(cfg.shiftEnd||'16:00').split(':'); return (Number(t[0])||0)*60+(Number(t[1])||0)}
 function shiftReady(){var d=new Date(); return d.getHours()*60+d.getMinutes()>=shiftMin()}
 setInterval(function(){ if(!loaded) return; var r=shiftReady(); if(r!==SHF.on&&tab==='stock'){SHF.on=r; render()} },60000);
-function shiftBtn(){return '<button type="button" class="shbtn" data-act="shiftOpen" aria-haspopup="dialog"><span class="shic" aria-hidden="true">🏁</span><span class="sht">Итог смены готов</span><b>Открыть ›</b></button>'}
+function shiftBtn(){return '<button type="button" class="tdshr" data-act="shiftOpen" aria-haspopup="dialog">'+IC('flag')+'<span>Итог смены готов</span><em>Открыть'+IC('chev')+'</em></button>'}
 function shiftData(){
   var dk=dayKey(new Date().toISOString()), today=moves.filter(function(m){return m.ts&&dayKey(m.ts)===dk});
   var ins=today.filter(function(m){return kindOf(m)==='in'}), outs=today.filter(function(m){return kindOf(m)==='out'});
@@ -2547,7 +2596,7 @@ function shTop(a,n){return a.slice(0,n).map(function(x,i){return (i===0?'<b>':''
 function shPart(p){var a=[]; if(p.inq) a.push('<b class="g">+'+shN(p.inq)+'</b> принято'); if(p.outq) a.push('<b class="bl">−'+shN(p.outq)+'</b> отгружено'); if(p.nab) a.push('<b>'+p.nab+'</b> набрано'); return a.join(' · ')}
 function shiftHtml(d){
   var dt=WD[d.date.getDay()]+', '+dayKey(d.date.toISOString()).slice(0,5);
-  var h='<div class="shw"><div class="shh"><b>🏁 Итог смены</b><span>'+dt+'</span><button type="button" class="shx" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
+  var h='<div class="shw"><div class="shh"><b>'+IC('flag','icy')+' Итог смены</b><span>'+dt+'</span><button type="button" class="shx" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
     '<div class="shg"><div><em class="g">+'+shN(d.inq)+'</em><small>принято кор'+(d.src.length?'<br>из '+d.src.length+' мест':'')+'</small></div><div><em class="bl">−'+shN(d.outq)+'</em><small>отгружено кор'+(d.cit.length?'<br>в '+d.cit.length+' '+plGor(d.cit.length):'')+'</small></div><div><em class="y">'+d.nab+'</em><small>отгрузок<br>набрано</small></div></div>';
   var L=[]; if(d.src.length) L.push('<span>Пришло: '+shTop(d.src,3)+'</span>'); if(d.cit.length) L.push('<span>Ушло: '+shTop(d.cit,3)+'</span>'); L.push('<span>На складе: <b>'+shN(d.stock)+' кор.</b> в '+d.cells+' яч.</span>');
   h+='<div class="shl">'+L.join('')+'</div>';
@@ -2606,10 +2655,10 @@ function renderStock0(){
   var lots=Array.from(D.lots.values());
   var totalCells=cfg.rows.length*cfg.sections*cfg.floors.length;
   var alThr=cfg.warnPct, alerts=lots.filter(function(l){return lotInfo(l).pct<=alThr}).length;
-  var h=banner()+(S.view==='map'?'':gameSwap()+todayHtml()+'<div class="stats">'+
-    '<div class="stat"><b>'+D.boxes+'</b><span>коробок на складе</span></div>'+
-    '<div class="stat"><b>'+D.cells.size+'</b><span>ячеек занято из '+totalCells+'</span></div>'+
-    '<div class="stat'+(alerts?' warn tap':'')+'"'+(alerts?' role="button" tabindex="0" data-act="lowOpen"':'')+'><b>'+alerts+'</b><span>дат со сроком '+alThr+'% и ниже'+(alerts?' · нажмите':'')+'</span></div></div>'+'<!--SRCH-->'+(D.lots.size?legendHtml().replace(/<span><i[^>]*><\/i>срок истёк<\/span>/,''):'')+expectNote());
+  var h=banner()+(S.view==='map'?'':gameSwap()+todayHtml()+'<section class="skw" aria-label="Склад сейчас, всего"><div class="skh">'+IC('box')+'<b>Склад сейчас</b><span>всего</span></div><div class="stats">'+
+    '<div class="stat"><b>'+D.boxes+'</b><span>коробок</span></div>'+
+    '<div class="stat"><b>'+D.cells.size+'</b><span>ячеек из '+totalCells+'</span></div>'+
+    '<div class="stat'+(alerts?' warn tap':'')+'"'+(alerts?' role="button" tabindex="0" data-act="lowOpen"':'')+'><b>'+alerts+'</b><span>дат ≤'+alThr+'%'+(alerts?' ›':'')+'</span></div></div></section>'+'<!--SRCH-->'+(D.lots.size?legendHtml().replace(/<span><i[^>]*><\/i>срок истёк<\/span>/,''):'')+expectNote());
   if(!lots.length){
     return h+'<div class="card hero-empty"><h2>На складе пока пусто</h2><p>Внесите товар, который уже лежит на стеллажах, и новые поставки через «Приход». Укажите реальные даты производства и сроки годности, ячейку и количество.</p><button class="btn" type="button" data-act="tab" data-tab="in">Внести приход</button></div>';
   }
@@ -2631,7 +2680,7 @@ function renderStock0(){
             '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+fp(li.pct)+'%</span></span>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+
-    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.57.0</p>';
+    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.58.0</p>';
   }else if(S.view==='map'){
     h+=renderMap();
   }else{
@@ -2981,7 +3030,7 @@ function nabRow(m){
     '<span class="nq"><b>'+(Number(m.qty)||0)+'</b> кор</span><span class="nic'+(ok?' ok':'')+'" aria-label="'+(ok?'взято':'ждёт')+'">'+(ok?'✓':'')+'</span></button>';
   if(op){
     h+='<div class="nrb"><div class="ndt">Сроки <b>'+rng(m.prod,m.exp)+'</b></div>';
-    if(!ok) h+='<button type="button" class="btn ghost nabtake" data-act="nabTake" data-id="'+esc(m.id)+'"'+(canSave()?'':' disabled')+'>✓ Взять '+(Number(m.qty)||0)+' кор</button>';
+    if(!ok) h+='<button type="button" class="btn ghost nabtake" data-act="nabTake" data-id="'+esc(m.id)+'"'+(canSave()?'':' disabled')+'>'+IC('check')+' Взять '+(Number(m.qty)||0)+' кор</button>';
     else if(nabCanBack(m)) h+='<button type="button" class="btn ghost" data-act="nabUndo" data-id="'+esc(m.id)+'">Вернуть в «ждёт набора»</button>';
     else h+='<p class="note" style="margin:0">Вернуть может '+esc(m.chkByName||'тот, кто отметил')+' или админ.</p>';
     h+='</div>';
@@ -3187,7 +3236,7 @@ function inRow(m,extra){
   var h='<li class="card mv irow'+(op?' open':'')+(m.id&&m.id===FLASHID&&UI.flash!=='0'?' flash':'')+'">'+
     '<div class="irh" data-act="inTog" data-id="'+id+'" role="button" tabindex="0" aria-expanded="'+op+'">'+
       '<span class="irt"><span class="mono irc">'+esc(m.cell)+'</span><span class="irq">+'+q+'<small>кор</small></span></span>'+
-      '<button type="button" class="irlk'+(lk?' on':'')+'" data-act="chk" data-v="ok" data-id="'+id+'" aria-pressed="'+lk+'"'+dis+'>'+(lk?'🔒 Ячейка заблок.':'Ячейка заблок.?')+'</button>'+
+      '<button type="button" class="irlk'+(lk?' on':'')+'" data-act="chk" data-v="ok" data-id="'+id+'" aria-pressed="'+lk+'"'+dis+'>'+(lk?IC('lock')+' Ячейка заблок.':'Ячейка заблок.?')+'</button>'+
       '<span class="irs"><span class="irp">'+pdot(m.product)+'<b>'+esc(p.short||p.name)+'</b></span><span class="ird">'+rng(m.prod,m.exp)+'</span><span class="irw">· '+who+'</span></span>'+
     '</div>';
   if(op){
@@ -3299,8 +3348,8 @@ function depLine(c,d,td){
   var note=ref&&st?'<div class="mv-s">'+(st==='ok'?'✓ Уехало':'✕ Не уехало')+(ref.depByName?': '+esc(ref.depByName):'')+(ref.depAt?' · '+esc(whenText(ref.depAt)):'')+'</div>':(part?'<div class="mv-s">Отмечено частично: нажмите, чтобы отметить весь день</div>':(td?'':'<div class="mv-s">Не отмечено</div>'));
   return '<div class="cdep'+(td?'':' cdep-old')+'"><div class="cdt">'+(td?'<span class="tdtag">Сегодняшняя отгрузка</span>':'<b>'+esc(d.label)+'</b>')+'<div class="mv-s"><b>'+d.q+' кор.</b>'+(td?' сегодня':'')+' · записей: '+tm.length+'</div>'+note+'</div>'+
     '<span class="ckrow" role="group" aria-label="Отправка в город">'+
-    '<span class="ckc"><button type="button" class="ck ok" data-act="dep" data-v="ok" data-c="'+cn+'" data-d="'+dk+'" aria-pressed="'+(st==='ok')+'" aria-label="Уехало"'+dis+'>✓</button><small>уехало</small></span>'+
-    '<span class="ckc"><button type="button" class="ck bad" data-act="dep" data-v="bad" data-c="'+cn+'" data-d="'+dk+'" aria-pressed="'+(st==='bad')+'" aria-label="Не уехало"'+dis+'>✕</button><small>не уехало</small></span></span></div>';
+    '<span class="ckc"><button type="button" class="ck ok" data-act="dep" data-v="ok" data-c="'+cn+'" data-d="'+dk+'" aria-pressed="'+(st==='ok')+'" aria-label="Уехало"'+dis+'>'+IC('check')+'</button><small>уехало</small></span>'+
+    '<span class="ckc"><button type="button" class="ck bad" data-act="dep" data-v="bad" data-c="'+cn+'" data-d="'+dk+'" aria-pressed="'+(st==='bad')+'" aria-label="Не уехало"'+dis+'>'+IC('x')+'</button><small>не уехало</small></span></span></div>';
 }
 function depRow(c){
   var tk=dayKey(new Date().toISOString()), days=Object.keys(c.dm||{}).map(function(k){return c.dm[k]}).sort(function(a,b){return String(b.ts)<String(a.ts)?-1:1});
@@ -4159,7 +4208,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.57.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.58.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -4212,7 +4261,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.57.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.58.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -4239,7 +4288,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.57.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.58.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -4337,7 +4386,8 @@ function shelfGroupHtml(d){
     '<p class="note" style="margin:0 0 10px">Остаточный срок — сколько процентов срока годности ещё осталось. Задайте пороги по убыванию, например 50, 25, 10. Предпросмотр: '+prev+'</p>'+
     '<button class="btn ghost sm" type="button" data-act="shReset">Сбросить цвета</button></section>';
 }
-function uiGroupHtml(){return uiGroupHtmlF()+festMineHtml()}
+function uiGroupHtml(){return uiGroupHtmlF()+festMineHtml()+instSetHtml()}
+function instSetHtml(){ if(isStandalone()) return ''; return '<section class="group"><h2 class="lbl">Значок на главном экране</h2><p class="note" style="margin:0 0 10px">Программа откроется с главного экрана телефона, как обычное приложение.</p><button class="btn ghost" type="button" data-act="instSet">Установить на главный экран</button></section>' }
 function uiGroupHtmlF(){
   var h=uiGroupHtml0(), i=h.lastIndexOf('</section>'); if(i<0) return h;
   var own=uiOwn().filter(function(k){return cfg.uiDef&&(k in cfg.uiDef)});
@@ -4457,7 +4507,7 @@ function dupAsk(kind,lines,again){
   var agoT=ago<1?'меньше минуты назад':ago+' '+(ago%10===1&&ago%100!==11?'минуту':(ago%10>=2&&ago%10<=4&&(ago%100<10||ago%100>=20))?'минуты':'минут')+' назад';
   var what=kind==='in'?'приход':'отгрузка', p=product(m0.product);
   var r=document.createElement('div'); r.id='dupRoot';
-  r.innerHTML='<div class="dupbox" role="dialog" aria-modal="true" aria-labelledby="dupT"><div class="duph"><span aria-hidden="true">⚠️</span><b id="dupT">Похоже на повтор</b></div>'+
+  r.innerHTML='<div class="dupbox" role="dialog" aria-modal="true" aria-labelledby="dupT"><div class="duph"><span class="icirc y" aria-hidden="true">'+IC('alert')+'</span><b id="dupT">Похоже на повтор</b></div>'+
     '<p>'+(kind==='in'?'Такой же приход':'Такая же отгрузка')+' уже '+(kind==='in'?'внесён':'внесена')+' <b>'+agoT+'</b>'+(full?'':' (совпадает часть строк)')+':</p>'+
     hit.slice(0,4).map(function(m){var pp=product(m.product); return '<div class="dupc"><div class="dupr"><span class="mono">'+esc(m.cell)+'</span><b>'+(kind==='in'?'+':'−')+(Number(m.qty)||0)+' <small>кор</small></b></div>'+
       '<span class="note" style="margin:0">'+pdot(m.product)+'<b>'+esc(pp.short||pp.name)+'</b> · '+rng(m.prod,m.exp)+(kind==='in'&&m.from?' · из '+esc(m.from):'')+(kind==='out'&&m.city?' · в '+esc(m.city):'')+'</span>'+
@@ -4771,6 +4821,10 @@ document.addEventListener('click',function(e){
       if(DEFP){var dp=DEFP; DEFP=null; dp.prompt(); dp.userChoice.then(function(r){if(r&&r.outcome==='accepted'){try{localStorage.setItem(INST_KEY,'1')}catch(e){}} instRefresh()}).catch(function(){instRefresh()}); return instRefresh()}
       S.instHelp=!S.instHelp; return instRefresh();
     case 'instLater': S.instHide=true; return instRefresh();
+    case 'tdTog': { var tdc=el.closest('.tday'); if(!tdc) return; var col=tdc.classList.toggle('col'); el.setAttribute('aria-expanded',String(!col)); try{localStorage.setItem('agro.tdCol',col?'1':'0')}catch(e){} return }
+    case 'instSet':
+      if(DEFP){var dp2=DEFP; DEFP=null; dp2.prompt(); dp2.userChoice.then(function(r){if(r&&r.outcome==='accepted'){try{localStorage.setItem(INST_KEY,'1')}catch(e){} toast('Готово: значок добавлен на главный экран')}}).catch(function(){}); return}
+      return toast(isIOS()?'iPhone: откройте программу в Safari → «Поделиться» (квадрат со стрелкой) → «На экран Домой» → «Добавить».':'Android: в Chrome нажмите меню ⋮ вверху справа → «Добавить на главный экран» (или «Установить приложение») → «Добавить».');
     case 'instDone': try{localStorage.setItem(INST_KEY,'1')}catch(e){} return instRefresh();
     case 'shNew': if(S.invite) shareOrCopy(inviteText(S.invite.login,S.invite.pass,S.invite.name)); return;
     case 'shNewCopy': if(S.invite) fbCopy(inviteText(S.invite.login,S.invite.pass,S.invite.name),function(){toast('Скопировано. Откройте мессенджер и вставьте.')}); return;
@@ -5175,7 +5229,7 @@ function histItem(m){
   if(canSave()){
     if(gone) act='<div class="mv-a"><button class="btn sm" type="button" data-act="histRestore" data-id="'+id+'">Вернуть запись</button>'+(isDevMe()?'<button class="btn ghost sm wo" type="button" data-act="histPurge" data-id="'+id+'">Удалить навсегда</button>':'')+'</div>';
     else if(h.confirm===m.id) act='<div class="mv-a"><span class="note">Отменить эту запись?</span><button class="btn danger sm" type="button" data-act="histYes" data-id="'+id+'">Да, отменить</button><button class="btn ghost sm" type="button" data-act="histNo">Нет</button></div>';
-    else act='<div class="mv-a">'+(origDiff(m)?'<button class="btn ghost sm" type="button" data-act="edOrig" data-id="'+id+'">↶ Вернуть исходные данные</button>':'')+'<button class="linkbtn" type="button" data-act="histAsk" data-id="'+id+'">Отменить запись</button></div>';
+    else act='<div class="mv-a">'+(origDiff(m)?'<button class="btn ghost sm" type="button" data-act="edOrig" data-id="'+id+'">'+IC('undo')+' Вернуть исходные данные</button>':'')+'<button class="linkbtn" type="button" data-act="histAsk" data-id="'+id+'">Отменить запись</button></div>';
   }
   return '<li class="card mv'+(gone?' gone':'')+'"><div class="mv-h">'+head+'<span class="when">'+timeKey(m.ts)+'</span></div><div class="mv-b">'+where+'</div>'+dates+who+(gone?'':chkNote(m))+st+act+'</li>';
 }
@@ -5231,7 +5285,7 @@ function evItem(x){
   var lines=Object.keys(e.ch).filter(function(f){return f!=='del'}).map(function(f){var c=e.ch[f]; return '<div class="evl"><span>'+esc(ED_L[f]||f)+':</span> <s>'+esc(edVal(f,c[0],m))+'</s> → <b>'+esc(edVal(f,c[1],m))+'</b></div>'}).join('');
   var act='';
   if(canSave()){
-    if(edCanUndo(x)) act='<div class="mv-a"><button class="btn ghost sm" type="button" data-act="edUndo" data-id="'+id+'" data-i="'+x.i+'">↶ Вернуть как было</button></div>';
+    if(edCanUndo(x)) act='<div class="mv-a"><button class="btn ghost sm" type="button" data-act="edUndo" data-id="'+id+'" data-i="'+x.i+'">'+IC('undo')+' Вернуть как было</button></div>';
     else if(e.act==='del'&&m.del) act='<div class="mv-a"><button class="btn sm" type="button" data-act="histRestore" data-id="'+id+'">Вернуть запись</button></div>';
     else if(['edit','from','undo'].indexOf(e.act)>=0&&!m.del) act='<div class="mv-s note">После этого запись меняли ещё — отменить можно последнее изменение.</div>';
   }
@@ -5283,7 +5337,7 @@ function renderHistSheet(root){
   var nEv=edEvents().length, F=[['all','Все'],['ev','Изменения'+(nEv?' · '+nEv:'')],['in','Приходы'],['out','Отгрузки'],['misc','Прочее'],['del','Отменённые'+(nDel?' · '+nDel:'')]];
   root.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="История действий"><div class="wrap">'+
     '<div class="bar-top"><h1 style="margin:0;font-size:22px">История действий</h1><button class="btn ghost sm" type="button" data-act="histClose">Закрыть</button></div>'+
-    '<p class="lede">Все записи и все изменения: кто и когда. Ошибочное исправление можно вернуть кнопкой «↶ Вернуть как было», отменённую запись — «Вернуть запись».</p>'+(isDevMe()&&nDel?'<div style="margin-bottom:10px"><button class="btn ghost xs wo" type="button" data-act="histPurgeAll">Очистить отменённые ('+nDel+')</button></div>':'')+
+    '<p class="lede">Все записи и все изменения: кто и когда. Ошибочное исправление можно вернуть кнопкой «Вернуть как было», отменённую запись — «Вернуть запись».</p>'+(isDevMe()&&nDel?'<div style="margin-bottom:10px"><button class="btn ghost xs wo" type="button" data-act="histPurgeAll">Очистить отменённые ('+nDel+')</button></div>':'')+
     '<div class="chiprow">'+F.map(function(x){return '<button class="fchip" type="button" data-act="histFilter" data-v="'+x[0]+'" aria-pressed="'+(h.f===x[0])+'">'+esc(x[1])+'</button>'}).join('')+'</div>'+
     (list.length?groups.map(function(g){return '<div class="day"><span>'+g.label+'</span><span></span></div><ul class="mvlist">'+g.items.map(function(x){return x._ev?evItem(x):histItem(x)}).join('')+'</ul>'}).join(''):'<div class="card empty" style="margin-top:12px">Записей нет.</div>')+
     (list.length>h.limit?'<button class="btn ghost" type="button" style="width:100%;margin-top:14px" data-act="histMore">Показать ещё</button>':'')+
@@ -5406,7 +5460,7 @@ function isStandalone(){try{return (window.matchMedia&&matchMedia('(display-mode
 function instFlag(){try{return localStorage.getItem(INST_KEY)==='1'}catch(e){return false}}
 function isIOS(){return /iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)}
 function instInner(){
-  if(!ME||S.instHide||instFlag()||isStandalone()) return '';
+  if(!ME||S.instHide||instFlag()||isStandalone()||!INST_FIRST) return '';
   var help='';
   if(S.instHelp) help='<div class="inst-h">'+(isIOS()
     ?'iPhone: откройте эту страницу в <b>Safari</b>, нажмите «Поделиться» (квадрат со стрелкой) → <b>На экран «Домой»</b> → «Добавить».'
@@ -5639,7 +5693,7 @@ function scaleAsk(){
   var nr=document.getElementById('noticeRoot'); if((nr&&nr.style.display==='grid')||document.querySelector('.sheet')||document.getElementById('splash')&&!document.getElementById('splash').hidden&&getComputedStyle(document.getElementById('splash')).opacity!=='0'){setTimeout(scaleAsk,1500); return}
   SCALE_ASKED=true;
   var r=document.createElement('div'); r.id='scRoot';
-  r.innerHTML='<div class="nbox" role="dialog" aria-modal="true" aria-labelledby="scT"><div class="scic" aria-hidden="true">🔍</div><h2 id="scT">Включить общий масштаб?</h2>'+
+  r.innerHTML='<div class="nbox" role="dialog" aria-modal="true" aria-labelledby="scT"><div class="scic" aria-hidden="true">'+IC('zoom')+'</div><h2 id="scT">Включить общий масштаб?</h2>'+
     '<p>Для всех сотрудников настроен масштаб <b>'+(SCL[def]||def)+'</b>. На этом телефоне сейчас <b>'+(SCL[cur]||cur)+'</b>.</p>'+
     '<button class="btn" type="button" data-sc="yes">Включить '+(SCL[def]||def)+'</button><button class="btn ghost" type="button" data-sc="no">Оставить мой '+(SCL[cur]||cur)+'</button>'+
     '<p style="font-size:13px">Поменять можно в любой момент: Настройки → Вид и звук → Масштаб.</p></div>';
@@ -5658,7 +5712,7 @@ function openSettings(){openSettings0(); pushLoadKey().then(function(){if(S.sett
 /* ---------- вкладки настроек ---------- */
 var STAB_ADM=[['wh','Склад'],['look','Вид и звук'],['ntf','Уведомления'],['ppl','Люди'],['dat','Данные']];
 var STAB_USR=[['ppl','Аккаунт'],['look','Вид и звук'],['ntf','Уведомления']];
-var STAB_OF={'Стеклянный стиль':'look','Итог смены':'wh','Подтверждение крупных действий':'wh','Товары':'wh','Города отгрузки':'wh','Откуда приходы':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление':'look','Достижения':'look','Праздничное оформление':'look','Праздничная анимация':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Украшенные ники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
+var STAB_OF={'Значок на главном экране':'look','Стеклянный стиль':'look','Итог смены':'wh','Подтверждение крупных действий':'wh','Товары':'wh','Города отгрузки':'wh','Откуда приходы':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление':'look','Достижения':'look','Праздничное оформление':'look','Праздничная анимация':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Украшенные ники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
 function settingsTabs(){
   if(!S.settings) return;
   var sh=document.querySelector('#sheetRoot .sheet[aria-label="Настройки"]'); if(!sh) return;
@@ -5671,7 +5725,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.57.0</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.58.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -6002,7 +6056,7 @@ document.addEventListener('input',function(e){ if(e.target&&e.target.id==='fCnt'
 function festGroupHtml(){
   if(!isDevMe()) return '';
   var d=festDraft(), now=festAutoKey(d,new Date());
-  var tiles=FEST_KEYS.concat(['off']).map(function(k){var o=k==='off'?{e:'🚫',n:'Выключено',d:'как обычно'}:FEST[k];
+  var tiles=FEST_KEYS.concat(['off']).map(function(k){var o=k==='off'?{e:IC('ban'),n:'Выключено',d:'как обычно'}:FEST[k];
     return '<button type="button" class="fho" data-act="fSel" data-v="'+k+'" aria-pressed="'+(d.sel===k)+'"><b>'+o.e+' '+o.n+'</b><span>'+o.d+'</span></button>'}).join('');
   var h='<section class="group fset"><h2 class="lbl">Праздничное оформление</h2><p class="note" style="margin:0 0 10px">Настраивает только разработчик, видят все. Сейчас у всех: <b>'+(function(){var c=cfg.fest; if(!c) return 'выключено'; var k=c.auto?festAutoKey(c,new Date()):(c.sel==='off'?null:c.sel); return (k?FEST[k].e+' '+FEST[k].n:'выключено')+(c.auto?' (по датам)':'')})()+'</b></p>'+
     '<div class="fhol">'+tiles+'</div>'+
@@ -6404,7 +6458,7 @@ var WARN={on:false, secs:5, title:'Внимание', lead:'Программа �
 function showWarn(){
   if(!WARN.on||window.__NOWARN||!document.body) return;
   var r=document.createElement('div'); r.id='warnRoot';
-  r.innerHTML='<div class="wbox" role="alertdialog" aria-modal="true" aria-labelledby="wTitle" aria-describedby="wText"><div class="wic" aria-hidden="true">⚠️</div><h2 id="wTitle">'+esc(WARN.title)+'</h2>'+
+  r.innerHTML='<div class="wbox" role="alertdialog" aria-modal="true" aria-labelledby="wTitle" aria-describedby="wText"><div class="wic" aria-hidden="true">'+IC('alert')+'</div><h2 id="wTitle">'+esc(WARN.title)+'</h2>'+
     '<div id="wText"><p class="wl">'+esc(WARN.lead)+'</p><ul>'+WARN.items.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'+
     '<button class="btn" type="button" id="wOk" disabled>Прочитал(а) · '+WARN.secs+'</button><div class="wbar" aria-hidden="true"><i></i></div></div>';
   document.body.appendChild(r);
@@ -6632,7 +6686,7 @@ function renderSeSheet(root){
     '<p class="note" style="margin:-4px 0 12px">В каждой строке можно поменять ячейку, откуда взяли, дату товара и количество.</p><div class="selines">'+
     e.lines.map(function(L,i){
       if(L.del) return '<div class="seline del"><span>Строка '+(i+1)+' убрана</span><button type="button" class="linkbtn" data-act="seUndel" data-i="'+i+'">Вернуть</button></div>';
-      return '<div class="seline"><div class="seh"><b>Строка '+(i+1)+'</b><button type="button" class="sedel" data-act="seDel" data-i="'+i+'" aria-label="Убрать строку">✕ убрать</button></div>'+
+      return '<div class="seline"><div class="seh"><b>Строка '+(i+1)+'</b><button type="button" class="sedel" data-act="seDel" data-i="'+i+'" aria-label="Убрать строку">'+IC('x')+' убрать</button></div>'+
         '<div class="field"><label>Ячейка</label><input class="cellinp secin" type="text" inputmode="numeric" autocomplete="off" data-i="'+i+'" value="'+esc(cellFull(L.cell)||L.cell)+'" placeholder="10-01-3" aria-label="Ячейка, строка '+(i+1)+'"></div>'+
         '<div class="seinfo" data-i="'+i+'">'+seLineInfo(i)+'</div>'+
         '<div class="two"><div class="field"><label>Произведено</label><input class="sep" type="date" data-i="'+i+'" value="'+esc(L.prod)+'"></div><div class="field"><label>Годен до</label><input class="see" type="date" data-i="'+i+'" value="'+esc(L.exp)+'"></div></div>'+
