@@ -554,6 +554,19 @@ html body .ecell .cc-act .btn{width:auto!important;min-width:0!important;padding
 .ecell .ec-tag{font-size:12.5px;font-weight:800;color:var(--muted);border:1px dashed var(--line);border-radius:999px;padding:3px 10px}
 .ecell .cc-act{display:flex;gap:6px;flex-wrap:wrap}
 .ecell .cc-act .btn{white-space:nowrap;padding:0 14px}
+
+/* 0.53.0 редактирование отгрузки */
+.jact{margin:10px 0 0}
+.se-ed{color:var(--warn);font-size:13px;margin:6px 0 0}.se-ed span{opacity:.85}
+.selines{display:grid;gap:10px}
+.seline{display:grid;gap:8px;padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.seline select{width:100%;font-family:var(--f-mono);font-size:14px}
+.seqr{display:grid;grid-template-columns:48px 1fr 48px 48px;gap:6px}
+.seqr button{min-height:46px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font:inherit;font-size:20px;font-weight:700}
+.seqr input{text-align:center;font-size:18px;font-weight:800}
+.seqr .sedel{color:var(--bad);font-size:16px}
+.seline.del{display:flex;align-items:center;justify-content:space-between;opacity:.7;border-style:dashed}
+.sechips{flex-wrap:wrap}
 #okPop{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px;background:rgba(6,10,18,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 #okPop.on{opacity:1}
 #okPop .okb{pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:22px 24px 20px;text-align:center;min-width:250px;max-width:340px;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1);box-shadow:0 20px 50px rgba(0,0,0,.45)}
@@ -1458,7 +1471,7 @@ var t0=Date.now();
   setTimeout(chk,150)})();
 })();</script>
 <div class="shell">
-  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.52.2</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
+  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.53.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button></div><div class="hsync hrow"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></div></header>
   <main id="view"></main>
@@ -2195,7 +2208,7 @@ function renderStock0(){
             '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+fp(li.pct)+'%</span></span>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+
-    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.52.2</p>';
+    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.53.0</p>';
   }else if(S.view==='map'){
     h+=renderMap();
   }else{
@@ -2733,6 +2746,7 @@ function origText(m){
   if(o.exp&&o.exp!==m.exp) p.push('годен до '+fmt(o.exp));
   if(o.cell&&o.cell!==m.cell) p.push('ячейка '+o.cell);
   if(o.to&&o.to!==m.to) p.push('куда было '+o.to);
+  if(o.city&&o.city!==m.city) p.push('город '+o.city);
   if(o.qty!=null&&o.qty!==m.qty) p.push(o.qty+' кор.');
   return p.length?'Исправлено · было: '+p.join(', '):'Исправлено';
 }
@@ -3510,7 +3524,8 @@ function chCutDo(){
     .then(function(){busy=false; S.ch.cut=false; S.ch.sel={}; toast('Отменено записей: '+ids.length+'. Вернуть можно в «Истории»'); histRender()})
     .catch(function(e){busy=false; toast(errText(e),true)});
 }
-document.addEventListener('change',function(e){var t=e.target; if(t&&t.dataset&&t.dataset.chsel!=null&&S.ch){S.ch.sel=S.ch.sel||{}; S.ch.sel[t.dataset.chsel]=t.checked}});
+document.addEventListener('input',function(e){var t=e.target; if(!S.se||!t) return; if(t.classList&&t.classList.contains('seq')){S.se.lines[+t.dataset.i].qty=t.value; return seUpdate()} if(t.id==='seCity'){var v=t.value.trim(); if(v) S.se.city=v; document.querySelectorAll('.sechips .fchip').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.c===S.se.city))}); return seUpdate()}});
+document.addEventListener('change',function(e){var t=e.target; if(S.se&&t&&t.classList&&t.classList.contains('secell')){S.se.lines[+t.dataset.i].v=t.value; return seUpdate()} if(t&&t.dataset&&t.dataset.chsel!=null&&S.ch){S.ch.sel=S.ch.sel||{}; S.ch.sel[t.dataset.chsel]=t.checked}});
 function renderCellHist(root){
   var c=S.ch.cell, f=S.ch.f||'all', all=chEvents(c), list=all.filter(function(e){return f==='all'||e.f===f}), shown=list.slice(0,S.ch.lim||60);
   var cm=D.cells.get(c), lots=cm?Array.from(cm.values()).sort(byExp):[];
@@ -3714,7 +3729,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.52.2</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.53.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -3767,7 +3782,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.52.2 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.53.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -3794,7 +3809,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.52.2) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.53.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -3832,8 +3847,9 @@ function openSettings0(){
 function renderSheet(){renderSheet0(); settingsTabs(); rqSheetFix()}
 function renderSheet0(){
   var root=$('#sheetRoot');
-  if(!S.settings&&!S.edit&&!S.mv&&!S.inv&&!S.pl&&!S.rep&&!S.mapSel&&!S.nc&&!S.calc&&!S.hist&&!S.wo&&!S.rq&&!S.ch&&!S.ach&&!S.prof){root.innerHTML='';document.body.style.overflow='';return}
+  if(!S.settings&&!S.edit&&!S.mv&&!S.inv&&!S.pl&&!S.rep&&!S.mapSel&&!S.nc&&!S.calc&&!S.hist&&!S.wo&&!S.rq&&!S.ch&&!S.ach&&!S.prof&&!S.se){root.innerHTML='';document.body.style.overflow='';return}
   document.body.style.overflow='hidden';
+  if(S.se){renderSeSheet(root);return}
   if(S.prof){renderProf(root);return}
   if(S.ch){renderCellHist(root);return}
   if(S.ach){renderAchSheet(root);return}
@@ -4130,6 +4146,14 @@ document.addEventListener('click',function(e){
     case 'nabUndo':
       var um=moves.filter(function(x){return x.id===el.dataset.id})[0]; if(!um||!nabCanBack(um)) return;
       return withRetry(function(){return db.doc('moves/'+um.id).update({chk:'bad',chkBy:null,chkByName:null,chkAt:null})}).then(function(){toast('Вернули в «ждёт набора»: '+um.cell)}).catch(function(er){toast(errText(er),true)});
+    case 'seOpen': return seOpen(el.dataset.k,el.dataset.f);
+    case 'seClose': S.se=null; return renderSheet();
+    case 'seCity': S.se.city=el.dataset.c; var sc=$('#seCity'); if(sc) sc.value=''; document.querySelectorAll('.sechips .fchip').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.c===S.se.city))}); return seUpdate();
+    case 'seQ': (function(){var L=S.se.lines[+el.dataset.i]; L.qty=String(Math.max(1,(Number(L.qty)||0)+Number(el.dataset.d))); var q=document.querySelector('.seq[data-i="'+el.dataset.i+'"]'); if(q) q.value=L.qty})(); return seUpdate();
+    case 'seDel': S.se.lines[+el.dataset.i].del=true; return renderSheet();
+    case 'seUndel': S.se.lines[+el.dataset.i].del=false; return renderSheet();
+    case 'seAdd': S.se.lines.push({id:null,v:'',qty:'1',del:false}); renderSheet(); setTimeout(function(){var a=document.querySelectorAll('.secell'); if(a.length){a[a.length-1].scrollIntoView({block:'center'}); a[a.length-1].focus()}},60); return;
+    case 'seSave': return seSave();
     case 'grpDelAsk': S.confirmGrp=el.dataset.k; return render();
     case 'grpDelNo': S.confirmGrp=null; return render();
     case 'grpDelYes': return deleteGroup(el.dataset.k);
@@ -5116,7 +5140,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.52.2</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.53.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -5998,10 +6022,105 @@ function jShipCard(g){
   var st=nabState(g), k=esc(g.key);
   return '<li class="card jsc"><div class="jh"><span class="jwho">Отгрузил <b>'+(g.who?nkp(g.who,g.uid):'—')+'</b> · '+timeKey(g.ts)+'</span><span class="mvpill">в '+esc(g.city)+'</span></div>'+
     '<div class="jp">'+pname(g.product)+'<span class="jq"><b>'+g.qty+'</b> кор</span></div>'+
-    '<span class="pst '+st[0]+'">'+st[1]+'</span>'+
+    '<span class="pst '+st[0]+'">'+st[1]+'</span>'+seEditedNote(g)+
     '<div class="jls">'+g.items.map(function(m){return '<div class="jl"><span class="mono">'+esc(m.cell)+'</span><span class="jd">'+rng(m.prod,m.exp)+'</span><span class="jn"><b>'+(Number(m.qty)||0)+'</b> кор</span></div>'}).join('')+'</div>'+
     (canSave()?(S.confirmGrp===g.key?'<div class="mv-a jfoot"><span class="note">Отменить всю отгрузку ('+g.qty+' кор)?</span><button class="btn danger sm" type="button" data-act="grpDelYes" data-k="'+k+'">Да, отменить</button><button class="btn ghost sm" type="button" data-act="grpDelNo">Нет</button></div>'
-      :'<div class="jfoot"><button class="linkbtn jcancel" type="button" data-act="grpDelAsk" data-k="'+k+'">Отменить отгрузку</button></div>'):'')+'</li>';
+      :'<div class="mv-a4 jact"><button type="button" data-act="seOpen" data-k="'+k+'" data-f="city">Куда</button><button type="button" data-act="seOpen" data-k="'+k+'" data-f="cells">Ячейки</button><button type="button" data-act="seOpen" data-k="'+k+'" data-f="qty">Кол-во</button><button type="button" class="bad" data-act="grpDelAsk" data-k="'+k+'">Отменить</button></div>'):'')+'</li>';
+}
+function seEditedNote(g){
+  var e=g.items.filter(function(m){return m.edited}).sort(function(a,b){return (a.editedAt||'')<(b.editedAt||'')?1:-1})[0]; if(!e) return '';
+  var t=[], oc=null;
+  g.items.forEach(function(m){ var o=m.orig; if(!o) return; if(o.city&&o.city!==m.city) oc=o.city;
+    var cc=o.cell&&o.cell!==m.cell, dd=o.exp&&(o.exp!==m.exp||o.prod!==m.prod), qq=o.qty!=null&&Number(o.qty)!==Number(m.qty);
+    if(cc||dd) t.push(o.cell+(dd?' ('+fmt(o.prod)+')':'')+' '+o.qty+' кор. → '+m.cell+' '+m.qty+' кор.'); else if(qq) t.push(m.cell+': '+o.qty+' → '+m.qty+' кор.') });
+  g.items.filter(function(m){return m.edited&&!m.orig}).forEach(function(m){t.push('добавлено '+m.cell+' '+m.qty+' кор.')});
+  if(oc) t.unshift('город '+oc+' → '+g.city);
+  return '<div class="mv-s se-ed">✎ Исправил'+(e.editedByName?': '+nk(e.editedByName,e.editedBy):'')+(e.editedAt?' · '+esc(whenText(e.editedAt)):'')+(t.length?'<br><span>'+esc(t.join(' · '))+'</span>':'')+'</div>';
+}
+/* ---------- редактирование отгрузки ---------- */
+function seBase(g){ var ids=g.items.map(function(m){return m.id}); return derive(moves.filter(function(m){return ids.indexOf(m.id)<0})) }
+function seOpts(g){ // все ячейки/даты этого товара, где коробки были бы, если эту отгрузку не делать
+  var Dx=seBase(g), o=[];
+  Array.from(Dx.lots.values()).filter(function(l){return l.product===g.product}).sort(byExp).forEach(function(l){
+    l.cells.forEach(function(c){ o.push({v:c.cell+'#'+l.key, cell:c.cell, lk:l.key, prod:l.prod, exp:l.exp, have:c.qty}) });
+  });
+  return o;
+}
+function seOpen(k,focus){
+  var g=nabFind(k); if(!g||!canSave()) return;
+  S.confirmGrp=null; S.ie=null;
+  S.se={key:k, focus:focus||'', city:g.city, lines:g.items.map(function(m){return {id:m.id, v:m.cell+'#'+m.product+'|'+m.prod+'|'+m.exp, qty:String(Number(m.qty)||0), del:false}}), newCity:''};
+  renderSheet();
+  setTimeout(function(){ var t=focus==='city'?document.querySelector('#seCity'):focus==='qty'?document.querySelector('.seq'):focus==='cells'?document.querySelector('.secell'):null; if(t){t.scrollIntoView({block:'center'}); if(focus!=='cells') t.focus&&t.focus()} },60);
+}
+function sePlan(){
+  var e=S.se, g=e&&nabFind(e.key); if(!g) return {ok:false,bad:true,msg:'Отгрузка не найдена (может, её отменили)'};
+  var city=String(e.city||'').trim(); if(!city) return {ok:false,bad:true,msg:'Укажите город'};
+  var opts=seOpts(g), byV={}; opts.forEach(function(o){byV[o.v]=o});
+  var live=e.lines.filter(function(l){return !l.del});
+  if(!live.length) return {ok:false,bad:true,msg:'Нельзя убрать все строки. Чтобы отменить всю отгрузку, нажмите «Отменить» в журнале.'};
+  var sim=moves.filter(function(m){return !g.items.some(function(x){return x.id===m.id})}), ch=[], adds=[], dels=[], seen={};
+  for(var i=0;i<e.lines.length;i++){
+    var L=e.lines[i], m=L.id?g.items.filter(function(x){return x.id===L.id})[0]:null;
+    if(L.del){ if(m) dels.push(m); continue }
+    var o=byV[L.v]; if(!o) return {ok:false,bad:true,msg:'Выберите ячейку в строке '+(i+1)};
+    if(seen[L.v]) return {ok:false,bad:true,msg:'Ячейка '+cellFull(o.cell)+' с этой датой указана дважды — объедините строки'}; seen[L.v]=1;
+    var q=Number(L.qty); if(L.qty===''||!Number.isInteger(q)||q<1) return {ok:false,bad:true,msg:'Количество в строке '+(i+1)+': целое число от 1'};
+    var nm={type:'out',product:g.product,prod:o.prod,exp:o.exp,cell:o.cell,qty:q,city:city};
+    if(m){ sim.push(Object.assign({},m,nm)); if(m.cell!==o.cell||m.prod!==o.prod||m.exp!==o.exp||Number(m.qty)!==q||m.city!==city) ch.push({m:m,f:nm}) }
+    else { sim.push(Object.assign({id:'new'+i,ts:new Date().toISOString()},nm)); adds.push(nm) }
+  }
+  if(!ch.length&&!adds.length&&!dels.length) return {ok:false,msg:'Измените что-нибудь'};
+  var D2=derive(sim);
+  if(problemCount(D2)>problemCount(D)){
+    var over=[]; live.forEach(function(L){var o=byV[L.v]; if(o&&Number(L.qty)>o.have) over.push(cellFull(o.cell)+' — есть '+o.have)});
+    return {ok:false,bad:true,msg:over.length?'Столько нет: '+over.join(', '):'Нельзя: остатки уйдут в минус. Проверьте количество.'};
+  }
+  var tot=live.reduce(function(s,L){return s+(Number(L.qty)||0)},0);
+  var parts=[]; if(city!==g.city) parts.push('город: '+g.city+' → <b>'+esc(city)+'</b>'); if(tot!==g.qty) parts.push('всего: '+g.qty+' → <b>'+tot+'</b> кор.');
+  if(ch.some(function(c){return c.m.cell!==c.f.cell||c.m.exp!==c.f.exp})) parts.push('ячейки/даты изменены'); if(adds.length) parts.push('добавлено строк: '+adds.length); if(dels.length) parts.push('убрано строк: '+dels.length);
+  return {ok:true,g:g,ch:ch,adds:adds,dels:dels,city:city,tot:tot,html:parts.join('<br>')||'Изменения готовы'};
+}
+function renderSeSheet(root){
+  var e=S.se, g=nabFind(e.key); if(!g){S.se=null; root.innerHTML=''; return}
+  var opts=seOpts(g), cities=cfg.cities.slice(); if(cities.indexOf(g.city)<0) cities.unshift(g.city);
+  var optHtml=function(v){ return opts.map(function(o){return '<option value="'+esc(o.v)+'"'+(o.v===v?' selected':'')+'>'+cellFull(o.cell)+' · '+fmt(o.prod)+'–'+fmt(o.exp)+' · есть '+o.have+'</option>'}).join('') };
+  var h='<div class="sheet" role="dialog" aria-modal="true" aria-label="Изменить отгрузку"><div class="wrap"><div class="bar-top"><h1 style="margin:0;font-size:22px">Изменить отгрузку</h1><button class="btn ghost sm" type="button" data-act="seClose">Закрыть</button></div>'+
+    '<p class="lede">'+pname(g.product)+' · отгрузил '+(g.who?nk(g.who,g.uid):'—')+' · '+esc(whenText(g.ts))+'</p>'+
+    '<section class="group"><h2 class="lbl">Куда</h2><div class="chiprow sechips">'+cities.map(function(c){return '<button class="fchip" type="button" data-act="seCity" data-c="'+esc(c)+'" aria-pressed="'+(e.city===c)+'">'+esc(c)+'</button>'}).join('')+'</div>'+
+    '<div class="field" style="margin-top:8px"><input id="seCity" type="text" autocomplete="off" placeholder="или впишите город" value="'+esc(cities.indexOf(e.city)<0?e.city:'')+'" aria-label="Город"></div></section>'+
+    '<section class="group"><h2 class="lbl">Из каких ячеек и сколько</h2><div class="selines">'+
+    e.lines.map(function(L,i){
+      if(L.del) return '<div class="seline del"><span>Строка убрана</span><button type="button" class="linkbtn" data-act="seUndel" data-i="'+i+'">Вернуть</button></div>';
+      return '<div class="seline"><select class="secell" data-i="'+i+'" aria-label="Ячейка и дата, строка '+(i+1)+'">'+(L.v?'':'<option value="">— выберите ячейку —</option>')+optHtml(L.v)+'</select>'+
+        '<div class="seqr"><button type="button" data-act="seQ" data-i="'+i+'" data-d="-1" aria-label="Меньше">−</button><input class="seq" type="number" inputmode="numeric" min="1" data-i="'+i+'" value="'+esc(L.qty)+'" aria-label="Коробок, строка '+(i+1)+'"><button type="button" data-act="seQ" data-i="'+i+'" data-d="1" aria-label="Больше">+</button>'+
+        '<button type="button" class="sedel" data-act="seDel" data-i="'+i+'" aria-label="Убрать строку">✕</button></div></div>';
+    }).join('')+'</div>'+
+    '<button class="btn ghost sm" type="button" style="margin-top:10px" data-act="seAdd"'+(String(e.key).charAt(0)==='L'?' disabled title="Старая отгрузка без номера"':'')+'>+ Добавить ячейку</button></section>'+
+    '<div class="stack"><div id="seSt" class="status"></div><button id="seSave" class="btn" type="button" data-act="seSave">Сохранить изменения</button></div>'+
+    '<p class="note">Если строку уже отметили «набрано», а ячейку или количество поменяли — отметка снимется, набрать надо заново. Все правки видны в журнале и в «Истории действий».</p></div></div>';
+  root.innerHTML=h; seUpdate();
+}
+function seUpdate(){
+  if(!S.se) return; var p=sePlan(), st=$('#seSt'), sv=$('#seSave'); if(!st||!sv) return;
+  st.className='status'+(p.bad?' bad':p.ok?' ok':''); if(p.msg) st.textContent=p.msg; else st.innerHTML=p.html;
+  sv.disabled=!p.ok||busy||!canSave(); sv.textContent=busy?'Сохраняю…':'Сохранить изменения';
+}
+function seSave(){
+  var p=sePlan(); if(!p.ok||busy||!canSave()) return;
+  var big=cfg.bigOn!==false&&cfg.bigOut>0&&p.tot>=cfg.bigOut&&p.tot!==p.g.qty;
+  if(!askWarn(big?['отгрузка станет '+p.tot+' кор. — '+bigTxt(p.tot)]:[])) return;
+  busy=true; seUpdate();
+  var meta={edited:true,editedAt:new Date().toISOString(),editedBy:ME?ME.uid:null,editedByName:ME?ME.name:null}, g=p.g, ops=[];
+  p.ch.forEach(function(c){ var m=c.m, f=Object.assign({},c.f,meta);
+    if(!m.orig) f.orig={product:m.product,prod:m.prod,exp:m.exp,qty:Number(m.qty)||0,cell:m.cell,city:m.city||''};
+    if((m.cell!==c.f.cell||m.prod!==c.f.prod||m.exp!==c.f.exp||Number(m.qty)!==c.f.qty)&&m.chk==='ok'){f.chk='bad';f.chkBy=null;f.chkByName=null;f.chkAt=null}
+    ops.push(function(){return withRetry(function(){return db.doc('moves/'+m.id).update(f)})}) });
+  p.dels.forEach(function(m){ ops.push(function(){return softDel(m.id,'исправление отгрузки')}) });
+  p.adds.forEach(function(a){ ops.push(function(){return addMove(Object.assign({},a,{grp:g.key},meta))}) });
+  ops.reduce(function(pr,fn){return pr.then(fn)},Promise.resolve()).then(function(){
+    busy=false; S.se=null; renderSheet(); render(); toast('Отгрузка исправлена');
+  }).catch(function(er){busy=false; seUpdate(); toast(errText(er),true)});
 }
 function chkSum(list,type){
   if(type==='out'){var gs=shipGroups(list), d=gs.filter(function(g){return g.done===g.total}).length; return '<p class="sumtxt" style="margin-top:-2px">Набрано: '+d+' из '+gs.length+' отгрузок</p>'}
