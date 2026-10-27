@@ -682,6 +682,14 @@ html[data-neon="1"]:not([data-theme="light"]) .tpill{background:rgba(110,160,255
 html[data-neon="1"]:not([data-theme="light"]) .tabs button[aria-current=page]{color:#DCE8FF;text-shadow:0 0 6px rgba(140,180,255,.9)}
 html[data-neon="1"]:not([data-theme="light"]) .tabs button[aria-current=page] svg{filter:drop-shadow(0 0 4px rgba(140,180,255,.95))}
 }
+
+/* 0.60.0 снимок остатков */
+.snapnote{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;margin:10px 0;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;font-size:14px;color:var(--muted)}
+.snapnote b{color:var(--ink)}.snapnote .snl{font-weight:700}
+.snapg .snrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.snapg .snrow>span:first-child{color:var(--muted)}.snapg .snrow b{text-align:right}
+.snapg .sn-ok{color:var(--ok)}.snapg .sn-bad{color:var(--bad)}
+.snapg .cc-act{display:flex;gap:8px;flex-wrap:wrap}
 #okPop{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px;background:rgba(6,10,18,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 #okPop.on{opacity:1}
 #okPop .okb{pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:22px 24px 20px;text-align:center;min-width:250px;max-width:340px;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1);box-shadow:0 20px 50px rgba(0,0,0,.45)}
@@ -1587,7 +1595,7 @@ var t0=Date.now();
   setTimeout(chk,150)})();
 })();</script>
 <div class="shell">
-  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.59.1</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
+  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.60.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button></div><div class="hsync hrow"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></div></header>
   <main id="view"></main>
@@ -1673,6 +1681,29 @@ function normCfg1(d){
   return c;
 }
 var PERSIST=null, PEND=0, OFFL=false, SRVSEEN=false;
+var SNAP=null, SNAP_ON=false, MV_MODE=null, MV_UNS=null, PL_UNS=null, WIN=[], PLANS=[], OLDM=[], OLD={upto:'',all:false,loading:false}, SNAP_BUSY=false, SNAP_AUTO=false, MV_RESUB=false;
+var SNAP_WIN=14, SNAP_STEP=7; // окно свежих записей (дней) и через сколько дней снимок сдвигается сам
+var SNAP_QF=['del','qty','cell','to','product','prod','exp','type','ts'];
+function snapEmpty(){ return {exists:false,on:false,at:'',base:null,ever:{},n:0,cells:0,boxes:0,made:'',by:'',chk:null} }
+function snapD(iso){ if(!iso) return '—'; var d=new Date(iso); if(isNaN(d)) return '—'; return pad2(d.getDate())+'.'+pad2(d.getMonth()+1)+'.'+d.getFullYear() }
+function snapDT(iso){ if(!iso) return '—'; var d=new Date(iso); if(isNaN(d)) return '—'; return snapD(iso)+' '+pad2(d.getHours())+':'+pad2(d.getMinutes()) }
+function snapParse(d){
+  var o=snapEmpty(); if(!d||!d.at) return o;
+  try{
+    var items=JSON.parse(d.data||'[]').map(function(x){return {id:'',ts:'',type:'adj',cell:x[0],product:x[1],prod:x[2],exp:x[3],qty:Number(x[4])||0}});
+    var ev={}; JSON.parse(d.ever||'[]').forEach(function(c){ev[c]=1});
+    o={exists:true,on:d.on===true,at:String(d.at),base:{at:String(d.at),items:items},ever:ev,n:Number(d.n)||0,cells:Number(d.cells)||0,boxes:Number(d.boxes)||0,made:d.made||'',by:d.by||'',chk:d.chk||null};
+  }catch(e){ o=snapEmpty(); o.broken=true }
+  return o;
+}
+function snapLockRec(m){ return !!(SNAP&&SNAP.exists&&m&&kindOf(m)!=='plan'&&String(m.ts||'')<SNAP.at) }
+function snapLockErr(id,f){
+  if(!SNAP||!SNAP.exists) return null;
+  var m=ALLM.filter(function(x){return x.id===id})[0]; if(!snapLockRec(m)) return null;
+  var hit=Object.keys(f||{}).some(function(k){return SNAP_QF.indexOf(k)>=0&&JSON.stringify(f[k])!==JSON.stringify(m[k])});
+  if(!hit) return null; var e=new Error('snap-locked'); e.code='snap-locked'; return e;
+}
+function snapEverUsed(c){ return !!(SNAP&&SNAP.ever&&SNAP.ever[c]) }
 var cfg=clone(DEFAULTS), moves=[], ALLM=[], D=derive([]), loaded=false, db=null, dbState='connecting', busy=false;
 var UI={theme:'dark',size:'big',dense:true,scale:'95',vol:'1.6',v:2};
 try{var u0=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u0.theme) UI.theme=u0.theme; if(u0.size) UI.size=u0.size; if(u0.scale) UI.scale=(u0.scale==='auto'?'95':u0.scale); if(u0.notif) UI.notif=u0.notif; if(u0.snd) UI.snd=u0.snd; if(u0.flash) UI.flash=u0.flash; if(['0.8','1.6','2.6'].indexOf(u0.vol)>=0) UI.vol=u0.vol; UI.dense=(u0.v===2?!!u0.dense:true);}catch(e){}
@@ -1723,7 +1754,9 @@ function legendHtml(){
 }
 
 /* ---------- derived stock ---------- */
-function derive(list){
+function derive(list){ return deriveB(list, SNAP_ON?SNAP.base:null) }
+function deriveB(list,B){
+  if(B){ var at=B.at; list=B.items.concat(list.filter(function(m){return !(String(m.ts||'')<at)})) }
   var sorted=list.slice().sort(function(a,b){return String(a.ts||'').localeCompare(String(b.ts||''))||String(a.id).localeCompare(String(b.id))});
   var cells=new Map(), bad=[];
   sorted.forEach(function(m){
@@ -2402,7 +2435,7 @@ function describeCell(code){
 function canRep(){return !!ME&&(ME.role==='admin'||ME.role==='dev')}
 function canSave(){return dbState==='ok'&&!!db&&!!ME&&ME.role!=='viewer'}
 function errText(e){
-  var c=e&&e.code; if(c==='offline') return 'Нет интернета — запись не сохранена. Подключитесь к сети и повторите.';
+  var c=e&&e.code; if(c==='snap-locked') return 'Эта запись старше снимка остатков (до '+snapD(SNAP.at)+'), её уже нельзя отменить или изменить. Поправьте остаток через «Пересчёт» или «Списать».'; if(c==='offline') return 'Нет интернета — запись не сохранена. Подключитесь к сети и повторите.';
   if(c==='invalid_argument') return 'Нет права записи. Попросите владельца дать вам доступ «Участник» или выше.';
   if(c==='permission-denied') return 'Нет прав на это действие. Обратитесь к администратору.';
   if(c==='quota_exceeded') return 'Хранилище заполнено. Сообщите владельцу.';
@@ -2691,7 +2724,7 @@ function renderStock0(){
             '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+fp(li.pct)+'%</span></span>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+
-    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.59.1</p>';
+    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.60.0</p>';
   }else if(S.view==='map'){
     h+=renderMap();
   }else{
@@ -3609,7 +3642,7 @@ function renderLog(){
   if(!loaded) return banner()+'<div class="stack"><div class="skel"></div></div>';
   var V=[['in','Приходы'],['out','Отгрузки'],['city','Города'],['misc','Прочее'],['stats','Итоги']];
   var h=banner()+'<h1>Журнал</h1><div class="seg" role="group" aria-label="Раздел журнала" style="margin-top:12px">'+
-    V.map(function(v){return '<button type="button" data-act="logView" data-v="'+v[0]+'" aria-pressed="'+(S.logView===v[0])+'">'+v[1]+'</button>'}).join('')+'</div><p class="loghint">'+(LOGHINT[S.logView]||'')+'</p>'+(S.logView==='stats'?dsBlock():'')+logFilters();
+    V.map(function(v){return '<button type="button" data-act="logView" data-v="'+v[0]+'" aria-pressed="'+(S.logView===v[0])+'">'+v[1]+'</button>'}).join('')+'</div><p class="loghint">'+(LOGHINT[S.logView]||'')+'</p>'+(S.logView==='stats'?dsBlock():'')+logFilters()+snapLogNote();
   if(S.logView==='in') return h+journalHtml('in');
   if(S.logView==='out') return h+journalHtml('out');
   if(S.logView==='city') return h+cityHtml();
@@ -3724,7 +3757,7 @@ function emptyCellCode(q){ // точный номер существующей �
   var cm=D.cells.get(pc.code); return cm&&cm.size?null:pc.code;
 }
 function emptyCellCard(c){
-  var used=ALLM.some(function(m){return m.cell===c||m.to===c});
+  var used=ALLM.some(function(m){return m.cell===c||m.to===c})||snapEverUsed(c);
   return '<section class="card ecell"><div class="ec-h"><span class="code">'+c+'</span><span class="ec-tag">пустая</span></div>'+
     '<p class="note" style="margin:6px 0 10px">'+(used?'Сейчас здесь ничего нет. Раньше товар был — смотрите историю.':'Здесь ещё ни разу не было товара.')+' Лимит: '+capsText()+'.</p>'+
     '<div class="cc-act"><button class="btn sm" type="button" data-act="mapPut" data-cell="'+c+'"'+(canSave()?'':' disabled')+'>Принять сюда</button>'+
@@ -4219,7 +4252,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.59.1</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.60.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -4272,7 +4305,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.59.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.60.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -4299,7 +4332,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.59.1) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.60.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -4370,7 +4403,7 @@ function renderSheet0(){
   '<div class="field"><label for="dSec">Секций в ряду (до 99)</label><input id="dSec" type="number" inputmode="numeric" data-d="sections" value="'+esc(d.sections)+'"></div>'+
   '<div class="field"><label for="dFl">Этажи, куда можно класть товар</label><input id="dFl" type="text" data-d="floors" value="'+esc(d.floors)+'"></div>'+
   '<div class="field"><label for="dWarn">Предупреждать о сроке, когда остаток срока (%) и ниже</label><input id="dWarn" type="number" inputmode="numeric" min="1" max="100" data-d="warnPct" value="'+esc(d.warnPct)+'"></div></div></section>'+bigGroupHtml(d)+shiftGroupHtml(d)+
-  titleGroupHtml(d)+shelfGroupHtml(d)+uiGroupHtml()+festGroupHtml()+achGroupHtml()+glassGroupHtml()+neonGroupHtml()+accountGroupHtml()+staffGroupHtml()+nickGroupHtml()+importGroupHtml()+bkGroupHtml2()+'<button class="btn" type="button" style="width:100%" data-act="saveSettings"'+(canSave()?'':' disabled')+'>Сохранить</button></div></div>';
+  titleGroupHtml(d)+shelfGroupHtml(d)+uiGroupHtml()+festGroupHtml()+achGroupHtml()+glassGroupHtml()+neonGroupHtml()+accountGroupHtml()+staffGroupHtml()+nickGroupHtml()+importGroupHtml()+bkGroupHtml2()+snapGroupHtml()+'<button class="btn" type="button" style="width:100%" data-act="saveSettings"'+(canSave()?'':' disabled')+'>Сохранить</button></div></div>';
 }
 function shiftGroupHtml(d){
   var v=d.shiftEnd||'16:00', L=['14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00']; if(L.indexOf(v)<0) L.push(v);
@@ -4685,6 +4718,11 @@ document.addEventListener('click',function(e){
       (function(){var v=el.dataset.v==='1'; if(!(cfg.neon===false)===v) return; var c2=clone(cfg); if(v) delete c2.neon; else c2.neon=false;
         saveCfg(JSON.parse(JSON.stringify(c2))).then(function(){neonApply(); toast(v?'Неон включён для всех':'Неон выключен'); renderSheet()}).catch(function(e){toast(errText(e),true)})})();
       return;
+    case 'snapMake': return snapMake(false);
+    case 'snapCheck': return snapCheckBtn();
+    case 'snapOn': return snapOnSet(el.dataset.v==='1');
+    case 'snapDel': return snapDel();
+    case 'snapOld': return snapLoadOld(el.dataset.from===''?null:Number(el.dataset.from));
     case 'glassOn':
       if(!isDevMe()) return;
       (function(){var v=el.dataset.v==='1'; if(!!cfg.glass===v) return; var c2=clone(cfg); if(v) c2.glass=true; else delete c2.glass;
@@ -5172,18 +5210,9 @@ function startData(){
     if(loaded&&!S.settings) render();
   },function(e){if(e&&e.code==='permission-denied'){dbState='none';renderHeader();render()}}));
   SRVSEEN=false;
-  UNSUB.push(FS.collection('moves').onSnapshot({includeMetadataChanges:true},function(snap){
-    var md=snap.metadata||{}, pc=0; try{ snap.docs.forEach(function(d){ if(d.metadata&&d.metadata.hasPendingWrites) pc++ }) }catch(e){}
-    pendSet(pc, !!md.fromCache);
-    if(!loaded&&md.fromCache&&(snap.empty||!snap.docs.length)) return; // кэш пуст — ждём сервер
-    var nch=-1; try{ nch=snap.docChanges().length }catch(e){}
-    var srvNow=!md.fromCache&&!SRVSEEN; if(srvNow) SRVSEEN=true;
-    if(loaded&&nch===0&&!srvNow) return; // изменились только отметки «ждёт отправки»
-    ALLM=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())}); moves=ALLM.filter(function(m){return !m.del});
-    var first=!loaded; if(!md.fromCache) notifyNew(first||srvNow); loaded=true; window.__appLoaded=true;
-    if(first){D=derive(moves);render()} else refresh();
-    setTimeout(achCheck,first?1500:300);
-  },function(){dbState='none';loaded=true;renderHeader();render()}));
+  SNAP=snapEmpty(); SNAP_ON=false; MV_MODE=null; WIN=[]; PLANS=[]; OLDM=[]; OLD={upto:'',all:false,loading:false};
+  UNSUB.push(function(){ movesStop() });
+  UNSUB.push(FS.doc('snap/main').onSnapshot(snapDocCb,function(){ snapDocCb(null) }));
   REQ=[]; reqLoaded=false; reqNew={};
   UNSUB.push(FS.collection('requests').onSnapshot(rqSnap,function(){}));
   {
@@ -5200,6 +5229,200 @@ function startData(){
 }
 /* ----- вспомогательные куски интерфейса ----- */
 
+/* ----- 0.60.0 снимок остатков: загрузка журнала ----- */
+function snapDocCb(s){
+  var prevOn=SNAP_ON, prevAt=SNAP&&SNAP.at;
+  SNAP=snapParse(s&&s.exists?s.data():null);
+  SNAP_ON=!!(SNAP.exists&&SNAP.on&&SNAP.base);
+  var mode=SNAP_ON?'win':'full';
+  if(mode!==MV_MODE){ movesListen(mode) }
+  else if(SNAP_ON&&prevAt!==SNAP.at){ snapMerge(); if(loaded) refresh() }
+  else if(loaded&&prevOn===SNAP_ON){ D=derive(moves) }
+  if(S.settings&&isDevMe()) renderSheet();
+  setTimeout(snapAuto,1200);
+}
+function movesStop(){ if(MV_UNS){try{MV_UNS()}catch(e){}} if(PL_UNS){try{PL_UNS()}catch(e){}} MV_UNS=null; PL_UNS=null }
+function movesListen(mode){
+  movesStop(); var was=MV_MODE; MV_MODE=mode; MV_RESUB=!!was&&loaded;
+  WIN=[]; PLANS=[]; OLDM=[]; OLD={upto:SNAP.at||'',all:mode==='full',loading:false};
+  var q=FS.collection('moves'); if(mode==='win') q=q.where('ts','>=',SNAP.at);
+  MV_UNS=q.onSnapshot({includeMetadataChanges:true},movesCb,function(){dbState='none';loaded=true;renderHeader();render()});
+  if(mode==='win') PL_UNS=FS.collection('moves').where('status','==','open').onSnapshot(function(snap){
+    PLANS=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())}).filter(function(m){return m.type==='plan'});
+    if(loaded){ snapMerge(); refresh() }
+  },function(){});
+}
+function snapMerge(){
+  if(MV_MODE!=='win'){ ALLM=WIN.slice(); moves=ALLM.filter(function(m){return !m.del}); return }
+  var seen={}, out=[];
+  [WIN,PLANS,OLDM].forEach(function(L){ L.forEach(function(m){ if(seen[m.id]) return; seen[m.id]=1; out.push(m) }) });
+  ALLM=out; moves=ALLM.filter(function(m){return !m.del});
+}
+function movesCb(snap){
+  var md=snap.metadata||{}, pc=0; try{ snap.docs.forEach(function(d){ if(d.metadata&&d.metadata.hasPendingWrites) pc++ }) }catch(e){}
+  pendSet(pc, !!md.fromCache);
+  if(!loaded&&md.fromCache&&(snap.empty||!snap.docs.length)&&MV_MODE==='full') return; // кэш пуст — ждём сервер
+  var nch=-1; try{ nch=snap.docChanges().length }catch(e){}
+  var srvNow=!md.fromCache&&!SRVSEEN; if(srvNow) SRVSEEN=true;
+  if(loaded&&nch===0&&!srvNow&&!MV_RESUB) return; // изменились только отметки «ждёт отправки»
+  WIN=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())}); snapMerge();
+  var first=!loaded;
+  if(MV_RESUB){ MV_RESUB=false; if(!KNOWN) KNOWN={}; moves.forEach(function(m){KNOWN[m.id]=1}); ACH_PREV=null }
+  else if(!md.fromCache) notifyNew(first||srvNow);
+  loaded=true; window.__appLoaded=true;
+  if(first){D=derive(moves);render()} else refresh();
+  setTimeout(achCheck,first?1500:300);
+  setTimeout(snapAuto,first?1500:300);
+}
+// догрузка старой истории (только в режиме «по снимку»): fromMs=null — вся история
+function snapNeed(fromMs){
+  if(!SNAP_ON||OLD.all) return false;
+  if(fromMs==null) return true;
+  return fromMs<Date.parse(OLD.upto||SNAP.at);
+}
+function snapLoadOld(fromMs){
+  if(!snapNeed(fromMs)) return Promise.resolve();
+  if(OLD.loading) return OLD.loading;
+  var upto=OLD.upto||SNAP.at, fromIso=fromMs==null?null:new Date(fromMs).toISOString();
+  var q=FS.collection('moves').where('ts','<',upto); if(fromIso) q=q.where('ts','>=',fromIso);
+  OLD.loading=q.get().then(function(snap){
+    var add=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())});
+    var have={}; OLDM.forEach(function(m){have[m.id]=1}); add.forEach(function(m){ if(!have[m.id]) OLDM.push(m) });
+    if(fromIso) OLD.upto=fromIso; else OLD.all=true;
+    OLD.loading=false; ACH_PREV=null; snapMerge(); refresh();
+    if(!(S.ch||S.ach||S.prof||S.hist||S.settings)) render();
+  }).catch(function(e){ OLD.loading=false; toast('Не удалось загрузить старую историю: '+errText(e),true) });
+  if(S.ch||S.ach||S.prof||S.hist) setTimeout(histRender,0); else if(!S.settings) setTimeout(render,0);
+  return OLD.loading;
+}
+function snapNoteHtml(fromMs,what){
+  if(!snapNeed(fromMs)) return '';
+  var lo=OLD.loading?'<span class="snl">Загружаю…</span>':'<button class="btn ghost sm" type="button" data-act="snapOld" data-from="'+(fromMs==null?'':fromMs)+'">Загрузить раньше</button>';
+  return '<div class="snapnote" role="note"><span>'+(what||'Показаны записи')+' с <b>'+snapD(OLD.upto||SNAP.at)+'</b>. Более ранние не загружены — так программа экономит лимит базы.</span>'+lo+'</div>';
+}
+function snapLogNote(){
+  if(!SNAP_ON) return '';
+  var from=periodRange()[0];
+  if(S.logView==='stats'){
+    var need=from==null?null:Math.min(from, S.chM==='m'?today().getTime()-29*DAY:from);
+    if(snapNeed(need)){ setTimeout(function(){snapLoadOld(need)},0); return '<div class="snapnote" role="note"><span>Загружаю историю для итогов…</span></div>' }
+    return '';
+  }
+  return snapNoteHtml(from);
+}
+/* ----- 0.60.0 снимок: создание, проверка, авто-сдвиг (только разработчик) ----- */
+function snapAllRecs(){ // полный журнал в памяти (в режиме «по снимку» — после snapLoadOld(null))
+  return ALLM;
+}
+function snapCellsMap(D2){ var o={}; D2.cells.forEach(function(cm,c){ cm.forEach(function(l){ if(l.qty) o[c+'|'+l.key]=l.qty }) }); return o }
+function snapCompare(A,B){
+  var a=snapCellsMap(A), b=snapCellsMap(B), keys={}, diffs=[];
+  Object.keys(a).forEach(function(k){keys[k]=1}); Object.keys(b).forEach(function(k){keys[k]=1});
+  Object.keys(keys).forEach(function(k){ if((a[k]||0)!==(b[k]||0)) diffs.push({k:k,a:a[k]||0,b:b[k]||0}) });
+  return diffs;
+}
+function snapMidnight(daysBack){ var d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-daysBack); return d.toISOString() }
+function snapFull(){ return SNAP_ON?snapLoadOld(null):Promise.resolve() }
+function snapCheckNow(){ // сравнение «снимок + записи после него» с полным пересчётом журнала
+  if(!SNAP||!SNAP.exists||!SNAP.base) return {ok:false,none:true,diffs:[]};
+  var all=snapAllRecs().filter(function(m){return !m.del});
+  var truth=deriveB(all,null), viaSnap=deriveB(all,SNAP.base), diffs=snapCompare(truth,viaSnap);
+  return {ok:!diffs.length,diffs:diffs,boxes:truth.boxes,n:snapAllRecs().length};
+}
+function snapDiffText(r){
+  return r.diffs.slice(0,8).map(function(d){var p=d.k.split('|'); return p[0]+' · '+pname(p[1])+' '+rng(p[2],p[3])+': по журналу '+d.a+', по снимку '+d.b}).join('\n')+(r.diffs.length>8?'\n… и ещё '+(r.diffs.length-8):'');
+}
+function snapMake(silent){
+  if(!isDevMe()||SNAP_BUSY) return Promise.resolve(false);
+  if(!loaded) { toast('Журнал ещё загружается',true); return Promise.resolve(false) }
+  SNAP_BUSY=true; if(S.settings) renderSheet();
+  return snapFull().then(function(){
+    if(SNAP_ON&&!OLD.all) throw new Error('история не загрузилась');
+    var at=snapMidnight(SNAP_WIN), all=snapAllRecs(), before=all.filter(function(m){return String(m.ts||'')<at});
+    var B=deriveB(before.filter(function(m){return !m.del}),null), items=[], ever={};
+    B.cells.forEach(function(cm,c){ cm.forEach(function(l){ items.push([c,l.product,l.prod,l.exp,l.qty]) }) });
+    before.forEach(function(m){ if(m.cell) ever[m.cell]=1; if(m.to) ever[m.to]=1 });
+    if(SNAP&&SNAP.ever) Object.keys(SNAP.ever).forEach(function(c){ever[c]=1});
+    var data=JSON.stringify(items), evs=JSON.stringify(Object.keys(ever).sort());
+    if(data.length+evs.length>900000) throw new Error('снимок слишком большой');
+    var truth=deriveB(all.filter(function(m){return !m.del}),null), viaSnap=deriveB(all.filter(function(m){return !m.del}),{at:at,items:items.map(function(x){return {id:'',ts:'',type:'adj',cell:x[0],product:x[1],prod:x[2],exp:x[3],qty:x[4]}})});
+    var diffs=snapCompare(truth,viaSnap); if(diffs.length) throw new Error('новый снимок не сходится с журналом');
+    var now=new Date().toISOString();
+    var doc={v:1,on:!!(SNAP&&SNAP.on),at:at,data:data,ever:evs,n:before.length,cells:B.cells.size,boxes:B.boxes,made:now,by:ME.name,chk:{at:now,ok:true,n:0,src:'make'}};
+    return FS.doc('snap/main').set(doc).then(function(){ SNAP_BUSY=false; if(!silent) toast('Снимок остатков сделан на '+snapD(at)+': '+B.boxes+' кор. в '+B.cells.size+' яч.'); if(S.settings) renderSheet(); return true });
+  }).catch(function(e){ SNAP_BUSY=false; toast('Снимок не сделан: '+(e&&e.code?errText(e):(e&&e.message||e)),true); if(S.settings) renderSheet(); return false });
+}
+function snapCheckBtn(){
+  if(!isDevMe()||SNAP_BUSY||!SNAP.exists) return;
+  SNAP_BUSY=true; if(S.settings) renderSheet();
+  snapFull().then(function(){
+    var r=snapCheckNow(), now=new Date().toISOString();
+    return FS.doc('snap/main').update({chk:{at:now,ok:r.ok,n:r.diffs.length,src:'btn'}}).then(function(){
+      SNAP_BUSY=false;
+      if(r.ok) toast('Снимок сходится с журналом: '+r.boxes+' кор., записей '+r.n);
+      else { toast('Снимок НЕ сходится с журналом ('+r.diffs.length+'). Нажмите «Сделать снимок» заново.',true); try{console.warn(snapDiffText(r))}catch(e){} }
+      if(S.settings) renderSheet();
+    });
+  }).catch(function(e){ SNAP_BUSY=false; toast('Не удалось проверить: '+(e&&e.code?errText(e):(e&&e.message||e)),true); if(S.settings) renderSheet() });
+}
+function snapAuto(){ // только у разработчика: сверка в режиме проверки и сдвиг снимка раз в неделю
+  if(!isDevMe()||!loaded||SNAP_BUSY||SNAP_AUTO||!SNAP||!SNAP.exists) return;
+  SNAP_AUTO=true;
+  if(!SNAP_ON){
+    var r=snapCheckNow(), last=SNAP.chk||{};
+    if(!r.ok) toast('Снимок остатков не сходится с журналом. Настройки → Данные → «Снимок остатков».',true);
+    if(last.ok!==r.ok||!last.at||Date.now()-Date.parse(last.at)>6*3600e3) FS.doc('snap/main').update({chk:{at:new Date().toISOString(),ok:r.ok,n:r.diffs.length,src:'auto'}}).catch(function(){});
+    return;
+  }
+  if(Date.now()-Date.parse(SNAP.at)>(SNAP_WIN+SNAP_STEP)*DAY) snapMake(true).then(function(ok){ if(ok) toast('Снимок остатков сдвинут на '+snapD(SNAP.at)) });
+}
+function snapOnSet(v){
+  if(!isDevMe()||!SNAP.exists) return;
+  if(v&&!(SNAP.chk&&SNAP.chk.ok)) return toast('Сначала нажмите «Проверить» — включать можно, только когда снимок сходится',true);
+  FS.doc('snap/main').update({on:!!v}).then(function(){ toast(v?'Включено: программа читает остатки по снимку':'Выключено: программа снова читает весь журнал') }).catch(function(e){toast(errText(e),true)});
+}
+function snapDel(){
+  if(!isDevMe()||!SNAP.exists) return;
+  if(!window.confirm('Удалить снимок остатков?\\nПрограмма снова будет читать весь журнал, а старые записи можно будет отменять и исправлять. Сами записи не удаляются.')) return;
+  FS.doc('snap/main').delete().then(function(){toast('Снимок удалён')}).catch(function(e){toast(errText(e),true)});
+}
+function snapRecCount(){ return SNAP_ON?(SNAP.n+WIN.filter(function(m){return String(m.ts||'')>=SNAP.at}).length):ALLM.length }
+function snapGroupHtml(){
+  if(!isDevMe()) return '';
+  var s=SNAP||snapEmpty(), busy=SNAP_BUSY, h='<section class="group snapg"><h2 class="lbl">Снимок остатков</h2>'+
+    '<p class="note" style="margin:0 0 10px">Экономит чтения базы: программа берёт готовые остатки на дату снимка и только записи за последние '+SNAP_WIN+' дней. Видно и меняется только у разработчика.</p>';
+  h+='<div class="snrow"><span>Записей в журнале</span><b>'+snapRecCount()+'</b></div>';
+  h+='<div class="snrow"><span>Загружено на этот телефон</span><b>'+ALLM.length+'</b></div>';
+  if(!s.exists){
+    h+='<div class="snrow"><span>Снимок</span><b>нет</b></div>'+
+      '<p class="note" style="margin:10px 0">После «Сделать снимок» записи старше '+SNAP_WIN+' дней будут закрыты: отменить или исправить их будет нельзя, поправки — через «Пересчёт» или «Списать». Программа пока продолжит читать весь журнал и будет сверяться со снимком.</p>'+
+      '<button class="btn" type="button" data-act="snapMake"'+(busy?' disabled':'')+' style="width:100%">'+(busy?'Делаю снимок…':'Сделать снимок')+'</button>';
+    return h+'</section>';
+  }
+  var c=s.chk;
+  h+='<div class="snrow"><span>Остатки на</span><b>'+snapD(s.at)+' 00:00</b></div>'+
+     '<div class="snrow"><span>В снимке</span><b>'+s.boxes+' кор. · '+s.cells+' яч. · '+s.n+' зап.</b></div>'+
+     '<div class="snrow"><span>Сделан</span><b>'+esc(snapDT(s.made))+(s.by?' · '+esc(s.by):'')+'</b></div>'+
+     '<div class="snrow"><span>Проверка</span><b class="'+(c?(c.ok?'sn-ok':'sn-bad'):'')+'">'+(c?(c.ok?'✓ сходится':'✕ не сходится ('+c.n+')')+' · '+esc(snapDT(c.at)):'не было')+'</b></div>'+
+     '<div class="snrow"><span>Читать по снимку</span><span class="seg" role="group" aria-label="Читать по снимку"><button type="button" data-act="snapOn" data-v="1" aria-pressed="'+s.on+'">Вкл</button><button type="button" data-act="snapOn" data-v="0" aria-pressed="'+(!s.on)+'">Выкл</button></span></div>'+
+     '<p class="note" style="margin:10px 0">'+(s.on?'Включено: все телефоны читают снимок и записи с '+snapD(s.at)+'. Раз в неделю, когда вы открываете программу, снимок сдвигается сам.':'Выключено: программа читает весь журнал и при каждом вашем входе сверяется со снимком. Когда несколько дней подряд «сходится» — включайте.')+
+     ' Записи старше '+snapD(s.at)+' закрыты: поправки — через «Пересчёт» или «Списать».</p>'+
+     '<div class="cc-act"><button class="btn sm" type="button" data-act="snapCheck"'+(busy?' disabled':'')+'>'+(busy?'Подождите…':'Проверить')+'</button><button class="btn ghost sm" type="button" data-act="snapMake"'+(busy?' disabled':'')+'>Сделать заново</button><button class="btn ghost sm" type="button" data-act="snapDel"'+(busy?' disabled':'')+'>Удалить</button></div>';
+  return h+'</section>';
+}
+var renderCellHist_s, renderHistSheet_s, renderAchSheet_s, renderProf_s, emptiedListHtml_s, bkSave2_s, srcRenameAll_s;
+function snapWrapViews(){
+  if(renderCellHist_s) return;
+  renderCellHist_s=renderCellHist; renderCellHist=function(root){ renderCellHist_s(root); var n=snapNoteHtml(null,'История ячейки показана'); var w=root.querySelector('.sheet .wrap'); if(n&&w) w.insertAdjacentHTML('beforeend',n) };
+  renderHistSheet_s=renderHistSheet; renderHistSheet=function(root){ renderHistSheet_s(root); var n=snapNoteHtml(null); var w=root.querySelector('.sheet .wrap'); if(n&&w) w.insertAdjacentHTML('beforeend',n) };
+  renderAchSheet_s=renderAchSheet; renderAchSheet=function(root){ if(snapNeed(null)) snapLoadOld(null); renderAchSheet_s(root); if(OLD.loading){var w=root.querySelector('.sheet .wrap'); if(w) w.insertAdjacentHTML('afterbegin','<div class="snapnote" role="note"><span>Загружаю всю историю для достижений…</span></div>')} };
+  renderProf_s=renderProf; renderProf=function(root){ if(snapNeed(null)) snapLoadOld(null); renderProf_s(root) };
+  emptiedListHtml_s=emptiedListHtml; emptiedListHtml=function(){ return snapNoteHtml(null,'Показаны ячейки, опустевшие')+emptiedListHtml_s() };
+  bkSave2_s=bkSave2; bkSave2=function(auto){ if(snapNeed(null)){ if(!auto) toast('Загружаю всю историю для копии…'); return snapLoadOld(null).then(function(){ if(OLD.all) bkSave2_s(auto) }) } return bkSave2_s(auto) };
+  srcRenameAll_s=srcRenameAll; srcRenameAll=function(a,b){ return snapLoadOld(null).then(function(){ if(snapNeed(null)) throw new Error('история не загрузилась'); return srcRenameAll_s(a,b) }) };
+}
+snapWrapViews();
+window.__SN=function(code){return eval(code)}; // тестовый доступ к состоянию снимка (автотесты)
 function histRender(){var sh=document.querySelector('#sheetRoot .sheet'),st=sh?sh.scrollTop:0; renderSheet(); sh=document.querySelector('#sheetRoot .sheet'); if(sh) sh.scrollTop=st}
 function softDel(id,why){
   var iso=new Date().toISOString();
@@ -5268,10 +5491,10 @@ function edWrap(fs){
   var mid=function(p){var s=String(p); return s.indexOf('moves/')===0?s.slice(6):null};
   return {
     doc:function(p){ var r=fs.doc(p), id=mid(p); if(!id) return r;
-      return Object.assign(Object.create(r),{__raw:r, __id:id, update:function(f){return r.update(edPatch(id,f))}, set:function(){return r.set.apply(r,arguments)}, get:function(){return r.get.apply(r,arguments)}, delete:function(){return r.delete.apply(r,arguments)}, onSnapshot:function(){return r.onSnapshot.apply(r,arguments)}}) },
+      return Object.assign(Object.create(r),{__raw:r, __id:id, update:function(f){var lk=snapLockErr(id,f); if(lk) return Promise.reject(lk); return r.update(edPatch(id,f))}, set:function(){return r.set.apply(r,arguments)}, get:function(){return r.get.apply(r,arguments)}, delete:function(){return r.delete.apply(r,arguments)}, onSnapshot:function(){return r.onSnapshot.apply(r,arguments)}}) },
     collection:function(){return fs.collection.apply(fs,arguments)},
-    batch:function(){ var b=fs.batch(); return {set:function(ref){var a=[].slice.call(arguments); a[0]=(ref&&ref.__raw)||ref; b.set.apply(b,a); return this}, delete:function(ref){b.delete((ref&&ref.__raw)||ref); return this},
-      update:function(ref,f){ var id=ref&&ref.__id; if(!id&&ref&&ref.path&&String(ref.path).indexOf('moves/')===0) id=String(ref.path).slice(6); b.update((ref&&ref.__raw)||ref, id?edPatch(id,f):f); return this}, commit:function(){return b.commit()}} },
+    batch:function(){ var b=fs.batch(), bErr=null; return {set:function(ref){var a=[].slice.call(arguments); a[0]=(ref&&ref.__raw)||ref; b.set.apply(b,a); return this}, delete:function(ref){b.delete((ref&&ref.__raw)||ref); return this},
+      update:function(ref,f){ var id=ref&&ref.__id; if(!id&&ref&&ref.path&&String(ref.path).indexOf('moves/')===0) id=String(ref.path).slice(6); var lk=id&&snapLockErr(id,f); if(lk){bErr=bErr||lk; return this} b.update((ref&&ref.__raw)||ref, id?edPatch(id,f):f); return this}, commit:function(){return bErr?Promise.reject(bErr):b.commit()}} },
     raw:fs
   };
 }
@@ -5729,7 +5952,7 @@ function openSettings(){openSettings0(); pushLoadKey().then(function(){if(S.sett
 /* ---------- вкладки настроек ---------- */
 var STAB_ADM=[['wh','Склад'],['look','Вид и звук'],['ntf','Уведомления'],['ppl','Люди'],['dat','Данные']];
 var STAB_USR=[['ppl','Аккаунт'],['look','Вид и звук'],['ntf','Уведомления']];
-var STAB_OF={'Неон':'look','Значок на главном экране':'look','Стеклянный стиль':'look','Итог смены':'wh','Подтверждение крупных действий':'wh','Товары':'wh','Города отгрузки':'wh','Откуда приходы':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление':'look','Достижения':'look','Праздничное оформление':'look','Праздничная анимация':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Украшенные ники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
+var STAB_OF={'Снимок остатков':'dat','Неон':'look','Значок на главном экране':'look','Стеклянный стиль':'look','Итог смены':'wh','Подтверждение крупных действий':'wh','Товары':'wh','Города отгрузки':'wh','Откуда приходы':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление':'look','Достижения':'look','Праздничное оформление':'look','Праздничная анимация':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Украшенные ники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
 function settingsTabs(){
   if(!S.settings) return;
   var sh=document.querySelector('#sheetRoot .sheet[aria-label="Настройки"]'); if(!sh) return;
@@ -5742,7 +5965,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.59.1</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.60.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -5909,7 +6132,7 @@ function achCheck(){
   if(seen&&!window.__ACHFRESH){
     ACH.forEach(function(a){var l=mine[a[0]]||0; if(l>(seen[a[0]]||0)) ACH_Q.push([a,l])});
   }
-  try{localStorage.setItem(key,JSON.stringify(mine))}catch(e){}
+  try{var mx=Object.assign({},mine); if(seen&&snapNeed(null)) Object.keys(seen).forEach(function(k){if((seen[k]||0)>(mx[k]||0)) mx[k]=seen[k]}); localStorage.setItem(key,JSON.stringify(mx))}catch(e){}
   if(ACH_PREV) Object.keys(cur).forEach(function(id){ if(id===ME.uid) return; var p=ACH_PREV[id]||{};
     ACH.forEach(function(a){var l=cur[id][a[0]]||0; if(l>(p[a[0]]||0)) toast(ACH_MD[l]+' '+userName(id)+': достижение «'+a[2]+'»'+(a[5].length>1?' · '+ACH_LV[l]:''))}) });
   ACH_PREV=cur; achPopNext();
@@ -6418,6 +6641,7 @@ function impLoad(file){
   r.onload=function(){
     var o;try{o=JSON.parse(r.result)}catch(e){return toast('Это не файл копии',true)}
     if(!o||o.app!=='agrotorg'||!Array.isArray(o.moves)) return toast('Это не файл копии «Агроторг»',true);
+    if(SNAP&&SNAP.exists&&o.moves.some(function(m){return String(m.ts||'')<SNAP.at})) return toast('В файле есть записи старше снимка остатков ('+snapD(SNAP.at)+'). Чтобы загрузить такой файл, разработчик должен сначала удалить снимок (Настройки → Данные).',true);
     if(!confirm('Добавить в общую базу '+o.moves.length+' записей из файла?\nСейчас в базе записей: '+moves.length+'.'+(moves.length?'\nЕсли вы уже загружали этот файл, записи не задублируются (у них те же номера).':'')+(o.config&&!moves.length?'\nНастройки тоже будут загружены из файла.':''))) return;
     busy=true; toast('Загружаю…');
     var ops=[]; var recs=o.moves.map(function(m){var id=m.id||String(Math.random()).slice(2,14);var c=Object.assign({},m);delete c.id;if(!c.by){c.by=ME.uid;c.byName='Перенос данных'}return {id:id,d:JSON.parse(JSON.stringify(c))}});
