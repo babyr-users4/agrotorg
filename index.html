@@ -672,6 +672,28 @@ html[data-glass="1"] #lblPop .lbw{background:rgba(22,29,44,.82);-webkit-backdrop
 .skw .stat b{font-size:34px;line-height:1.05;margin:0 0 2px}
 .skw .stat span{font-size:14.5px;line-height:1.2;white-space:nowrap}
 @media (max-width:389px){.skw{padding:10px 8px 8px}.skw .stat{padding:9px 9px 10px}.skw .stat b{font-size:28px}.skw .stat span{font-size:13px;white-space:normal}.skh b{font-size:19px}}
+
+/* 0.59.0 неон (только тёмная тема) */
+@keyframes neBreath{0%,100%{box-shadow:0 0 0 1px rgba(110,190,255,.35),0 0 10px rgba(70,160,255,.45),0 0 26px rgba(70,130,255,.28),inset 0 0 12px rgba(70,160,255,.14)}50%{box-shadow:0 0 0 1px rgba(110,190,255,.5),0 0 14px rgba(70,160,255,.6),0 0 34px rgba(70,130,255,.38),inset 0 0 16px rgba(70,160,255,.2)}}
+html[data-neon="1"][data-theme="dark"] .skw{border-color:rgba(130,200,255,.95);background:rgba(40,90,200,.08);box-shadow:0 0 0 1px rgba(110,190,255,.4),0 0 12px rgba(70,160,255,.5),0 0 28px rgba(70,130,255,.3);animation:neBreath 4.5s ease-in-out infinite}
+html[data-neon="1"][data-theme="dark"] .skh b{color:#EAF4FF;text-shadow:0 0 6px rgba(130,200,255,.85),0 0 16px rgba(80,160,255,.5)}
+html[data-neon="1"][data-theme="dark"] .skh .ic{color:#9FD4FF;filter:drop-shadow(0 0 4px rgba(120,190,255,.9))}
+html[data-neon="1"][data-theme="dark"] .skw .stat b{text-shadow:0 0 10px rgba(140,200,255,.45)}
+html[data-neon="1"][data-theme="dark"] .skw .stat.warn b{color:#FFC861;text-shadow:0 0 6px rgba(255,190,80,.8),0 0 16px rgba(255,160,40,.45)}
+html[data-neon="1"][data-theme="dark"] .tpill{background:rgba(110,160,255,.18);border:1px solid rgba(150,190,255,.85);box-shadow:0 0 10px rgba(110,160,255,.6),0 0 22px rgba(90,130,255,.35),inset 0 0 8px rgba(130,170,255,.25)}
+html[data-neon="1"][data-theme="dark"] .tabs button[aria-current=page]{color:#DCE8FF;text-shadow:0 0 6px rgba(140,180,255,.9)}
+html[data-neon="1"][data-theme="dark"] .tabs button[aria-current=page] svg{filter:drop-shadow(0 0 4px rgba(140,180,255,.95))}
+@media (prefers-color-scheme: dark){
+html[data-neon="1"]:not([data-theme="light"]) .skw{border-color:rgba(130,200,255,.95);background:rgba(40,90,200,.08);box-shadow:0 0 0 1px rgba(110,190,255,.4),0 0 12px rgba(70,160,255,.5),0 0 28px rgba(70,130,255,.3);animation:neBreath 4.5s ease-in-out infinite}
+html[data-neon="1"]:not([data-theme="light"]) .skh b{color:#EAF4FF;text-shadow:0 0 6px rgba(130,200,255,.85),0 0 16px rgba(80,160,255,.5)}
+html[data-neon="1"]:not([data-theme="light"]) .skh .ic{color:#9FD4FF;filter:drop-shadow(0 0 4px rgba(120,190,255,.9))}
+html[data-neon="1"]:not([data-theme="light"]) .skw .stat b{text-shadow:0 0 10px rgba(140,200,255,.45)}
+html[data-neon="1"]:not([data-theme="light"]) .skw .stat.warn b{color:#FFC861;text-shadow:0 0 6px rgba(255,190,80,.8),0 0 16px rgba(255,160,40,.45)}
+html[data-neon="1"]:not([data-theme="light"]) .tpill{background:rgba(110,160,255,.18);border:1px solid rgba(150,190,255,.85);box-shadow:0 0 10px rgba(110,160,255,.6),0 0 22px rgba(90,130,255,.35),inset 0 0 8px rgba(130,170,255,.25)}
+html[data-neon="1"]:not([data-theme="light"]) .tabs button[aria-current=page]{color:#DCE8FF;text-shadow:0 0 6px rgba(140,180,255,.9)}
+html[data-neon="1"]:not([data-theme="light"]) .tabs button[aria-current=page] svg{filter:drop-shadow(0 0 4px rgba(140,180,255,.95))}
+}
+@media (prefers-reduced-motion: reduce){html[data-neon="1"] .skw{animation:none!important}}
 #okPop{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px;background:rgba(6,10,18,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 #okPop.on{opacity:1}
 #okPop .okb{pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:22px 24px 20px;text-align:center;min-width:250px;max-width:340px;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1);box-shadow:0 20px 50px rgba(0,0,0,.45)}
@@ -1562,6 +1584,7 @@ html body .tabs button[aria-current="page"]{font-weight:800}
 <script>(function(){try{
   var u=JSON.parse(localStorage.getItem('agro.ui')||'{}'); if(u.theme==='light'||u.theme==='dark') document.documentElement.setAttribute('data-theme',u.theme);
   if(localStorage.getItem('agro.glass')==='1') document.documentElement.setAttribute('data-glass','1');
+  if(localStorage.getItem('agro.neon')!=='0') document.documentElement.setAttribute('data-neon','1');
   var s=JSON.parse(localStorage.getItem('agro.splash')||'{}'), C={ny:'#1B7A4B',m8:'#D9468F',f23:'#2E6B3A',sp:'#3E9B4F',su:'#E0A21A',au:'#C8642B',wi:'#4F8DF7',bd:'#B07CFF',wd:'#E07A3A'};
   var sp=document.getElementById('splash'); if(s.k&&C[s.k]) sp.style.setProperty('--spc',C[s.k]);
   if(s.t){var p=String(s.t).split(/\s+[-–—]\s+/); document.getElementById('spT1').textContent=p[0]; document.getElementById('spT2').textContent=p.slice(1).join(' - ')}
@@ -1576,7 +1599,7 @@ var t0=Date.now();
   setTimeout(chk,150)})();
 })();</script>
 <div class="shell">
-  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.58.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
+  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.59.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button></div><div class="hsync hrow"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></div></header>
   <main id="view"></main>
@@ -1638,7 +1661,7 @@ function uiFromDef(){
   UIK.forEach(function(k){ if(own.indexOf(k)>=0||!(k in d)) return; if(uiCur(k)!==d[k]){UI[k]=d[k];ch=true} });
   if(ch){applyUI(true); if(S.settings&&typeof renderSheet==='function') renderSheet()}
 }
-function normCfg(d){var c9=normCfg9(d); c9.glass=!!(d&&d.glass===true); c9.shiftEnd=(d&&typeof d.shiftEnd==='string'&&/^\d\d:\d\d$/.test(d.shiftEnd))?d.shiftEnd:'16:00'; return c9}
+function normCfg(d){var c9=normCfg9(d); c9.glass=!!(d&&d.glass===true); c9.neon=!(d&&d.neon===false); c9.shiftEnd=(d&&typeof d.shiftEnd==='string'&&/^\d\d:\d\d$/.test(d.shiftEnd))?d.shiftEnd:'16:00'; return c9}
 function normCfg9(d){var c0=normCfg1(d); if(d&&d.achOff===true) c0.achOff=true; if(d&&d.fest&&typeof d.fest==='object') c0.fest=festNorm(d.fest); return c0}
 function normCfg1(d){
   var c=clone(DEFAULTS); if(!d) return c;
@@ -2680,7 +2703,7 @@ function renderStock0(){
             '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+fp(li.pct)+'%</span></span>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+
-    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.58.0</p>';
+    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.59.0</p>';
   }else if(S.view==='map'){
     h+=renderMap();
   }else{
@@ -4208,7 +4231,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.58.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.59.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -4261,7 +4284,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.58.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.59.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -4288,7 +4311,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.58.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.59.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -4359,7 +4382,7 @@ function renderSheet0(){
   '<div class="field"><label for="dSec">Секций в ряду (до 99)</label><input id="dSec" type="number" inputmode="numeric" data-d="sections" value="'+esc(d.sections)+'"></div>'+
   '<div class="field"><label for="dFl">Этажи, куда можно класть товар</label><input id="dFl" type="text" data-d="floors" value="'+esc(d.floors)+'"></div>'+
   '<div class="field"><label for="dWarn">Предупреждать о сроке, когда остаток срока (%) и ниже</label><input id="dWarn" type="number" inputmode="numeric" min="1" max="100" data-d="warnPct" value="'+esc(d.warnPct)+'"></div></div></section>'+bigGroupHtml(d)+shiftGroupHtml(d)+
-  titleGroupHtml(d)+shelfGroupHtml(d)+uiGroupHtml()+festGroupHtml()+achGroupHtml()+glassGroupHtml()+accountGroupHtml()+staffGroupHtml()+nickGroupHtml()+importGroupHtml()+bkGroupHtml2()+'<button class="btn" type="button" style="width:100%" data-act="saveSettings"'+(canSave()?'':' disabled')+'>Сохранить</button></div></div>';
+  titleGroupHtml(d)+shelfGroupHtml(d)+uiGroupHtml()+festGroupHtml()+achGroupHtml()+glassGroupHtml()+neonGroupHtml()+accountGroupHtml()+staffGroupHtml()+nickGroupHtml()+importGroupHtml()+bkGroupHtml2()+'<button class="btn" type="button" style="width:100%" data-act="saveSettings"'+(canSave()?'':' disabled')+'>Сохранить</button></div></div>';
 }
 function shiftGroupHtml(d){
   var v=d.shiftEnd||'16:00', L=['14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00']; if(L.indexOf(v)<0) L.push(v);
@@ -4669,6 +4692,11 @@ document.addEventListener('click',function(e){
     case 'achClose': S.ach=null; return renderSheet();
     case 'achTab': S.ach.tab=el.dataset.v; S.ach.uid=null; return renderSheet();
     case 'achUser': S.ach.tab='me'; S.ach.uid=el.dataset.uid; return renderSheet();
+    case 'neonOn':
+      if(!isDevMe()) return;
+      (function(){var v=el.dataset.v==='1'; if(!(cfg.neon===false)===v) return; var c2=clone(cfg); if(v) delete c2.neon; else c2.neon=false;
+        saveCfg(JSON.parse(JSON.stringify(c2))).then(function(){neonApply(); toast(v?'Неон включён для всех':'Неон выключен'); renderSheet()}).catch(function(e){toast(errText(e),true)})})();
+      return;
     case 'glassOn':
       if(!isDevMe()) return;
       (function(){var v=el.dataset.v==='1'; if(!!cfg.glass===v) return; var c2=clone(cfg); if(v) c2.glass=true; else delete c2.glass;
@@ -5679,7 +5707,8 @@ function pushGroupHtml(){
     '<div class="add"><input id="pushKey" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="off" placeholder="Ключ (длинная строка)" value="'+esc(PUSH.vapid)+'" aria-label="Ключ веб-пуша"><button class="btn sm" type="button" data-act="pushKeySave">Сохранить</button></div></details>';
   return h+'</section>';
 }
-function glassApply(){var on=!!(cfg&&cfg.glass), h=document.documentElement; if(on) h.setAttribute('data-glass','1'); else h.removeAttribute('data-glass'); try{localStorage.setItem('agro.glass',on?'1':'0')}catch(e){}
+function neonApply(){ var on=!(cfg&&cfg.neon===false), h=document.documentElement; if(on) h.setAttribute('data-neon','1'); else h.removeAttribute('data-neon'); try{localStorage.setItem('agro.neon',on?'1':'0')}catch(e){} }
+function glassApply(){ try{neonApply()}catch(e){}var on=!!(cfg&&cfg.glass), h=document.documentElement; if(on) h.setAttribute('data-glass','1'); else h.removeAttribute('data-glass'); try{localStorage.setItem('agro.glass',on?'1':'0')}catch(e){}
   if(on&&!document.getElementById('glassBg')){var g=document.createElement('div'); g.id='glassBg'; g.setAttribute('aria-hidden','true'); document.body.insertBefore(g,document.body.firstChild)}}
 var SCALE_ASKED=false;
 var SCL={auto:'Авто','85':'85%','95':'95%','100':'100%','115':'115%'};
@@ -5712,7 +5741,7 @@ function openSettings(){openSettings0(); pushLoadKey().then(function(){if(S.sett
 /* ---------- вкладки настроек ---------- */
 var STAB_ADM=[['wh','Склад'],['look','Вид и звук'],['ntf','Уведомления'],['ppl','Люди'],['dat','Данные']];
 var STAB_USR=[['ppl','Аккаунт'],['look','Вид и звук'],['ntf','Уведомления']];
-var STAB_OF={'Значок на главном экране':'look','Стеклянный стиль':'look','Итог смены':'wh','Подтверждение крупных действий':'wh','Товары':'wh','Города отгрузки':'wh','Откуда приходы':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление':'look','Достижения':'look','Праздничное оформление':'look','Праздничная анимация':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Украшенные ники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
+var STAB_OF={'Неон':'look','Значок на главном экране':'look','Стеклянный стиль':'look','Итог смены':'wh','Подтверждение крупных действий':'wh','Товары':'wh','Города отгрузки':'wh','Откуда приходы':'wh','Стеллажи':'wh','Название и объявление':'look','Цвета остаточного срока':'look','Оформление':'look','Достижения':'look','Праздничное оформление':'look','Праздничная анимация':'look','Уведомления':'ntf','Мой аккаунт':'ppl','Сотрудники':'ppl','Украшенные ники':'ppl','Перенос данных':'dat','Резервная копия в файл':'dat'};
 function settingsTabs(){
   if(!S.settings) return;
   var sh=document.querySelector('#sheetRoot .sheet[aria-label="Настройки"]'); if(!sh) return;
@@ -5725,7 +5754,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.58.0</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.59.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -5928,6 +5957,12 @@ function renderAchSheet(root){
       '<div class="ach">'+ACH.map(function(a){return achCard(a,x)}).join('')+'</div><p class="note" style="margin-top:12px">Уровни: 🥉 бронза · 🥈 серебро · 🥇 золото. Серые ещё не получены — полоска показывает, сколько осталось. Всё считается само по журналу.</p>';
   }
   root.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Достижения"><div class="wrap"><div class="bar-top"><h1 style="margin:0;font-size:22px">Достижения</h1><button class="btn ghost sm" type="button" data-act="achClose">Закрыть</button></div>'+h+'</div></div>';
+}
+function neonGroupHtml(){
+  if(!isDevMe()) return '';
+  var on=!(cfg.neon===false);
+  return '<section class="group"><h2 class="lbl">Неон</h2><p class="note" style="margin:0 0 10px">Голубое неоновое свечение у рамки «Склад сейчас» и у выбранной вкладки внизу. Только в тёмной теме. Включается для всех сотрудников, меняет только разработчик.</p>'+
+    '<div class="seg" role="group" aria-label="Неон"><button type="button" data-act="neonOn" data-v="1" aria-pressed="'+on+'">Включено</button><button type="button" data-act="neonOn" data-v="0" aria-pressed="'+(!on)+'">Выключено</button></div></section>';
 }
 function glassGroupHtml(){
   if(!isDevMe()) return '';
