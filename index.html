@@ -690,6 +690,18 @@ html[data-neon="1"]:not([data-theme="light"]) .tabs button[aria-current=page] sv
 .snapg .snrow>span:first-child{color:var(--muted)}.snapg .snrow b{text-align:right}
 .snapg .sn-ok{color:var(--ok)}.snapg .sn-bad{color:var(--bad)}
 .snapg .cc-act{display:flex;gap:8px;flex-wrap:wrap}
+
+/* 0.60.1 счётчик чтений */
+.dgw{margin-top:14px;display:grid;gap:10px}.dgh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dgday{display:grid;gap:6px}.dgdt{font-size:14px;color:var(--muted)}.dgdt b{color:var(--ink)}
+.dgtb{display:grid;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.dgr{display:grid;grid-template-columns:minmax(0,1fr) 40px 44px 40px 40px 52px;gap:4px;align-items:center;padding:7px 10px;font-size:13.5px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
+.dgr:first-child{border-top:0}.dgr>span:not(:first-child),.dgr>b{text-align:right}.dgr small{display:block;color:var(--muted);font-size:11.5px}
+.dgdev{display:grid;gap:6px}.dgd{border:1px solid var(--line);border-radius:12px;padding:9px 12px}
+.dgd summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline;font-size:14px}.dgd summary span{color:var(--muted);font-size:13px}
+.dgd summary em{font-style:normal;font-size:12px;font-weight:800;color:var(--warn)}.dgd.dgold{border-color:var(--warn)}
+.dgkv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;margin-top:8px;font-size:13px}.dgkv span{color:var(--muted)}.dgkv b{text-align:right;overflow-wrap:anywhere}
+.dghd{font-size:12px;color:var(--muted);font-weight:700}.dgtot{font-weight:800}
 #okPop{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px;background:rgba(6,10,18,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 #okPop.on{opacity:1}
 #okPop .okb{pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:22px 24px 20px;text-align:center;min-width:250px;max-width:340px;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1);box-shadow:0 20px 50px rgba(0,0,0,.45)}
@@ -1595,7 +1607,7 @@ var t0=Date.now();
   setTimeout(chk,150)})();
 })();</script>
 <div class="shell">
-  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.60.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
+  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.60.1</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button></div><div class="hsync hrow"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span></div></header>
   <main id="view"></main>
@@ -2724,7 +2736,7 @@ function renderStock0(){
             '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+fp(li.pct)+'%</span></span>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+
-    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.60.0</p>';
+    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.60.1</p>';
   }else if(S.view==='map'){
     h+=renderMap();
   }else{
@@ -4252,7 +4264,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.60.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.60.1</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -4305,7 +4317,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.60.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.60.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -4332,7 +4344,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.60.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.60.1) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -4718,6 +4730,7 @@ document.addEventListener('click',function(e){
       (function(){var v=el.dataset.v==='1'; if(!(cfg.neon===false)===v) return; var c2=clone(cfg); if(v) delete c2.neon; else c2.neon=false;
         saveCfg(JSON.parse(JSON.stringify(c2))).then(function(){neonApply(); toast(v?'Неон включён для всех':'Неон выключен'); renderSheet()}).catch(function(e){toast(errText(e),true)})})();
       return;
+    case 'dgOpen': if(!isDevMe()) return; DG_OPEN=true; return dgLoad();
     case 'snapMake': return snapMake(false);
     case 'snapCheck': return snapCheckBtn();
     case 'snapOn': return snapOnSet(el.dataset.v==='1');
@@ -5213,7 +5226,7 @@ function startData(){
   SNAP=snapEmpty(); SNAP_ON=false; MV_MODE=null; WIN=[]; PLANS=[]; OLDM=[]; OLD={upto:'',all:false,loading:false};
   UNSUB.push(function(){ movesStop() });
   UNSUB.push(FS.doc('snap/main').onSnapshot(snapDocCb,function(){ snapDocCb(null) }));
-  REQ=[]; reqLoaded=false; reqNew={};
+  DG_FIRST={}; REQ=[]; reqLoaded=false; reqNew={};
   UNSUB.push(FS.collection('requests').onSnapshot(rqSnap,function(){}));
   {
     UNSUB.push(FS.doc('config/nicks').onSnapshot(function(s){
@@ -5222,6 +5235,7 @@ function startData(){
       else if(loaded) render();
     },function(){nicksLoaded=true}));
     UNSUB.push(FS.collection('users').onSnapshot(function(snap){
+      dgSnap('users',snap);
       USERS=snap.docs.map(function(d){return Object.assign({uid:d.id},d.data())}); presRefresh(); try{festApply()}catch(e){}
       var el=document.getElementById('staffList'); if(el) el.innerHTML=staffListHtml();
     },function(){}));
@@ -5259,6 +5273,7 @@ function snapMerge(){
   ALLM=out; moves=ALLM.filter(function(m){return !m.del});
 }
 function movesCb(snap){
+  dgSnap('moves',snap);
   var md=snap.metadata||{}, pc=0; try{ snap.docs.forEach(function(d){ if(d.metadata&&d.metadata.hasPendingWrites) pc++ }) }catch(e){}
   pendSet(pc, !!md.fromCache);
   if(!loaded&&md.fromCache&&(snap.empty||!snap.docs.length)&&MV_MODE==='full') return; // кэш пуст — ждём сервер
@@ -5273,6 +5288,7 @@ function movesCb(snap){
   if(first){D=derive(moves);render()} else refresh();
   setTimeout(achCheck,first?1500:300);
   setTimeout(snapAuto,first?1500:300);
+  if(first) setTimeout(function(){dgSave(true)},5000);
 }
 // догрузка старой истории (только в режиме «по снимку»): fromMs=null — вся история
 function snapNeed(fromMs){
@@ -5387,7 +5403,8 @@ function snapDel(){
   FS.doc('snap/main').delete().then(function(){toast('Снимок удалён')}).catch(function(e){toast(errText(e),true)});
 }
 function snapRecCount(){ return SNAP_ON?(SNAP.n+WIN.filter(function(m){return String(m.ts||'')>=SNAP.at}).length):ALLM.length }
-function snapGroupHtml(){
+function snapGroupHtml(){ var sg=snapGroupHtml0(); return sg?sg.replace(/<\/section>$/,dgTableHtml()+'</section>'):'' }
+function snapGroupHtml0(){
   if(!isDevMe()) return '';
   var s=SNAP||snapEmpty(), busy=SNAP_BUSY, h='<section class="group snapg"><h2 class="lbl">Снимок остатков</h2>'+
     '<p class="note" style="margin:0 0 10px">Экономит чтения базы: программа берёт готовые остатки на дату снимка и только записи за последние '+SNAP_WIN+' дней. Видно и меняется только у разработчика.</p>';
@@ -5423,6 +5440,109 @@ function snapWrapViews(){
 }
 snapWrapViews();
 window.__SN=function(code){return eval(code)}; // тестовый доступ к состоянию снимка (автотесты)
+/* ----- 0.60.1 счётчик чтений ----- */
+var APP_VER='0.60.1', DG_KEY='agro.diag', DG_LAST='agro.diagAct', DG=null, DG_SAVED=0, DG_DIRTY=false, DG_DEV='';
+try{DG_DEV=localStorage.getItem('agro.devid')||''; if(!DG_DEV){DG_DEV=Math.random().toString(36).slice(2,8); localStorage.setItem('agro.devid',DG_DEV)}}catch(e){DG_DEV='x'}
+function dgDay(){var d=new Date(); return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())}
+function dgGet(){
+  var day=dgDay();
+  if(!DG){ try{DG=JSON.parse(localStorage.getItem(DG_KEY)||'null')}catch(e){DG=null} }
+  if(!DG||DG.day!==day) DG={day:day,cold:0,warm:0,longRet:0,shortRet:0,upd:0,visMin:0,loads:0};
+  return DG;
+}
+function dgPut(){ DG_DIRTY=true; try{localStorage.setItem(DG_KEY,JSON.stringify(DG))}catch(e){} }
+function dgLastAct(){ try{return Number(localStorage.getItem(DG_LAST))||0}catch(e){return 0} }
+function dgTouch(){ try{localStorage.setItem(DG_LAST,String(Date.now()))}catch(e){} }
+function dgPerLoad(){ return ALLM.length+(USERS?USERS.length:0)+(typeof REQ!=='undefined'&&REQ?REQ.length:0)+5 }
+function dgEst(d){ return (d.cold+d.longRet)*(d.perLoad||dgPerLoad())+d.upd }
+(function(){ // открытие страницы: «холодное» (перерыв > 30 мин — база отдаёт всё заново) или «тёплое»
+  var g=dgGet(), la=dgLastAct(); if(!la||Date.now()-la>30*60e3) g.cold++; else g.warm++; dgPut(); dgTouch();
+})();
+document.addEventListener('visibilitychange',function(){
+  var g=dgGet();
+  if(document.visibilityState==='hidden'){ dgTouch(); dgSave(false); return }
+  var gap=Date.now()-dgLastAct(); if(gap>30*60e3) g.longRet++; else g.shortRet++; dgPut(); dgTouch();
+});
+setInterval(function(){ if(document.visibilityState!=='hidden'){ var g=dgGet(); g.visMin++; dgPut(); dgTouch() } },60000);
+setInterval(function(){ dgSave(false) },30*60000);
+function dgUpd(n){ if(n>0){ var g=dgGet(); g.upd+=n; dgPut() } }
+function dgSave(force){
+  if(!ME||!FS||!loaded) return;
+  if(!force&&(!DG_DIRTY||Date.now()-DG_SAVED<5*60000)) return;
+  var g=dgGet(); g.perLoad=dgPerLoad(); DG_SAVED=Date.now(); DG_DIRTY=false;
+  var ua=String(navigator.userAgent||''), dv=/iPhone|iPad/.test(ua)?'iPhone':/Android/.test(ua)?'Android':'ПК';
+  dgInfo().then(function(inf){ return FS.doc('diag/'+ME.uid+'_'+DG_DEV+'_'+g.day).set({uid:ME.uid,name:ME.name,dev:DG_DEV,dv:dv,pwa:!!inf.pwa,day:g.day,
+    cold:g.cold,warm:g.warm,longRet:g.longRet,shortRet:g.shortRet,upd:g.upd,visMin:g.visMin,perLoad:g.perLoad,est:dgEst(g),ts:new Date().toISOString(),info:inf}) }).catch(function(){});
+}
+// сведения о телефоне (только технические): модель, система, браузер, экран, версия программы
+var DG_INFO=null;
+function dgInfo(){
+  if(DG_INFO) return Promise.resolve(DG_INFO);
+  var ua=String(navigator.userAgent||''), o={ua:ua.slice(0,220)}, m;
+  o.app=APP_VER;
+  if(/iPhone|iPad|iPod/.test(ua)){ o.os='iOS '+(((m=ua.match(/OS (\d+)[_.](\d+)/))&&m[1]+'.'+m[2])||''); o.model=/iPad/.test(ua)?'iPad':'iPhone' }
+  else if((m=ua.match(/Android ([\d.]+)/))){ o.os='Android '+m[1]; var mm=ua.match(/Android [\d.]+; ([^;)]+)[;)]/); if(mm&&mm[1]!=='K') o.model=mm[1].replace(/ Build.*$/,'') }
+  else if(/Windows/.test(ua)) o.os='Windows'; else if(/Mac OS X/.test(ua)) o.os='macOS'; else if(/Linux/.test(ua)) o.os='Linux';
+  o.br=(m=ua.match(/(SamsungBrowser|YaBrowser|OPR|Edg|Firefox|CriOS|Chrome|Version)\/([\d]+)/))?({SamsungBrowser:'Samsung Internet',YaBrowser:'Яндекс',OPR:'Opera',Edg:'Edge',Firefox:'Firefox',CriOS:'Chrome',Chrome:'Chrome',Version:'Safari'}[m[1]]+' '+m[2]):'';
+  o.scr=Math.round(screen.width)+'×'+Math.round(screen.height)+' @'+(Math.round((window.devicePixelRatio||1)*100)/100);
+  try{o.pwa=!!(matchMedia('(display-mode: standalone)').matches||navigator.standalone)}catch(e){}
+  if(navigator.deviceMemory) o.mem=navigator.deviceMemory; if(navigator.hardwareConcurrency) o.cores=navigator.hardwareConcurrency;
+  try{var c=navigator.connection; if(c) o.net=(c.effectiveType||'')+(c.saveData?' · экономия':'')}catch(e){}
+  o.lang=navigator.language||''; try{o.tz=Intl.DateTimeFormat().resolvedOptions().timeZone}catch(e){}
+  try{o.notif=window.Notification?Notification.permission:'нет'}catch(e){}
+  o.persist=PERSIST===true?'да':PERSIST===false?'нет':'?';
+  var ps=[];
+  try{ if(navigator.userAgentData&&navigator.userAgentData.getHighEntropyValues) ps.push(navigator.userAgentData.getHighEntropyValues(['model','platformVersion','fullVersionList']).then(function(h){
+      if(h.model) o.model=h.model; if(h.platformVersion&&/Android/.test(o.os||'')) o.os='Android '+String(h.platformVersion).split('.')[0];
+      var b=(h.fullVersionList||[]).filter(function(x){return !/Not|Chromium/.test(x.brand)})[0]; if(b) o.br=b.brand.replace('Google ','')+' '+String(b.version).split('.')[0];
+    }).catch(function(){})) }catch(e){}
+  try{ if(navigator.storage&&navigator.storage.estimate) ps.push(navigator.storage.estimate().then(function(e){ o.stor=Math.round((e.usage||0)/1048576*10)/10 }).catch(function(){})) }catch(e){}
+  return Promise.all(ps).then(function(){ DG_INFO=o; return o });
+}
+// живые обновления с сервера (каждый изменённый документ = 1 чтение)
+var DG_FIRST={};
+function dgSnap(name,snap){
+  try{ var md=snap.metadata||{}; if(md.fromCache) return; if(!DG_FIRST[name]){DG_FIRST[name]=1; return} dgUpd(snap.docChanges().length) }catch(e){}
+}
+var DG_VIEW=null, DG_OPEN=false;
+function dgLoad(){
+  var from=new Date(); from.setDate(from.getDate()-6); var f=from.getFullYear()+'-'+pad2(from.getMonth()+1)+'-'+pad2(from.getDate());
+  DG_VIEW='loading'; renderSheet();
+  FS.collection('diag').where('day','>=',f).get().then(function(s){ DG_VIEW=s.docs.map(function(d){return d.data()}); renderSheet() })
+    .catch(function(e){ DG_VIEW={err:errText(e)}; renderSheet() });
+}
+function dgTableHtml(){
+  if(!DG_OPEN) return '<button class="btn ghost sm" type="button" data-act="dgOpen" style="margin-top:12px">Счётчик чтений по сотрудникам</button>';
+  var h='<div class="dgw"><div class="dgh"><b>Счётчик чтений</b><button class="btn ghost sm" type="button" data-act="dgOpen">Обновить</button></div>';
+  if(DG_VIEW==='loading'||DG_VIEW==null) return h+'<p class="note">Загружаю…</p></div>';
+  if(DG_VIEW.err) return h+'<p class="note">Не удалось загрузить: '+esc(DG_VIEW.err)+' Проверьте, что в правилах Firestore есть раздел diag.</p></div>';
+  var days={}; DG_VIEW.forEach(function(r){(days[r.day]=days[r.day]||[]).push(r)});
+  var keys=Object.keys(days).sort().reverse(); if(!keys.length) return h+'<p class="note">Пока нет данных. Телефоны отправляют счётчик раз в 30 минут и при сворачивании программы.</p></div>';
+  keys.forEach(function(k){
+    var rows=days[k].sort(function(a,b){return (b.est||0)-(a.est||0)}), tot={est:0,cold:0,longRet:0,upd:0,visMin:0};
+    rows.forEach(function(r){ ['est','cold','longRet','upd','visMin'].forEach(function(f){tot[f]+=Number(r[f])||0}) });
+    h+='<div class="dgday"><div class="dgdt">'+esc(k.split('-').reverse().join('.'))+' · ≈ <b>'+tot.est+'</b> чтений</div><div class="dgtb" role="table">'+
+      '<div class="dgr dghd" role="row"><span>Кто · телефон</span><span title="Открытий программы после перерыва больше 30 мин">откр.</span><span title="Возвратов в программу после перерыва больше 30 мин">возвр.</span><span title="Живые обновления с сервера">обн.</span><span>мин</span><span>≈ чт.</span></div>'+
+      rows.map(function(r){ return '<div class="dgr" role="row"><span>'+esc(r.name||'?')+' <small>'+esc((r.dv||'')+(r.pwa?' · значок':'')+' · '+(r.dev||''))+'</small></span><span>'+(r.cold||0)+'</span><span>'+(r.longRet||0)+'</span><span>'+(r.upd||0)+'</span><span>'+(r.visMin||0)+'</span><b>'+(r.est||0)+'</b></div>' }).join('')+
+      '<div class="dgr dgtot" role="row"><span>Всего</span><span>'+tot.cold+'</span><span>'+tot.longRet+'</span><span>'+tot.upd+'</span><span>'+tot.visMin+'</span><b>'+tot.est+'</b></div></div></div>';
+  });
+  h+=dgDevicesHtml();
+  return h+'<p class="note" style="margin-top:8px">≈ чтений — оценка: каждое открытие и возврат после перерыва больше 30 минут перечитывают всё (сейчас ~'+dgPerLoad()+' док.), плюс живые обновления. Сверяйте сумму за день с Usage в Firebase.</p></div>';
+}
+function dgDevicesHtml(){
+  var last={}; DG_VIEW.forEach(function(r){ var k=r.uid+'_'+r.dev; if(!last[k]||String(r.ts)>String(last[k].ts)) last[k]=r });
+  var L=Object.keys(last).map(function(k){return last[k]}).sort(function(a,b){return String(a.name).localeCompare(String(b.name),'ru')||String(b.ts).localeCompare(String(a.ts))});
+  if(!L.length) return '';
+  var cur=APP_VER;
+  return '<div class="dgday"><div class="dgdt"><b>Телефоны сотрудников</b> · за 7 дней</div><div class="dgdev">'+L.map(function(r){
+    var i=r.info||{}, old=i.app&&i.app!==cur;
+    var rows=[['Модель',i.model||(r.dv==='iPhone'?'iPhone (модель Apple не сообщает)':'не сообщает')],['Система',i.os],['Браузер',i.br],['Как открыта',i.pwa?'значок на экране':'в браузере'],['Версия программы',(i.app||'?')+(old?' — устарела, обновить страницу':'')],
+      ['Экран',i.scr],['Память / ядра',(i.mem?i.mem+' ГБ':'')+(i.cores?(i.mem?' · ':'')+i.cores+' ядер':'')],['Сеть',i.net],['Уведомления',i.notif==='granted'?'разрешены':i.notif==='denied'?'запрещены':i.notif?'не спрашивали':''],
+      ['Копия данных',i.persist],['Занято на телефоне',i.stor!=null?i.stor+' МБ':''],['Язык · пояс',[i.lang,i.tz].filter(Boolean).join(' · ')],['Последний раз',snapDT(r.ts)],['Номер телефона в программе',r.dev]];
+    return '<details class="dgd'+(old?' dgold':'')+'"><summary><b>'+esc(r.name||'?')+'</b> <span>'+esc([i.model||r.dv,i.os].filter(Boolean).join(' · '))+'</span>'+(old?'<em>старая версия '+esc(i.app)+'</em>':'')+'</summary><div class="dgkv">'+
+      rows.filter(function(x){return x[1]}).map(function(x){return '<span>'+x[0]+'</span><b>'+esc(String(x[1]))+'</b>'}).join('')+'</div></details>';
+  }).join('')+'</div></div>';
+}
 function histRender(){var sh=document.querySelector('#sheetRoot .sheet'),st=sh?sh.scrollTop:0; renderSheet(); sh=document.querySelector('#sheetRoot .sheet'); if(sh) sh.scrollTop=st}
 function softDel(id,why){
   var iso=new Date().toISOString();
@@ -5965,7 +6085,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.60.0</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.60.1</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -6002,7 +6122,7 @@ function rqRefresh(){
   var b=document.getElementById('rqBox'); if(b) b.innerHTML=rqHtml();
   var n=rqIncoming().length, g=document.getElementById('rqBdg'); if(g){g.hidden=!n;g.textContent=n}
 }
-function rqSnap(snap){
+function rqSnap(snap){ dgSnap('requests',snap);
   var prev={}; REQ.forEach(function(r){prev[r.id]=r.status});
   REQ=snap.docs.map(function(d){return Object.assign({id:d.id},d.data())});
   if(reqLoaded&&ME) REQ.forEach(function(r){
@@ -6677,10 +6797,10 @@ function bkGroupHtml2(){
     '<p class="note" style="margin:0 0 10px">Все данные хранятся в общей базе. Копия сохраняется файлом в папку «Загрузки» (Downloads) этого телефона. Эти файлы не удаляйте. Из такого файла можно восстановить данные кнопкой «Загрузить файл копии».</p>'+
     '<button class="btn sm" type="button" data-act="bkSave2">Сохранить копию сейчас</button>'+
     '<p class="note" style="margin:8px 0 0">Последняя копия на этом телефоне: <b>'+(lb?dtFull(lb.toISOString()):'ещё не сохранялась')+'</b></p>'+
-    '<div class="uirow" style="margin-top:12px"><span class="small">Автокопия в «Загрузки»: сохраняется сама при первом касании экрана, когда подошёл срок</span><div class="seg" role="group" style="margin:0">'+seg+'</div></div></section>';
+    (isDevMe()?'<div class="uirow" style="margin-top:12px"><span class="small">Автокопия в «Загрузки» (только у разработчика): сохраняется сама при первом касании экрана, когда подошёл срок</span><div class="seg" role="group" style="margin:0">'+seg+'</div></div>':'<p class="note" style="margin:8px 0 0">Копия сохраняется только по кнопке «Сохранить копию сейчас».</p>')+'</section>';
 }
 document.addEventListener('click',function(e){
-  if(!AUTO2.on||!ME||!isAdm()||!loaded||!moves.length) return;
+  if(!AUTO2.on||!ME||!isDevMe()||!loaded||!moves.length) return;
   if(bkDays2()>=AUTO2.days){ try{localStorage.setItem(LS_BK2,new Date().toISOString())}catch(x){} setTimeout(function(){bkSave2(true)},0) }
 },true);
 
