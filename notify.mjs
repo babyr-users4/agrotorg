@@ -98,6 +98,29 @@ export function expiryEvent({ allMoves = [], cfg = {}, now = new Date(), sent = 
   return { events: ev, sent: newSent };
 }
 
+/* ---------- минимальный остаток товара ---------- */
+export function stockByProduct(allMoves = []) {
+  const st = {};
+  allMoves.filter(m => !m.del && m.product).forEach(m => {
+    const t = kindOf(m); let d = 0;
+    if (t === 'in') d = q(m); else if (t === 'out') d = -q(m); else if (t === 'adj') d = q(m); else return;
+    st[m.product] = (st[m.product] || 0) + d;
+  });
+  return st;
+}
+// Одно уведомление, когда товар опустился ниже минимума; снова — только после того, как поднялся выше и опять упал
+export function lowEvent({ allMoves = [], cfg = {}, sent = {} }) {
+  const st = stockByProduct(allMoves), newSent = {}, fresh = [];
+  for (const p of (cfg.products || [])) {
+    const min = Number(p.min) || 0; if (min <= 0) continue;
+    const have = st[p.id] || 0; if (have >= min) continue;
+    newSent[p.id] = 1;
+    if (!sent[p.id]) fresh.push(`${p.name || 'Товар'}: ${have} кор. (минимум ${min})`);
+  }
+  const ev = fresh.length ? [{ kind: 'low', actor: null, title: `Мало товара: ${fresh.length === 1 ? fresh[0].split(':')[0] : fresh.length + ' тов.'}`, body: lines(fresh).join('\n') }] : [];
+  return { events: ev, sent: newSent };
+}
+
 /* ---------- отгрузки без отметки «уехало» ---------- */
 export function depEvent({ todayOuts = [] }) {
   const outs = todayOuts.filter(m => !m.del && kindOf(m) === 'out');
@@ -159,11 +182,15 @@ async function main() {
   const cfgSnap = await db.doc('config/main').get(); const cfg = cfgSnap.exists ? cfgSnap.data() : {};
   const devices = (await db.collection('devices').get()).docs.map(d => ({ id: d.id, ...d.data() }));
   const events = [];
+  let allCache = null;
+  const getAll = async () => allCache || (allCache = (await db.collection('moves').get()).docs.map(d => ({ id: d.id, ...d.data() })));
+  let stockChanged = false;
 
   if (!first) {
     const get = async (field, since) => (await db.collection('moves').where(field, '>', since).orderBy(field).get()).docs.map(d => ({ id: d.id, ...d.data() }));
     const newMoves = await get('ts', st.lastTs), delMoves = await get('delAt', st.lastDelAt), editMoves = await get('editedAt', st.lastEditAt);
     events.push(...buildEvents({ newMoves, delMoves, editMoves, cfg }));
+    stockChanged = newMoves.some(m => !m.del && (kindOf(m) === 'out' || kindOf(m) === 'adj')) || delMoves.length > 0 || editMoves.length > 0; // остаток мог уменьшиться
     const mx = (arr, f, d) => arr.reduce((m, x) => (x[f] && x[f] > m ? x[f] : m), d);
     st.lastTs = mx(newMoves, 'ts', st.lastTs); st.lastDelAt = mx(delMoves, 'delAt', st.lastDelAt); st.lastEditAt = mx(editMoves, 'editedAt', st.lastEditAt);
   }
@@ -183,9 +210,14 @@ async function main() {
   }
   const today = localDay(now), hour = localHour(now);
   if (hour >= EXP_HOUR && st.expDay !== today) {
-    const all = (await db.collection('moves').get()).docs.map(d => ({ id: d.id, ...d.data() }));
+    const all = await getAll();
+    stockChanged = true;
     const r = expiryEvent({ allMoves: all, cfg, now, sent: st.expSent || {} });
     events.push(...r.events); st.expSent = r.sent; st.expDay = today;
+  }
+  if (!first && stockChanged && (cfg.products || []).some(p => Number(p.min) > 0)) {
+    const r = lowEvent({ allMoves: await getAll(), cfg, sent: st.lowSent || {} });
+    events.push(...r.events); st.lowSent = r.sent;
   }
   if (hour >= DEP_HOUR && st.depDay !== today) {
     const outs = (await db.collection('moves').where('ts', '>=', dayStartIso(now)).get()).docs.map(d => ({ id: d.id, ...d.data() }));
