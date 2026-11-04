@@ -922,6 +922,46 @@ html body .hd .hicons .hmore .bdg{top:1px;right:1px}
 .mgseg button{flex:1;border:0;background:transparent;color:var(--muted);font:700 14px/1.2 inherit;padding:10px 6px;border-radius:10px;cursor:pointer}
 .mgseg button[aria-pressed=true]{background:rgba(79,127,240,.24);color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(122,160,255,.8)}
 .mgrng{margin-top:8px;font-size:14px;line-height:1.45}.mgrng b{font-variant-numeric:tabular-nums}.mgrng span{color:var(--muted);display:block;font-size:13px}
+
+.bgg .bgdsrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.bgg .bgdspk{margin:0}
+.bgg .bgdspk button{padding:0 10px;white-space:nowrap}
+.bgg .bgdscap{margin:6px 0 0}
+.bgg .bgdscap.low{color:#FFC46B}
+@media (max-width:360px){ .bgg .bgdsrow{grid-template-columns:1fr} }
+
+.bgg .bgchk{margin:0 0 12px;padding:0 0 12px;border-bottom:1px solid var(--line)}
+.bgg .bgcr{margin-top:8px;border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:grid;gap:6px;font-size:13.5px}
+.bgg .bgcr .bgcrh{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.bgg .bgcr .bgcrh b{font-size:17px;letter-spacing:.3px}
+.bgg .bgcr em{font-style:normal;font-weight:800;font-size:13px}
+.bgg .bgcr.yes{border-color:rgba(255,150,120,.55)} .bgg .bgcr.yes em{color:#FF9B85}
+.bgg .bgcr.free{border-color:rgba(120,220,150,.5)} .bgg .bgcr.free em{color:#7EE0A0}
+.bgg .bgcr.old{border-color:rgba(255,196,107,.55)} .bgg .bgcr.old em{color:#FFC46B}
+.bgg .bgcr.no b{color:#FF8A8A}
+.bgg .bgcr ul{margin:0;padding-left:18px;color:var(--muted)} .bgg .bgcr>span{color:var(--muted)}
+.bgg .bgcr .mini{display:block;background:#fff;border-radius:8px;padding:6px 8px;max-width:240px;height:46px}
+.bgg .bgcr .mini svg{width:100%;height:100%;fill:#000}
+.bgg .bgtpl{margin:0 0 10px}
+.bgg .bgtl{display:block;font-size:13px;font-weight:700;margin:0 0 6px}
+.bgg .bgtch{display:flex;flex-wrap:wrap;gap:6px}
+.bgg .bgchip{min-height:40px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:inherit;font:inherit;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.bgg .bgchip small{font-weight:600;color:var(--muted);font-size:11.5px}
+.bgg .bgchip[aria-pressed=true]{border-color:var(--accent,#8FB4FF);background:rgba(143,180,255,.16)}
+.bgg .bgchip.add{border-style:dashed;color:var(--accent,#8FB4FF)}
+.bgg .bgtdel{font-size:12.5px;margin-top:6px;font-weight:600}
+.bgg .bgfar{display:flex;gap:10px;align-items:flex-start;margin:10px 0 0;font-size:13px;color:var(--muted);cursor:pointer}
+.bgg .bgfar input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--accent,#8FB4FF)}
+.bgg .bgfar b{display:block;color:var(--ink,inherit);font-size:14px}
+.bgg .bgopt{grid-template-columns:1fr auto;margin-top:10px}
+.bgg .bgcp{margin:0} .bgg .bgcp button{min-width:42px}
+.bgg .bglp{margin:12px auto 0;max-width:230px;background:#fff;color:#000;border-radius:10px;padding:7% 8%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.bgg .bglp i{font-style:normal;font-weight:800;font-size:13px;line-height:1.1;white-space:nowrap;overflow:hidden;max-width:100%}
+.bgg .bglp .bglb{display:block;width:88%;height:40%} .bgg .bglp .bglb.c{height:33%}
+.bgg .bglp .bglb svg{width:100%;height:100%;fill:#000}
+.bgg .bglp b{font-size:22px;font-weight:800;letter-spacing:.5px;line-height:1}
+.bgg .bglpn{text-align:center;margin:6px 0 0}
+.bgg .bgfreebtn{width:100%;margin-top:8px}
 #okPop{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px;background:rgba(6,10,18,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 #okPop.on{opacity:1}
 #okPop .okb{pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:22px 24px 20px;text-align:center;min-width:250px;max-width:340px;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1);box-shadow:0 20px 50px rgba(0,0,0,.45)}
@@ -1855,7 +1895,7 @@ var t0=Date.now();
   setTimeout(chk,150)})();
 })();</script>
 <div class="shell">
-  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.70.1</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
+  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.71.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button></div><div class="hsync hrow"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span><button type="button" class="rop" id="roleBdg" hidden aria-haspopup="dialog" aria-expanded="false"></button></div></header>
   <main id="view"></main>
@@ -2405,7 +2445,7 @@ function lineScan(img,W,H,fn){
 function eanScan(img,W,H){return lineScan(img,W,H,eanDecode)}
 function prodByBc(code){code=String(code||'').replace(/\D/g,''); if(!code) return null; return cfg.products.filter(function(p){return p.bc&&p.bc===code})[0]||null}
 /* окно камеры. opts.mode: 'cell' | 'product' | 'any' | 'ean' (любой EAN — для привязки в настройках); opts.on(res) */
-var SCAN_T={cell:['Наведите на штрихкод ячейки','Наклейка целиком в рамке, штрихкод — горизонтально'],product:['Наведите на штрихкод коробки','Штрихкод в рамке, горизонтально'],any:['Наведите на штрихкод','Наклейка ячейки или штрихкод коробки'],ean:['Наведите на штрихкод коробки','Штрихкод в рамке, горизонтально']};
+var SCAN_T={cell:['Наведите на штрихкод ячейки','Наклейка целиком в рамке, штрихкод — горизонтально'],product:['Наведите на штрихкод коробки','Штрихкод в рамке, горизонтально'],any:['Наведите на штрихкод','Наклейка ячейки или штрихкод коробки'],ean:['Наведите на штрихкод коробки','Штрихкод в рамке, горизонтально'],bg:['Наведите на штрихкод наклейки','Проверка номера из генератора']};
 function scanOpen(inp,opts){
   if(SCAN) return; opts=opts||{mode:'cell'}; var mode=opts.mode||'cell', T=SCAN_T[mode]||SCAN_T.cell;
   var r=document.createElement('div'); r.id='scanRoot'; r.className='m-'+mode;
@@ -2442,6 +2482,7 @@ function scanTick(){
     var c=scanClassify(txt), mode=SCAN.mode, m=SCAN.root.querySelector('.scmsg'), say=function(t){if(m) m.textContent=t}, ok=null;
     if(mode==='cell'){ if(c.cell) ok=c; else if(c.prod) say('Это штрихкод товара «'+c.prod.short+'». Нужна наклейка ячейки.'); else if(c.wh) say('Это ячейка склада '+c.wh+' — в программе только склад 1'); else say('Это не наклейка ячейки: '+txt) }
     else if(mode==='product'){ if(c.prod) ok=c; else if(c.cell||c.wh) say('Это наклейка ячейки. Нужен штрихкод коробки.'); else if(c.ean) say('Штрихкод '+txt+' не привязан к товару. Привяжите: Настройки → Склад → Товары.'); else say('Непонятный штрихкод: '+txt) }
+    else if(mode==='bg'){ ok=c }
     else if(mode==='ean'){ if(c.ean||c.prod) ok=c; else say('Это не штрихкод коробки: '+txt) }
     else { if(c.cell||c.prod) ok=c; else if(c.wh) say('Это ячейка склада '+c.wh+' — в программе только склад 1'); else if(c.ean) say('Штрихкод '+txt+' не привязан к товару.'); else say('Непонятный штрихкод: '+txt) }
     if(!ok) return next();
@@ -2479,11 +2520,12 @@ function setInp(inp,v){inp.value=v; inp.dispatchEvent(new Event('input',{bubbles
 function scanFor(inp){
   if(inp.id==='gSearch') return scanOpen(inp,{mode:'any',on:function(r){ if(!inp.isConnected) return; if(r.cell) setInp(inp,cellFull(r.cell.slice(0,2)+'-'+r.cell.slice(2,4)+'-'+r.cell[4])); else if(r.prod) setInp(inp,r.prod.name) }});
   if(inp.id==='cSearch') return scanOpen(inp,{mode:'any',on:function(r){ if(r.cell){ if(inp.isConnected) setInp(inp,cellFull(r.cell.slice(0,2)+'-'+r.cell.slice(2,4)+'-'+r.cell[4])) } else if(r.prod){ var b=document.querySelector('[data-act=cpf][data-id="'+r.prod.id+'"]'); if(b) b.click() } }});
+  if(inp.id==='bgChk') return scanOpen(inp,{mode:'bg',on:function(r){ BG.chk=r.txt; if(inp.isConnected){ inp.value=r.txt; bgChkOut() } }});
   if(inp.dataset.pf==='bc') return scanOpen(inp,{mode:'ean',on:function(r){ if(inp.isConnected) setInp(inp,r.txt) }});
   return scanOpen(inp,{mode:'cell'});
 }
 function scanDecorate(){
-  document.querySelectorAll('input.cellinp:not([data-scw]), #gSearch:not([data-scw]), input[data-pf=bc]:not([data-scw])').forEach(function(inp){
+  document.querySelectorAll('input.cellinp:not([data-scw]), #gSearch:not([data-scw]), #bgChk:not([data-scw]), input[data-pf=bc]:not([data-scw])').forEach(function(inp){
     inp.setAttribute('data-scw','1');
     var w=document.createElement('span'); w.className='scwrap'; inp.parentNode.insertBefore(w,inp); w.appendChild(inp);
     var b=document.createElement('button'); b.type='button'; b.className='scbtn'; b.setAttribute('aria-label','Сканировать штрихкод'); b.innerHTML=SCAN_SVG;
@@ -2571,7 +2613,8 @@ function lblPdf(items, fmtKey, opts){ // items: [{full:'1-10-001-1', bars:'99411
       var pad=W*0.07, arrowW=it.arrow?W*0.13:0, areaW=W-2*pad-arrowW;
       // штрихкод: сверху, ~38% высоты
       var mods=it.mods||lblC128Modules(it.bars), tot=mods.reduce(function(a,b){return a+b},0), mw=Math.min(areaW/tot, 0.5*mm*1.0);
-      var bw=tot*mw, bx=x0+pad+(areaW-bw)/2, bh=H*0.36, by=y0+H-H*0.08-bh, x=bx;
+      var CAP=opts.cap, capH=CAP?H*0.15:0, bw=tot*mw, bx=x0+pad+(areaW-bw)/2, bh=CAP?H*0.30:H*0.36, by=CAP?y0+H-H*0.06-capH-H*0.04-bh:y0+H-H*0.08-bh, x=bx;
+      if(CAP){ var iw=Math.min(areaW,capH*CAP.w/CAP.h), ih=iw*CAP.h/CAP.w; ops.push('q '+n(iw)+' 0 0 '+n(ih)+' '+n(x0+pad+(areaW-iw)/2)+' '+n(y0+H-H*0.06-capH+(capH-ih)/2)+' cm /Im1 Do Q') }
       for(var i=0;i<mods.length;i++){ if(i%2===0) ops.push(n(x)+' '+n(by)+' '+n(mods[i]*mw)+' '+n(bh)+' re f'); x+=mods[i]*mw }
       // цифры под штрихкодом, вразрядку
       var ds=H*0.085, dig=it.cap!=null?it.cap:it.bars.split('').join(' '), dw=hw(dig,ds);
@@ -2591,8 +2634,9 @@ function lblPdf(items, fmtKey, opts){ // items: [{full:'1-10-001-1', bars:'99411
   // сборка PDF
   var objs=[], add=function(s){objs.push(s); return objs.length};
   var font=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  var imgId=opts.cap?add('<< /Type /XObject /Subtype /Image /Width '+opts.cap.w+' /Height '+opts.cap.h+' /ImageMask true /Decode [1 0] /BitsPerComponent 1 /Filter /ASCIIHexDecode /Length '+(opts.cap.hex.length+1)+' >>\nstream\n'+opts.cap.hex+'>\nendstream'):0;
   var pagesId=objs.length+1+pages.length*2; var kids=[];
-  pages.forEach(function(c){ var cs=add('<< /Length '+c.length+' >>\nstream\n'+c+'\nendstream'); kids.push(add('<< /Type /Page /Parent '+pagesId+' 0 R /MediaBox [0 0 '+n(PW)+' '+n(PH)+'] /Resources << /Font << /F1 '+font+' 0 R >> >> /Contents '+cs+' 0 R >>')) });
+  pages.forEach(function(c){ var cs=add('<< /Length '+c.length+' >>\nstream\n'+c+'\nendstream'); kids.push(add('<< /Type /Page /Parent '+pagesId+' 0 R /MediaBox [0 0 '+n(PW)+' '+n(PH)+'] /Resources << /Font << /F1 '+font+' 0 R >>'+(imgId?' /XObject << /Im1 '+imgId+' 0 R >>':'')+' >> /Contents '+cs+' 0 R >>')) });
   add('<< /Type /Pages /Kids ['+kids.map(function(k){return k+' 0 R'}).join(' ')+'] /Count '+kids.length+' >>');
   var cat=add('<< /Type /Catalog /Pages '+pagesId+' 0 R >>');
   var out='%PDF-1.4\n', offs=[];
@@ -2983,7 +3027,7 @@ function renderStock0(){
             '<div class="chips">'+l.cells.map(function(c){return '<span class="chip">'+c.cell+'<i>'+c.qty+' кор.</i><span class="pc lv"'+lvAttr(li)+'>'+fp(li.pct)+'%</span></span>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+SVC+
-    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.70.1</p>';
+    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.71.0</p>';
   }else if(S.view==='map'){
     h+=renderMap();
   }else{
@@ -4561,7 +4605,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.70.1</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.71.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -4614,7 +4658,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.70.1 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.71.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -4641,7 +4685,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.70.1) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.71.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -5034,6 +5078,15 @@ document.addEventListener('click',function(e){
     case 'dgOpen': if(!isDevMe()) return; DG_OPEN=true; return dgLoad();
     case 'bgMode': BG.mode=el.dataset.v; return renderSheet();
     case 'bgRnd': BG.rnd=null; return bgOut();
+    case 'bgCp': BG.cp=+el.dataset.v; try{localStorage.setItem('agro.bgcp',String(BG.cp))}catch(x){} return renderSheet();
+    case 'bgTplPick': return bgTplPick(el.dataset.id);
+    case 'bgTplSave': return bgTplSave();
+    case 'bgTplDel': return bgTplDel(el.dataset.id);
+    case 'bgChkFree': return bgFreeAsk(bgChkFind(BG.chk),null);
+    case 'bgChkAgain': return bgChkAgain();
+    case 'bgChkClr': BG.chk=''; return renderSheet();
+    case 'bgSetFree': return bgSetAct('free');
+    case 'bgDsPick': BG.ds=el.dataset.v; BG.rnd=null; return renderSheet();
     case 'bgNext': BG.from=''; BG.one=''; return renderSheet();
     case 'bgPdf': return bgPdf();
     case 'bgCopy': return bgCopy();
@@ -6058,7 +6111,7 @@ function snapWrapViews(){
 snapWrapViews();
 window.__SN=function(code){return eval(code)}; // тестовый доступ к состоянию снимка (автотесты)
 /* ----- 0.60.1 счётчик чтений ----- */
-var APP_VER='0.70.1', DG_KEY='agro.diag', DG_LAST='agro.diagAct', DG=null, DG_SAVED=0, DG_DIRTY=false, DG_DEV='';
+var APP_VER='0.71.0', DG_KEY='agro.diag', DG_LAST='agro.diagAct', DG=null, DG_SAVED=0, DG_DIRTY=false, DG_DEV='';
 try{DG_DEV=localStorage.getItem('agro.devid')||''; if(!DG_DEV){DG_DEV=Math.random().toString(36).slice(2,8); localStorage.setItem('agro.devid',DG_DEV)}}catch(e){DG_DEV='x'}
 function dgDay(){var d=new Date(); return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())}
 function dgGet(){
@@ -6196,9 +6249,10 @@ function dgBattery(){
 }
 var DG_DOPEN={};
 /* ----- 0.63.0 генератор штрихкодов (только разработчик) ----- */
-var BG={mode:'seq', pre:null, head:null, dig:null, one:'', from:'', n:'20', rn:'10', fmt:null, doc:null, st:'', rnd:null, busy:false, off:{}, sig:'', all:false, name:'', open:null, soff:{}, sall:false};
+var BG={chk:'', cap:'', cp:1, far:true, how:'', ds:'', mode:'seq', pre:null, head:null, dig:null, one:'', from:'', n:'20', rn:'10', fmt:null, doc:null, st:'', rnd:null, busy:false, off:{}, sig:'', all:false, name:'', open:null, soff:{}, sall:false};
 try{ BG.fmt=localStorage.getItem('agro.bgfmt')||'roll_58x40' }catch(e){ BG.fmt='roll_58x40' }
 if(!LBL_FMT[BG.fmt]) BG.fmt='roll_58x40';
+try{ BG.cap=localStorage.getItem('agro.bgcap')||''; BG.cp=Math.max(1,Math.min(3,+(localStorage.getItem('agro.bgcp')||1)||1)); BG.far=localStorage.getItem('agro.bgfar')!=='0' }catch(e){}
 var BG_SEED={'TE_|EU|7':171153}; // последние номера с этикеток, которые уже были до программы
 function bgTpl(){ var d=(BG.doc&&BG.doc.tpl)||{};
   return {pre:BG.pre!=null?BG.pre:(d.pre!=null?d.pre:'TE_'), head:BG.head!=null?BG.head:(d.head!=null?d.head:'EU'), dig:+(BG.dig!=null?BG.dig:(d.dig||7))} }
@@ -6238,6 +6292,8 @@ function bgCalc(){ // → {t, nums, err, warn}
     var v=String(BG.one).replace(/\D/g,''); if(!v){ r.err='Наберите номер.'; return r }
     if(v.length>t.dig){ r.err='В номере не больше '+t.dig+' цифр.'; return r }
     r.nums=[+v];
+  } else if((bgDs()&&BG.mode==='seq')||(BG.mode==='rnd'&&(bgDs()||BG.far))){
+    if(!bgDsCalc(t,r,has)) return r;
   } else if(BG.mode==='seq'){
     var f=BG.from===''?bgLast(t)+1:+String(BG.from).replace(/\D/g,''), n=+BG.n;
     if(!(n>=1&&n<=500&&Math.floor(n)===n)){ r.err='Сколько: от 1 до 500.'; return r }
@@ -6269,19 +6325,22 @@ function bgGroupHtml(){
   if(BG.st==='err') return h+'<p class="note">Не удалось загрузить выданные номера: '+esc(BG.err||'')+' Проверьте, что в правилах Firestore есть раздел bcgen.</p><button class="btn ghost sm" type="button" data-act="bgLoad">Повторить</button></section>';
   if(!BG.doc) return h+'<p class="note">Загружаю…</p></section>';
   var t=bgTpl(), seg=function(v,x){return '<button type="button" data-act="bgMode" data-v="'+v+'" aria-pressed="'+(BG.mode===v)+'">'+x+'</button>'};
+  h+=bgChkHtml()+'<div id="bgTpls">'+bgTplsHtml(t)+'</div>';
   h+='<div class="bgrow"><div class="field"><label for="bgPre">Скрытая приставка</label><input id="bgPre" type="text" autocomplete="off" autocapitalize="characters" value="'+esc(t.pre)+'"></div>'+
      '<div class="field"><label for="bgHead">Начало номера</label><input id="bgHead" type="text" autocomplete="off" autocapitalize="characters" value="'+esc(t.head)+'"></div>'+
      '<div class="field"><label for="bgDig">Цифр</label><input id="bgDig" type="number" inputmode="numeric" min="1" max="12" value="'+t.dig+'"></div></div>'+
      '<div class="seg" role="group" aria-label="Как создать" style="margin:12px 0 10px">'+seg('one','Один')+seg('seq','По порядку')+seg('rnd','Случайные')+'</div>';
   if(BG.mode==='one') h+='<div class="field"><label for="bgOne">Номер</label><input id="bgOne" type="text" inputmode="numeric" autocomplete="off" value="'+esc(BG.one)+'" placeholder="например '+esc(bgTxt(t,Math.max(0,bgLast(t))).slice(t.head.length))+'"></div>';
   else if(BG.mode==='seq'){ var L=bgLast(t);
-    h+='<div class="bgrow bg2"><div class="field"><label for="bgFrom">С номера</label><input id="bgFrom" type="text" inputmode="numeric" autocomplete="off" value="'+esc(BG.from)+'" placeholder="'+esc(bgTxt(t,L+1).slice(t.head.length))+'"></div>'+
+    h+='<div class="bgrow bg2"><div class="field"><label for="bgFrom">С номера</label><input id="bgFrom" type="text" inputmode="numeric" autocomplete="off" value="'+esc(BG.from)+'" placeholder="'+esc(bgSeqPh(t))+'"></div>'+
        '<div class="field"><label for="bgN">Сколько</label><input id="bgN" type="number" inputmode="numeric" min="1" max="500" value="'+esc(BG.n)+'"></div></div>'+
-       '<p class="note" style="margin:6px 0 0">'+(L>=0?'Последний выданный: <b>'+esc(bgTxt(t,L))+'</b>. Пусто в «С номера» — продолжу со следующего.':'Пока ничего не выдано. Пусто в «С номера» — начну с '+esc(bgTxt(t,0))+'.')+'</p>' }
+       '<p class="note" id="bgSeqNote" style="margin:6px 0 0">'+bgSeqNote(t)+'</p>' }
   else h+='<div class="field"><label for="bgRn">Сколько</label><input id="bgRn" type="number" inputmode="numeric" min="1" max="500" value="'+esc(BG.rn)+'"></div>'+
-       '<p class="note" style="margin:6px 0 0">Случайные номера без повторов с уже выданными. <button type="button" class="linkbtn" data-act="bgRnd">Другие номера</button></p>';
+       '<p class="note" style="margin:6px 0 0">Случайные номера без повторов с уже выданными. <button type="button" class="linkbtn" data-act="bgRnd">Другие номера</button></p>'+
+       '<label class="bgfar"><input type="checkbox" id="bgFar"'+(BG.far?' checked':'')+'><span><b>Не похожие</b>Любые два номера отличаются минимум двумя цифрами — опечатка в одной цифре не даст другой выданный номер.</span></label>';
+  if(BG.mode!=='one') h+=bgDsHtml(t);
   h+='<div class="field" style="margin-top:10px"><label for="bgFmt">Формат наклеек</label><select id="bgFmt">'+Object.keys(LBL_FMT).map(function(k){return '<option value="'+k+'"'+(k===BG.fmt?' selected':'')+'>'+esc(LBL_FMT[k].name)+'</option>'}).join('')+'</select></div>'+
-     '<div id="bgOut">'+bgOutHtml()+'</div><div id="bgSets">'+bgSetsHtml()+'</div>';
+     bgLblOptsHtml()+'<div id="bgOut">'+bgOutHtml()+'</div><div id="bgSets">'+bgSetsHtml()+'</div>';
   return h+'</section>';
 }
 /* строка номера: галочка + номер с маленьким штрихкодом (нажать — показать крупно) */
@@ -6316,7 +6375,7 @@ function bgDT(iso){ var d=new Date(iso); return isFinite(d)?pad2(d.getDate())+'.
 function bgSets(){ return (BG.doc&&BG.doc.sets)||[] }
 function bgSetById(id){ return bgSets().filter(function(s){return s.id===id})[0] }
 function bgSetDesc(s){ var t=s.tpl, n=s.nums.length, a=bgTxt(t,s.nums[0]), b=bgTxt(t,s.nums[n-1]), seq=n>1&&s.nums[n-1]-s.nums[0]===n-1;
-  return n+' шт. · '+(n===1?a:(seq?a+' – '+b:(s.mode==='rnd'?'случайные':a+' … '+b)))+' · '+bgDT(s.at)+(s.by?' · '+s.by:'') }
+  return n+' шт. · '+(n===1?a:(seq?a+' – '+b:(s.mode==='rnd'?'случайные':a+' … '+b)))+(s.ds?' · только '+bgDsWords(s.ds):'')+' · '+bgDT(s.at)+(s.by?' · '+s.by:'') }
 function bgSetsHtml(){
   var L=bgSets(); if(!L.length) return '';
   var h='<h3 class="bgsub">Сохранённые списки</h3><div class="bgsets">';
@@ -6325,22 +6384,27 @@ function bgSetsHtml(){
     if(op){ var k=bgSelOf(s.nums,BG.soff).length, dis=(BG.busy||!k)?' disabled':'';
       h+='<div class="bgsetin">'+bgListHtml(s.tpl,s.nums,BG.soff,'set',BG.sall)+
         '<div class="bgact" style="margin-top:10px"><button class="btn sm" type="button" data-act="bgSetPdf"'+dis+'>'+IC('printer')+' PDF ('+k+')</button><button class="btn ghost sm" type="button" data-act="bgSetCopy"'+dis+'>Копировать ('+k+')</button></div>'+
-        '<div class="bgact" style="margin-top:8px"><button class="btn ghost sm" type="button" data-act="bgSetRen"'+(BG.busy?' disabled':'')+'>Переименовать</button><button class="btn ghost sm" type="button" data-act="bgSetDel"'+(BG.busy?' disabled':'')+'>Удалить список</button></div></div>' }
+        '<div class="bgact" style="margin-top:8px"><button class="btn ghost sm" type="button" data-act="bgSetRen"'+(BG.busy?' disabled':'')+'>Переименовать</button><button class="btn ghost sm" type="button" data-act="bgSetDel"'+(BG.busy?' disabled':'')+'>Удалить список</button></div>'+
+        '<button class="btn ghost sm bgfreebtn" type="button" data-act="bgSetFree"'+dis+'>Освободить отмеченные ('+k+')</button></div>' }
   });
   return h+'</div>';
 }
 function bgSetsOut(){ var o=document.getElementById('bgSets'); if(o) o.innerHTML=bgSetsHtml() }
 document.addEventListener('input',function(e){ var t=e.target; if(!t||!t.id||t.id.slice(0,2)!=='bg') return;
   if(t.id==='bgName'){ BG.name=t.value; return }
+  if(t.id==='bgChk'){ BG.chk=t.value; return bgChkOut() }
+  if(t.id==='bgCap'){ BG.cap=t.value.slice(0,24); try{localStorage.setItem('agro.bgcap',BG.cap)}catch(x){} return bgPrevOut() }
+  if(t.id==='bgDs'){ var cl=t.value.replace(/\D/g,''); if(cl!==t.value) t.value=cl; BG.ds=cl; BG.rnd=null; bgDsSync(); bgOut(); return }
   var map={bgPre:'pre',bgHead:'head',bgDig:'dig',bgOne:'one',bgFrom:'from',bgN:'n',bgRn:'rn'}, k=map[t.id]; if(!k) return;
   if(k==='pre'||k==='head'){ var v=t.value.toUpperCase(); if(v!==t.value){ var p=t.selectionStart; t.value=v; try{t.setSelectionRange(p,p)}catch(x){} } }
-  BG[k]=t.value; bgOut() });
-document.addEventListener('change',function(e){ var t=e.target; if(t&&t.id==='bgFmt'){ BG.fmt=t.value; try{localStorage.setItem('agro.bgfmt',BG.fmt)}catch(x){} } });
+  BG[k]=t.value; bgOut(); if(k==='pre'||k==='head'||k==='dig'){ var tp=document.getElementById('bgTpls'); if(tp) tp.innerHTML=bgTplsHtml(bgTpl()); bgDsSync() } bgPrevOut() });
+document.addEventListener('change',function(e){ var t=e.target; if(t&&t.id==='bgFmt'){ BG.fmt=t.value; try{localStorage.setItem('agro.bgfmt',BG.fmt)}catch(x){} bgPrevOut() }
+  if(t&&t.id==='bgFar'){ BG.far=t.checked; BG.rnd=null; try{localStorage.setItem('agro.bgfar',BG.far?'1':'0')}catch(x){} bgOut() } });
 /* запись в базу: перечитать документ, изменить, сохранить (чтобы не затереть сделанное с другого телефона) */
 function bgWrite(fn,errMsg){
   BG.busy=true;
   return FS.doc('bcgen/main').get().then(function(d){
-    var doc=d.exists?d.data():{}, nd={v:1,tpl:doc.tpl||null,iss:Object.assign({},doc.iss||{}),last:Object.assign({},doc.last||{}),sets:(doc.sets||[]).slice(),upd:new Date().toISOString(),by:ME.name};
+    var doc=d.exists?d.data():{}, nd={v:1,tpl:doc.tpl||null,iss:Object.assign({},doc.iss||{}),last:Object.assign({},doc.last||{}),sets:(doc.sets||[]).slice(),tpls:(doc.tpls||[]).slice(),log:(doc.log||[]).slice(),upd:new Date().toISOString(),by:ME.name};
     fn(nd);
     if(JSON.stringify(nd).length>900000) throw new Error('слишком много выданных номеров');
     return FS.doc('bcgen/main').set(nd).then(function(){ BG.doc=nd; BG.busy=false; return true });
@@ -6350,17 +6414,19 @@ function bgMarkIss(nd,t,nums,mode){
   var k=bgKey(t), cur=(nd.iss[k]||[]).slice(), has={};
   cur.forEach(function(n){has[n]=1}); nums.forEach(function(n){ if(!has[n]){has[n]=1; cur.push(n)} }); cur.sort(function(a,b){return a-b}); nd.iss[k]=cur;
   nd.tpl={pre:t.pre,head:t.head,dig:t.dig};
-  if(mode!=='rnd'){ var mx=Math.max.apply(null,nums), was=k in nd.last?nd.last[k]:(k in BG_SEED?BG_SEED[k]:-1); if(mx>was) nd.last[k]=mx; else if(!(k in nd.last)&&was>=0) nd.last[k]=was }
+  bgLogAdd(nd,k,nums,BG.how||'');
+  if(mode==='dseq'){ var dk=k+'|d'+BG.ds2, dm=Math.max.apply(null,nums); if(!(dk in nd.last)||dm>nd.last[dk]) nd.last[dk]=dm }
+  else if(mode!=='rnd'){ var mx=Math.max.apply(null,nums), was=k in nd.last?nd.last[k]:(k in BG_SEED?BG_SEED[k]:-1); if(mx>was) nd.last[k]=mx; else if(!(k in nd.last)&&was>=0) nd.last[k]=was }
 }
-function bgIssue(r,nums){ return bgWrite(function(nd){ bgMarkIss(nd,r.t,nums,BG.mode) },'Не сохранил выданные номера').then(function(ok){ if(ok){ if(BG.mode==='seq') BG.from=''; if(BG.mode==='rnd') BG.rnd=null } return ok }) }
+function bgIssue(r,nums){ return bgWrite(function(nd){ bgMarkIss(nd,r.t,nums,bgIssMode()) },'Не сохранил выданные номера').then(function(ok){ if(ok){ if(BG.mode==='seq') BG.from=''; if(BG.mode==='rnd') BG.rnd=null } return ok }) }
 function bgPdfFile(t,nums,name){
   var F=LBL_FMT[BG.fmt]||LBL_FMT.roll_58x40;
-  var items=nums.map(function(x){ var s=bgTxt(t,x); return {full:s, bars:'', mods:bgMods(t.pre+s), cap:'', arrow:''} });
-  var pdf=lblPdf(items,F,{}), u8=new Uint8Array(pdf.length); for(var i=0;i<pdf.length;i++) u8[i]=pdf.charCodeAt(i)&255;
+  var items=[], cp=Math.max(1,Math.min(3,+BG.cp||1)); nums.forEach(function(x){ var s=bgTxt(t,x), it={full:s, bars:'', mods:bgMods(t.pre+s), cap:'', arrow:''}; for(var c=0;c<cp;c++) items.push(it) });
+  var pdf=lblPdf(items,F,{cap:bgCapImg(BG.cap)}), u8=new Uint8Array(pdf.length); for(var i=0;i<pdf.length;i++) u8[i]=pdf.charCodeAt(i)&255;
   var blob=new Blob([u8],{type:'application/pdf'}), url=URL.createObjectURL(blob), a=document.createElement('a');
   a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(url)},60000);
-  window.__BGLAST={name:name,size:u8.length,n:items.length};
-  toast('PDF сохранён в «Загрузки»: '+name);
+  window.__BGLAST={name:name,size:u8.length,n:items.length,cap:BG.cap,cp:cp};
+  toast('PDF сохранён в «Загрузки»: '+name+(cp>1?' (по '+cp+' наклейки на номер)':''));
 }
 function bgPdfName(t,nums,pre){ var n=nums.length, a=bgTxt(t,nums[0]), b=bgTxt(t,nums[n-1]), seq=n>1&&nums[n-1]-nums[0]===n-1;
   return 'Штрихкоды '+(pre?pre+' ':'')+a+(n>1?(seq?'-'+b:' и ещё '+(n-1)):'')+'.pdf' }
@@ -6368,13 +6434,13 @@ function bgCopyNums(t,nums){ var txt=nums.map(function(x){return bgTxt(t,x)}).jo
   var done=function(){toast('Скопировано номеров: '+nums.length)};
   if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(function(){fbCopy(txt,done)}); else fbCopy(txt,done) }
 function bgGenSel(){ if(!isDevMe()||BG.busy) return null; var r=bgCalc(); if(r.err){ toast(r.err,true); return null } var s=bgSelOf(r.nums,BG.off); if(!s.length){ toast('Отметьте хотя бы один номер',true); return null } return {r:r,nums:s} }
-function bgPdf(){ var g=bgGenSel(); if(!g) return; var name=bgPdfName(g.r.t,g.nums);
+function bgPdf(){ var g=bgGenSel(); if(!g) return; BG.how='PDF'; var name=bgPdfName(g.r.t,g.nums);
   return bgIssue(g.r,g.nums).then(function(ok){ if(!ok) return; bgPdfFile(g.r.t,g.nums,name); renderSheet() }) }
-function bgCopy(){ var g=bgGenSel(); if(!g) return;
+function bgCopy(){ var g=bgGenSel(); if(!g) return; BG.how='копирование';
   return bgIssue(g.r,g.nums).then(function(ok){ if(!ok) return; bgCopyNums(g.r.t,g.nums); renderSheet() }) }
-function bgSave(){ var g=bgGenSel(); if(!g) return; var t=g.r.t, name=String(BG.name||'').trim().slice(0,60)||bgDefName(), id='s'+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36), mode=BG.mode;
-  return bgWrite(function(nd){ bgMarkIss(nd,t,g.nums,mode); nd.sets.push({id:id,name:name,tpl:{pre:t.pre,head:t.head,dig:t.dig},nums:g.nums.slice(),mode:mode,at:new Date().toISOString(),by:ME.name}) },'Список не сохранён')
-    .then(function(ok){ if(!ok) return; if(mode==='seq') BG.from=''; if(mode==='rnd') BG.rnd=null; BG.name=''; BG.open=id; BG.soff={}; BG.sall=false; toast('Список «'+name+'» сохранён: '+g.nums.length+' шт.'); renderSheet() }) }
+function bgSave(){ var g=bgGenSel(); if(!g) return; var t=g.r.t, name=String(BG.name||'').trim().slice(0,60)||bgDefName(), id='s'+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36), mode=bgIssMode(), dsv=mode==='one'?'':bgDs(); BG.how='список «'+name+'»';
+  return bgWrite(function(nd){ bgMarkIss(nd,t,g.nums,mode); nd.sets.push({id:id,name:name,tpl:{pre:t.pre,head:t.head,dig:t.dig},nums:g.nums.slice(),mode:mode==='dseq'?'seq':mode,ds:dsv,at:new Date().toISOString(),by:ME.name}) },'Список не сохранён')
+    .then(function(ok){ if(!ok) return; if(mode==='seq'||mode==='dseq') BG.from=''; if(mode==='rnd') BG.rnd=null; BG.name=''; BG.open=id; BG.soff={}; BG.sall=false; toast('Список «'+name+'» сохранён: '+g.nums.length+' шт.'); renderSheet() }) }
 function bgSetSel(){ var s=bgSetById(BG.open); if(!s||BG.busy) return null; var n=bgSelOf(s.nums,BG.soff); if(!n.length){ toast('Отметьте хотя бы один номер',true); return null } return {s:s,nums:n} }
 function bgSetAct(a){
   if(!isDevMe()) return;
@@ -6383,6 +6449,7 @@ function bgSetAct(a){
   var s=bgSetById(BG.open); if(!s||BG.busy) return;
   if(a==='ren'){ var nm=prompt('Новое название списка',s.name); if(nm==null) return; nm=nm.trim().slice(0,60); if(!nm||nm===s.name) return;
     return bgWrite(function(nd){ nd.sets.forEach(function(x){ if(x.id===s.id) x.name=nm }) },'Не переименовал').then(function(ok){ if(ok) renderSheet() }) }
+  if(a==='free'){ var g3=bgSetSel(); if(g3) bgFreeAsk({t:g3.s.tpl,n:null},g3.nums); return }
   if(a==='del'){ if(!confirm('Удалить список «'+s.name+'»? Номера останутся выданными и не повторятся.')) return;
     return bgWrite(function(nd){ nd.sets=nd.sets.filter(function(x){return x.id!==s.id}) },'Не удалил').then(function(ok){ if(ok){ BG.open=null; toast('Список удалён'); renderSheet() } }) }
 }
@@ -6569,6 +6636,166 @@ function renderWt(root){
   root.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Где сейчас лежит"><div class="wrap"><div class="bar-top"><h1 style="margin:0;font-size:22px">Где сейчас лежит</h1><button class="btn ghost sm" type="button" data-act="wtClose">Закрыть</button></div>'+
     '<p class="wtsum">'+head+'</p>'+body+'</div></div>';
 }
+/* ----- 0.71.0 генератор: «Только цифры» ----- */
+/* набор цифр: уникальные, по возрастанию; '' — без ограничения (все 10 или пусто) */
+function bgDs(){ var s=String(BG.ds||'').replace(/\D/g,''), u={}, a=[];
+  for(var i=0;i<s.length;i++) if(!u[s[i]]){ u[s[i]]=1; a.push(s[i]) }
+  a.sort(); var r=a.length>=10?'':a.join(''); BG.ds2=r; return r }
+function bgDsWords(ds){ if(String(ds).length>=10) return 'любые цифры'; var a=String(ds).split(''); return 'цифры '+(a.length<2?a.join(''):a.slice(0,-1).join(', ')+' и '+a[a.length-1]) }
+function bgIssMode(){ return BG.mode==='seq'&&bgDs()?'dseq':BG.mode }
+/* номер ↔ порядковый в наборе (система счисления с основанием «сколько цифр в наборе») */
+function bgDsNth(t,ds,i){ var k=ds.length, s=''; for(var p=0;p<t.dig;p++){ s=ds[i%k]+s; i=Math.floor(i/k) } return +s }
+function bgDsIdx(t,ds,n){ var s=String(n); if(s.length>t.dig) return -1; while(s.length<t.dig) s='0'+s;
+  var k=ds.length, x=0; for(var p=0;p<s.length;p++){ var d=ds.indexOf(s[p]); if(d<0) return -1; x=x*k+d } return x }
+function bgDsTotal(t,ds){ return Math.pow(ds.length,t.dig) }
+function bgDsIssued(t,ds){ return bgIss(t).filter(function(n){ return bgDsIdx(t,ds,n)>=0 }) }
+function bgDsLast(t,ds){ var m=(BG.doc&&BG.doc.last)||{}, k=bgKey(t)+'|d'+ds; return k in m?m[k]:-1 }
+function bgDsNext(t,ds){ var L=bgDsLast(t,ds); return L<0?0:bgDsIdx(t,ds,L)+1 }
+function bgSeqPh(t){ var ds=bgDs(); if(!ds) return bgTxt(t,bgLast(t)+1).slice(t.head.length);
+  var i=bgDsNext(t,ds); return i<bgDsTotal(t,ds)?bgTxt(t,bgDsNth(t,ds,i)).slice(t.head.length):'' }
+function bgSeqNote(t){ var ds=bgDs();
+  if(!ds){ var L=bgLast(t); return L>=0?'Последний выданный: <b>'+esc(bgTxt(t,L))+'</b>. Пусто в «С номера» — продолжу со следующего.':'Пока ничего не выдано. Пусто в «С номера» — начну с '+esc(bgTxt(t,0))+'.' }
+  var D=bgDsLast(t,ds);
+  return D>=0?'Последний выданный из '+esc(bgDsWords(ds).replace('цифры','цифр'))+': <b>'+esc(bgTxt(t,D))+'</b>. Пусто в «С номера» — продолжу со следующего.':
+    'Из '+esc(bgDsWords(ds).replace('цифры','цифр'))+' по порядку ещё не выдавали. Пусто в «С номера» — начну с '+esc(bgTxt(t,bgDsNth(t,ds,0)))+'.' }
+function bgDsCapHtml(t){ var ds=bgDs(); if(!ds||bgTplErr(t)) return '';
+  var tot=bgDsTotal(t,ds), used=bgDsIssued(t,ds).length, free=tot-used, low=free<50;
+  return '<p class="note bgdscap'+(low?' low':'')+'">'+esc(bgDsWords(ds).replace(/^ц/,'Ц'))+', '+t.dig+' знаков: всего <b>'+fmtN(tot)+'</b> номеров, свободно <b>'+fmtN(free)+'</b>.'+
+    (low?' Мало — добавьте цифру или увеличьте «Цифр».':'')+'</p>' }
+function fmtN(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ') }
+function bgDsHtml(t){ var ds=bgDs(), pk=function(v,x){ return '<button type="button" data-act="bgDsPick" data-v="'+v+'" aria-pressed="'+(ds===v)+'">'+x+'</button>' };
+  return '<div class="field bgds" style="margin-top:10px"><label for="bgDs">Только цифры</label>'+
+    '<div class="bgdsrow"><input id="bgDs" type="text" inputmode="numeric" autocomplete="off" maxlength="10" value="'+esc(BG.ds)+'" placeholder="все 0–9">'+
+    '<div class="seg bgdspk" role="group" aria-label="Быстрый выбор цифр">'+pk('','Все')+pk('01','0 1')+pk('012','0 1 2')+'</div></div>'+
+    '<div id="bgDsCap">'+bgDsCapHtml(t)+'</div></div>' }
+function bgDsSync(){ var t=bgTpl(), c=document.getElementById('bgDsCap'); if(c) c.innerHTML=bgDsCapHtml(t);
+  var f=document.getElementById('bgFrom'); if(f) f.placeholder=bgSeqPh(t);
+  var n=document.getElementById('bgSeqNote'); if(n) n.innerHTML=bgSeqNote(t);
+  var ds=bgDs(); document.querySelectorAll('.bgdspk [data-act=bgDsPick]').forEach(function(b){ b.setAttribute('aria-pressed',String(b.dataset.v===ds)) }) }
+/* расчёт номеров из набора цифр → r.nums или r.err */
+function bgDsCalc(t,r,has){
+  var ds=bgDs()||'0123456789', tot=bgDsTotal(t,ds), words=bgDsWords(ds);
+  if(BG.mode==='seq'){
+    var n=+BG.n; if(!(n>=1&&n<=500&&Math.floor(n)===n)){ r.err='Сколько: от 1 до 500.'; return false }
+    var i0;
+    if(BG.from===''){ i0=bgDsNext(t,ds) }
+    else { var v=String(BG.from).replace(/\D/g,''); if(v.length>t.dig){ r.err='В номере не больше '+t.dig+' цифр.'; return false }
+      i0=bgDsIdx(t,ds,+v); if(i0<0){ r.err='В «С номера» можно только '+words+'.'; return false } }
+    if(i0+n>tot){ r.err=i0>=tot?'Все номера из '+words.replace('цифры','цифр')+' по порядку уже выданы — добавьте цифру или увеличьте «Цифр».':'Из '+words.replace('цифры','цифр')+' по порядку осталось только '+(tot-i0)+' — уменьшите «Сколько».'; return false }
+    for(var j=0;j<n;j++) r.nums.push(bgDsNth(t,ds,i0+j));
+    return true }
+  var m=+BG.rn; if(!(m>=1&&m<=500&&Math.floor(m)===m)){ r.err='Сколько: от 1 до 500.'; return false }
+  var used=bgDsIssued(t,ds).length, free=tot-used;
+  if(free<m){ r.err=free?'Из '+words.replace('цифры','цифр')+' свободно только '+free+' — уменьшите «Сколько» или добавьте цифру.':'Все номера из '+words.replace('цифры','цифр')+' уже выданы — добавьте цифру или увеличьте «Цифр».'; return false }
+  var far=!!BG.far, key=bgKey(t)+'|'+m+'|d'+ds+(far?'|f':'');
+  if(!BG.rnd||BG.rnd.k!==key){ var out=[], seen={};
+    var near=function(n){ if(!far) return false; var s=String(n); while(s.length<t.dig) s='0'+s;
+      for(var p=0;p<s.length;p++) for(var q2=0;q2<ds.length;q2++){ var c=ds[q2]; if(c===s[p]) continue; var o=+(s.slice(0,p)+c+s.slice(p+1)); if(has[o]||seen[o]) return true } return false };
+    if(tot<=200000||free<m*3){ // мало номеров — перебрать свободные, перемешать и брать подходящие
+      var pool=[]; for(var x=0;x<tot;x++){ var nn=bgDsNth(t,ds,x); if(!has[nn]) pool.push(nn) }
+      for(var q=pool.length-1;q>0;q--){ var z=Math.floor(Math.random()*(q+1)), tmp=pool[q]; pool[q]=pool[z]; pool[z]=tmp }
+      for(var w=0;w<pool.length&&out.length<m;w++){ var c1=pool[w]; if(near(c1)) continue; seen[c1]=1; out.push(c1) } }
+    else { var tries=0, lim=m*200+20000;
+      while(out.length<m&&tries++<lim){ var y=bgDsNth(t,ds,Math.floor(Math.random()*tot)); if(has[y]||seen[y]||near(y)) continue; seen[y]=1; out.push(y) } }
+    BG.rnd={k:key,nums:out} }
+  if(BG.rnd.nums.length<m){ r.err='Непохожих номеров нашлось только '+BG.rnd.nums.length+' — уменьшите «Сколько», '+(ds.length<10?'добавьте цифру ':'увеличьте «Цифр» ')+'или снимите галочку «Не похожие».'; BG.rnd=null; return false }
+  r.nums=BG.rnd.nums.slice();
+  return true }
+window.__BGDS={nth:bgDsNth, idx:bgDsIdx, calc:function(){ return bgCalc() }};
+/* ----- 0.71.0 генератор: журнал выдачи, проверка номера, освободить, шаблоны, копии/подпись ----- */
+function bgRng(nums){ var a=nums.slice().sort(function(x,y){return x-y}), out=[], i=0;
+  while(i<a.length){ var j=i; while(j+1<a.length&&a[j+1]===a[j]+1) j++; out.push(j>i?a[i]+'-'+a[j]:String(a[i])); i=j+1 } return out.join(',') }
+function bgInRng(s,n){ var p=String(s||'').split(','); for(var i=0;i<p.length;i++){ var r=p[i].split('-'); if(r.length>1?(n>=+r[0]&&n<=+r[1]):(+r[0]===n)) return true } return false }
+function bgLogAdd(nd,k,nums,how,free){ if(!nums.length) return; nd.log=nd.log||[];
+  nd.log.push({at:new Date().toISOString(),by:ME.name,k:k,how:how,r:bgRng(nums),c:nums.length,free:!!free});
+  if(nd.log.length>3000) nd.log=nd.log.slice(-3000) }
+/* ---- шаблоны ---- */
+function bgTpls(){ return (BG.doc&&BG.doc.tpls)||[] }
+function bgTplsHtml(t){ var L=bgTpls(), k=bgKey(t), cur=L.filter(function(x){return bgKey(x)===k})[0];
+  var h='<div class="bgtpl"><span class="bgtl">Шаблон</span><div class="bgtch">';
+  L.forEach(function(x){ var on=bgKey(x)===k; h+='<button type="button" class="bgchip" data-act="bgTplPick" data-id="'+esc(x.id)+'" aria-pressed="'+on+'">'+esc(x.name)+'<small>'+esc(x.head)+'·'+x.dig+'</small></button>' });
+  if(!cur) h+='<button type="button" class="bgchip add" data-act="bgTplSave"'+(BG.busy?' disabled':'')+'>+ Сохранить шаблон</button>';
+  h+='</div>'+(cur?'<button type="button" class="linkbtn bgtdel" data-act="bgTplDel" data-id="'+esc(cur.id)+'">Удалить шаблон «'+esc(cur.name)+'»</button>':'')+'</div>';
+  return h }
+function bgTplPick(id){ var x=bgTpls().filter(function(z){return z.id===id})[0]; if(!x) return;
+  BG.pre=x.pre; BG.head=x.head; BG.dig=String(x.dig); BG.from=''; BG.one=''; BG.rnd=null; renderSheet() }
+function bgTplSave(){ var t=bgTpl(), e=bgTplErr(t); if(e){ toast(e,true); return }
+  var nm=prompt('Название шаблона',t.head||'Шаблон'); if(nm==null) return; nm=nm.trim().slice(0,30); if(!nm) return;
+  var id='t'+Date.now().toString(36);
+  return bgWrite(function(nd){ nd.tpls=(nd.tpls||[]).filter(function(x){return bgKey(x)!==bgKey(t)}); nd.tpls.push({id:id,name:nm,pre:t.pre,head:t.head,dig:t.dig}) },'Шаблон не сохранён')
+    .then(function(ok){ if(ok){ toast('Шаблон «'+nm+'» сохранён'); renderSheet() } }) }
+function bgTplDel(id){ var x=bgTpls().filter(function(z){return z.id===id})[0]; if(!x) return;
+  if(!confirm('Удалить шаблон «'+x.name+'»? Выданные номера и списки останутся.')) return;
+  return bgWrite(function(nd){ nd.tpls=(nd.tpls||[]).filter(function(z){return z.id!==id}) },'Не удалил').then(function(ok){ if(ok) renderSheet() }) }
+/* ---- проверка номера ---- */
+function bgAllTpls(){ var seen={}, out=[], add=function(t){ if(!t) return; var k=bgKey(t); if(seen[k]) return; seen[k]=1; out.push({pre:t.pre,head:t.head,dig:+t.dig}) };
+  add(bgTpl()); bgTpls().forEach(add); var d=BG.doc||{};
+  Object.keys(d.iss||{}).concat(Object.keys(BG_SEED)).forEach(function(k){ var p=k.split('|'); if(p.length===3) add({pre:p[0],head:p[1],dig:+p[2]}) });
+  return out }
+function bgChkFind(txt){ var s=String(txt||'').toUpperCase().replace(/\s/g,''); if(!s) return null;
+  var L=bgAllTpls(), best=null;
+  L.forEach(function(t){ var rest=null, sc=0;
+    if(t.pre&&s.indexOf(t.pre+t.head)===0){ rest=s.slice((t.pre+t.head).length); sc=2 }
+    else if(s.indexOf(t.head)===0){ rest=s.slice(t.head.length); sc=1 }
+    if(rest!=null&&/^\d+$/.test(rest)&&rest.length===t.dig&&(!best||sc>best.sc)) best={t:t,n:+rest,sc:sc} });
+  return best }
+function bgChkInfo(f){ var t=f.t, k=bgKey(t), n=f.n, d=BG.doc||{};
+  var iss=(d.iss&&d.iss[k])||[], is=iss.indexOf(n)>=0;
+  var sets=bgSets().filter(function(s){ return bgKey(s.tpl)===k&&s.nums.indexOf(n)>=0 });
+  var log=(d.log||[]).filter(function(e){ return e.k===k&&bgInRng(e.r,n) });
+  var seed=k in BG_SEED&&n<=BG_SEED[k];
+  return {is:is,sets:sets,log:log,seed:seed} }
+function bgChkHtml(){ return '<div class="bgchk"><div class="field"><label for="bgChk">Проверить номер</label><input id="bgChk" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" value="'+esc(BG.chk)+'" placeholder="EU0171144 или сканируйте"></div><div id="bgChkOut">'+bgChkOutHtml()+'</div></div>' }
+function bgChkOutHtml(){ var v=String(BG.chk||'').trim(); if(!v) return '';
+  var f=bgChkFind(v);
+  if(!f) return '<div class="bgcr no"><b>Не номер из генератора</b><span>«'+esc(v)+'» не подходит ни к одному шаблону ('+bgAllTpls().map(function(t){return esc(t.head)+' + '+t.dig+' цифр'}).join(', ')+').</span></div>';
+  var t=f.t, s=bgTxt(t,f.n), I=bgChkInfo(f), cls=I.is?'yes':(I.seed?'old':'free');
+  var st=I.is?'Выдан':(I.seed?'Скорее всего, уже напечатан до программы':'Свободен — ещё не выдавался');
+  var h='<div class="bgcr '+cls+'"><div class="bgcrh"><b>'+esc(s)+'</b><em>'+st+'</em></div><span class="mini">'+bgSvg(t.pre+s)+'</span>';
+  if(I.seed&&!I.is) h+='<span>Номера '+esc(t.head)+' до '+esc(bgTxt(t,BG_SEED[bgKey(t)]).slice(t.head.length))+' печатались до программы — в базе их нет.</span>';
+  if(I.log.length) h+='<ul>'+I.log.slice(-5).reverse().map(function(e){ return '<li>'+(e.free?'Освобождён':'Выдан')+' '+esc(bgDT(e.at))+' · '+esc(e.by||'')+(e.how?' · '+esc(e.how):'')+(e.c>1?' (вместе с ещё '+(e.c-1)+')':'')+'</li>' }).join('')+'</ul>';
+  else if(I.is) h+='<span>Выдан до 04.11.2026 — дата и сотрудник тогда не записывались.</span>';
+  if(I.sets.length) h+='<span>В списках: '+I.sets.map(function(x){return '«'+esc(x.name)+'»'}).join(', ')+'</span>';
+  h+='<div class="bgact" style="margin-top:8px"><button class="btn ghost sm" type="button" data-act="bgChkAgain">Напечатать ещё раз</button>'+
+    (I.is?'<button class="btn ghost sm" type="button" data-act="bgChkFree"'+(BG.busy?' disabled':'')+'>Освободить номер</button>':'<button class="btn ghost sm" type="button" data-act="bgChkClr">Очистить</button>')+'</div>';
+  return h+'</div>' }
+function bgChkOut(){ var o=document.getElementById('bgChkOut'); if(o) o.innerHTML=bgChkOutHtml() }
+function bgChkAgain(){ var f=bgChkFind(BG.chk); if(!f) return;
+  BG.pre=f.t.pre; BG.head=f.t.head; BG.dig=String(f.t.dig); BG.mode='one'; BG.one=bgTxt(f.t,f.n).slice(f.t.head.length); renderSheet();
+  setTimeout(function(){ var o=document.getElementById('bgOut'); if(o) o.scrollIntoView({block:'center',behavior:'smooth'}) },60) }
+/* ---- освободить номера ---- */
+function bgFreeAsk(f,nums){ if(!f||!isDevMe()||BG.busy) return; var t=f.t, list=nums||[f.n];
+  var q=list.length===1?'Освободить '+bgTxt(t,list[0])+'?':'Освободить '+list.length+' номеров?';
+  if(!confirm(q+'\n\nНомер снова станет свободным: может выпасть в «Случайных» и уберётся из сохранённых списков. Если наклейка уже наклеена — снимите её.')) return;
+  return bgFree(t,list) }
+function bgFree(t,list){ var k=bgKey(t), fr={}; list.forEach(function(n){fr[n]=1});
+  return bgWrite(function(nd){
+    var iss=(nd.iss[k]||[]).filter(function(n){return !fr[n]}); nd.iss[k]=iss;
+    nd.sets=nd.sets.map(function(s){ if(bgKey(s.tpl)!==k) return s; var o=Object.assign({},s); o.nums=s.nums.filter(function(n){return !fr[n]}); return o }).filter(function(s){return s.nums.length});
+    Object.keys(nd.last).forEach(function(lk){ if(lk!==k&&lk.indexOf(k+'|d')!==0) return; var v=nd.last[lk]; if(!fr[v]) return;
+      var ds=lk===k?'':lk.slice(k.length+2), ok=iss.filter(function(n){ return n<v&&(!ds||bgDsIdx(t,ds,n)>=0) });
+      var nv=ok.length?ok[ok.length-1]:-1; if(lk===k&&k in BG_SEED&&BG_SEED[k]>nv&&BG_SEED[k]<v) nv=BG_SEED[k];
+      if(nv>=0) nd.last[lk]=nv; else delete nd.last[lk] });
+    bgLogAdd(nd,k,list,'освобождён',true);
+  },'Не освободил').then(function(ok){ if(!ok) return; if(BG.open&&!bgSetById(BG.open)) BG.open=null; BG.soff={}; BG.rnd=null; toast(list.length===1?'Номер '+bgTxt(t,list[0])+' свободен':'Освобождено номеров: '+list.length); renderSheet() }) }
+/* ---- копии и подпись ---- */
+function bgLblOptsHtml(){ var cp=function(v){ return '<button type="button" data-act="bgCp" data-v="'+v+'" aria-pressed="'+(BG.cp===v)+'">'+v+'</button>' };
+  return '<div class="bgrow bgopt"><div class="field"><label for="bgCap">Подпись над штрихкодом</label><input id="bgCap" type="text" autocomplete="off" maxlength="24" value="'+esc(BG.cap)+'" placeholder="необязательно, напр. Паллета"></div>'+
+    '<div class="field"><label>Копий</label><div class="seg bgcp" role="group" aria-label="Копий каждой наклейки">'+cp(1)+cp(2)+cp(3)+'</div></div></div>'+
+    '<div id="bgPrev">'+bgPrevHtml()+'</div>' }
+function bgPrevHtml(){ var t=bgTpl(); if(bgTplErr(t)) return ''; var F=LBL_FMT[BG.fmt]||LBL_FMT.roll_58x40, r=bgCalc(), n=r.nums&&r.nums.length?r.nums[0]:Math.max(0,bgLast(t)), s=bgTxt(t,n);
+  return '<div class="bglp" style="aspect-ratio:'+F.w+'/'+F.h+'">'+(BG.cap?'<i>'+esc(BG.cap)+'</i>':'')+'<span class="bglb'+(BG.cap?' c':'')+'">'+bgSvg(t.pre+s)+'</span><b>'+esc(s)+'</b></div>'+
+    '<p class="note bglpn">Так будет выглядеть наклейка'+(BG.cp>1?' · каждая по '+BG.cp+' шт. подряд':'')+'.</p>' }
+function bgPrevOut(){ var o=document.getElementById('bgPrev'); if(o) o.innerHTML=bgPrevHtml() }
+/* подпись → чёрно-белая картинка для PDF (стандартный шрифт PDF не знает русских букв) */
+function bgCapImg(txt){ txt=String(txt||'').trim(); if(!txt) return null;
+  try{ var H=96, cv=document.createElement('canvas'), cx=cv.getContext('2d'); cx.font='700 72px Arial, Helvetica, sans-serif';
+    var W=Math.min(2400,Math.ceil(cx.measureText(txt).width)+8); if(!(W>8)) return null; cv.width=W; cv.height=H;
+    cx=cv.getContext('2d'); cx.fillStyle='#000'; cx.font='700 72px Arial, Helvetica, sans-serif'; cx.textBaseline='middle'; cx.fillText(txt,4,H/2+2);
+    var d=cx.getImageData(0,0,W,H).data, rb=Math.ceil(W/8), hex=[];
+    for(var y=0;y<H;y++) for(var b=0;b<rb;b++){ var v=0; for(var i=0;i<8;i++){ var x=b*8+i; if(x<W&&d[(y*W+x)*4+3]>110) v|=128>>i } hex.push((v<16?'0':'')+v.toString(16)) }
+    return {w:W,h:H,hex:hex.join('')} }catch(e){ return null } }
+window.__BGX={find:bgChkFind, info:bgChkInfo, cap:bgCapImg, rng:bgRng, inRng:bgInRng};
 function histRender(){var sh=document.querySelector('#sheetRoot .sheet'),st=sh?sh.scrollTop:0; renderSheet(); sh=document.querySelector('#sheetRoot .sheet'); if(sh) sh.scrollTop=st}
 function softDel(id,why){
   var iso=new Date().toISOString();
@@ -7113,7 +7340,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.70.1</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.71.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
