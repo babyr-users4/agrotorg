@@ -981,6 +981,23 @@ html body .hd .hicons .hmore .bdg{top:1px;right:1px}
 .lotdn{font-size:12.5px}
 .lotpc.lfx{color:var(--bad);font-weight:700}
 .prod .lot .lot-top{align-items:center;gap:8px}
+
+.tday .sm .tpal{color:var(--muted);font-weight:700}
+.pstrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.pstrow .pst{display:inline-block}
+.palchip{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-width:38px;height:38px;padding:0 10px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--accent);font:700 13px/1 var(--f-body);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.palchip[data-act=palEd]:not(.add){padding:0;width:38px}
+.palchip .ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.palchip:hover,.palchip:focus-visible{border-color:var(--accent)}
+.palchip:active{transform:scale(.95);background:var(--accent-soft)}
+.palbox.ed{display:grid;gap:10px;margin:10px 0 2px;padding:12px;border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));border-radius:14px;background:var(--surface-2)}
+.palbox.ed.big{padding:14px;margin:12px 0}
+.palbox.ed label{font-weight:800;font-size:15px}
+.palbox.ed.big label{font-size:17px}
+.palst{justify-self:start}
+.palst input{width:64px;text-align:center;font-size:20px;font-weight:800}
+.palact{display:flex;gap:8px}
+.palact .btn{flex:1}
 #okPop{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px;background:rgba(6,10,18,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 #okPop.on{opacity:1}
 #okPop .okb{pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:22px 24px 20px;text-align:center;min-width:250px;max-width:340px;transform:scale(.85);transition:transform .35s cubic-bezier(.3,1.6,.5,1);box-shadow:0 20px 50px rgba(0,0,0,.45)}
@@ -1914,7 +1931,7 @@ var t0=Date.now();
   setTimeout(chk,150)})();
 })();</script>
 <div class="shell">
-  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.74.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
+  <header class="hd"><span class="hlogo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M4 3v18M20 3v18M4 8h16M4 14h16M4 20h16"/></svg></span><div class="hbrand"><span id="appName">Агроторг</span><small class="ver" hidden>Авторская программа учёта Версия: 0.75.0</small><small id="sub" hidden></small></div><div class="hicons"><button class="hib hplay" type="button" data-act="playOpen" aria-label="Игра для склада — скоро" aria-haspopup="dialog"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9h4M8 7v4"/><circle cx="15.5" cy="9" r=".9"/><circle cx="17.5" cy="11.5" r=".9"/><path d="M7.5 4.5h9a5 5 0 0 1 4.9 6l-1.2 6a2.6 2.6 0 0 1-4.5 1.2L14 16H10l-1.7 1.7a2.6 2.6 0 0 1-4.5-1.2l-1.2-6a5 5 0 0 1 4.9-6z"/></svg></i></button><button class="hib rqb" type="button" data-act="rqOpen" aria-label="Запрос сотруднику"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span class="bdg" id="rqBdg" hidden></span></button><button class="hib" type="button" data-act="calcOpen" aria-label="Калькулятор срока годности"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></button><button class="hib" type="button" data-act="histOpen" aria-label="История действий"><svg class="i" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></button><button class="hib" type="button" id="achBtn" data-act="achOpen" aria-label="Достижения" hidden><svg class="i" viewBox="0 0 24 24"><path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6"/></svg></button><button class="hib" type="button" data-act="openSettings" aria-label="Настройки">
         <svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
       </button></div><div class="hsync hrow"><span class="dot" id="dot"></span><span id="syncTxt">Загрузка</span><button type="button" class="rop" id="roleBdg" hidden aria-haspopup="dialog" aria-expanded="false"></button></div></header>
   <main id="view"></main>
@@ -2874,9 +2891,9 @@ function todayHtml(){
   var ng=nabGroups().filter(function(g){return g.done<g.total}), go=ng.filter(function(g){return g.done>0})[0];
   var d=new Date();
   if(!qin&&!qout&&!ng.length&&!man.length&&!ins.length&&!outs.length) return '<section class="card tday tday0" aria-label="Сегодня пока без движений"><b>Сегодня</b><span class="d">'+WD[d.getDay()]+', '+dayKey(d.toISOString()).slice(0,5)+'</span><span class="q"><i aria-hidden="true"></i>пока без движений</span></section>';
-  SHF.on=shiftReady(); var _col=tdCol(); return '<section class="card tday'+(SHF.on?' tdsh':'')+(_col?' col':'')+'"><button type="button" class="tdhb" data-act="tdTog" aria-expanded="'+!_col+'"><span class="t1">Сегодня</span><span class="tdd0">'+WD[d.getDay()]+', '+dayKey(d.toISOString()).slice(0,5)+'</span><span class="sm">'+(qin?'<span class="a">+'+qin+'</span>':'')+(qout?'<span class="b">−'+qout+'</span>':'')+(ng.length?'<span class="c">'+ng.length+' ждут</span>':'')+(!qin&&!qout&&!ng.length?'<span class="z">0</span>':'')+(SHF.on?'<span class="f" title="Итог смены готов">'+IC('flag')+'</span>':'')+'</span>'+IC('down','cv')+'</button><div class="tdg">'+
+  SHF.on=shiftReady(); var _col=tdCol(); return '<section class="card tday'+(SHF.on?' tdsh':'')+(_col?' col':'')+'"><button type="button" class="tdhb" data-act="tdTog" aria-expanded="'+!_col+'"><span class="t1">Сегодня</span><span class="tdd0">'+WD[d.getDay()]+', '+dayKey(d.toISOString()).slice(0,5)+'</span><span class="sm">'+(qin?'<span class="a">+'+qin+'</span>':'')+(qout?'<span class="b">−'+qout+'</span>':'')+tdPalSm()+(ng.length?'<span class="c">'+ng.length+' ждут</span>':'')+(!qin&&!qout&&!ng.length?'<span class="z">0</span>':'')+(SHF.on?'<span class="f" title="Итог смены готов">'+IC('flag')+'</span>':'')+'</span>'+IC('down','cv')+'</button><div class="tdg">'+
     '<button type="button" class="tdc" data-act="todayGo" data-v="in"><b class="tin">'+(qin?'+':'')+qin+'</b><span>принято кор'+(nc?'<br>в '+nc+' яч.':'')+'</span></button>'+
-    '<button type="button" class="tdc" data-act="todayGo" data-v="out"><b class="tout">'+(qout?'−':'')+qout+'</b><span>отгружено кор'+(cities.length?'<br>'+esc(cities.slice(0,2).join(', '))+(cities.length>2?' +'+(cities.length-2):''):'')+'</span></button>'+
+    '<button type="button" class="tdc" data-act="todayGo" data-v="out"><b class="tout">'+(qout?'−':'')+qout+'</b><span>отгружено кор'+tdPal()+(cities.length?'<br>'+esc(cities.slice(0,2).join(', '))+(cities.length>2?' +'+(cities.length-2):''):'')+'</span></button>'+
     '<button type="button" class="tdc" data-act="todayGo" data-v="nab"><b class="tnab">'+ng.length+'</b><span>'+(ng.length?'ждут набора':'набирать нечего')+(go?'<br>● набирает '+(go.picker?nk(go.picker,go.pickerUid):''):'')+'</span></button>'+
     '</div>'+(SHF.on?shiftBtn():'')+'</section>';
 }
@@ -2961,7 +2978,7 @@ function shiftData(){
   var people=order.map(function(k){return P[k]}).filter(function(p){return p.inq||p.outq||p.nab})
     .sort(function(a,b){return (b.inq+b.outq+b.nab*20)-(a.inq+a.outq+a.nab*20)});
   var stock=0, cells=0; D.cells.forEach(function(cm){var q=0; cm.forEach(function(l){q+=l.qty}); if(q>0){cells++; stock+=q}});
-  return {inq:sumQty(ins)+man.reduce(function(s,m){return s+(Number(m.qty)||0)},0), outq:sumQty(outs), nab:nabT, src:top(src), cit:top(cit), people:people, stock:stock, cells:cells, date:new Date()};
+  return {pal:palSum(outs), inq:sumQty(ins)+man.reduce(function(s,m){return s+(Number(m.qty)||0)},0), outq:sumQty(outs), nab:nabT, src:top(src), cit:top(cit), people:people, stock:stock, cells:cells, date:new Date()};
 }
 function shN(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ')}
 function shTop(a,n){return a.slice(0,n).map(function(x,i){return (i===0?'<b>':'')+esc(x[0])+' '+shN(x[1])+(i===0?'</b>':'')}).join(', ')+(a.length>n?' +'+(a.length-n):'')}
@@ -2969,7 +2986,7 @@ function shPart(p){var a=[]; if(p.inq) a.push('<b class="g">+'+shN(p.inq)+'</b> 
 function shiftHtml(d){
   var dt=WD[d.date.getDay()]+', '+dayKey(d.date.toISOString()).slice(0,5);
   var h='<div class="shw"><div class="shh"><b>'+IC('flag','icy')+' Итог смены</b><span>'+dt+'</span><button type="button" class="shx" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>'+
-    '<div class="shg"><div><em class="g">+'+shN(d.inq)+'</em><small>принято кор'+(d.src.length?'<br>из '+d.src.length+' мест':'')+'</small></div><div><em class="bl">−'+shN(d.outq)+'</em><small>отгружено кор'+(d.cit.length?'<br>в '+d.cit.length+' '+plGor(d.cit.length):'')+'</small></div><div><em class="y">'+d.nab+'</em><small>отгрузок<br>набрано</small></div></div>';
+    '<div class="shg"><div><em class="g">+'+shN(d.inq)+'</em><small>принято кор'+(d.src.length?'<br>из '+d.src.length+' мест':'')+'</small></div><div><em class="bl">−'+shN(d.outq)+'</em><small>отгружено кор'+(d.cit.length?'<br>в '+d.cit.length+' '+plGor(d.cit.length):'')+(d.pal.k?'<br>палет: '+d.pal.n:'')+'</small></div><div><em class="y">'+d.nab+'</em><small>отгрузок<br>набрано</small></div></div>';
   var L=[]; if(d.src.length) L.push('<span>Пришло: '+shTop(d.src,3)+'</span>'); if(d.cit.length) L.push('<span>Ушло: '+shTop(d.cit,3)+'</span>'); L.push('<span>На складе: <b>'+shN(d.stock)+' кор.</b> в '+d.cells+' яч.</span>');
   h+='<div class="shl">'+L.join('')+'</div>';
   h+='<div class="shp"><div class="t">Кто что сделал</div>'+(d.people.length?d.people.map(function(p){return '<div class="r"><span class="n">'+nk(p.name,p.uid)+'</span><span class="v">'+shPart(p)+'</span></div>'}).join(''):'<div class="r"><span class="v">Сегодня ещё никто ничего не вносил.</span></div>')+'</div>';
@@ -2981,7 +2998,7 @@ function shiftText(d){
   var L=['🏁 Итог смены · '+dayLabel(d.date.toISOString())+' · '+(cfg.title||'Агроторг'),'',
     'Принято: +'+shN(d.inq)+' кор.'+(d.src.length?' ('+d.src.map(function(x){return x[0]+' '+shN(x[1])}).join(', ')+')':''),
     'Отгружено: −'+shN(d.outq)+' кор.'+(d.cit.length?' ('+d.cit.map(function(x){return x[0]+' '+shN(x[1])}).join(', ')+')':''),
-    'Набрано отгрузок: '+d.nab, 'На складе: '+shN(d.stock)+' кор. в '+d.cells+' яч.'];
+    'Набрано отгрузок: '+d.nab].concat(d.pal.k?['Палет: '+d.pal.n+(d.pal.k<d.pal.t?' (указано в '+d.pal.k+' из '+d.pal.t+' отгрузок)':'')]:[]).concat(['На складе: '+shN(d.stock)+' кор. в '+d.cells+' яч.']);
   if(d.people.length){L.push('','Кто что сделал:'); d.people.forEach(function(p){var e=nkOf(p.uid,p.name), a=[]; if(p.inq) a.push('+'+shN(p.inq)+' принято'); if(p.outq) a.push('−'+shN(p.outq)+' отгружено'); if(p.nab) a.push(p.nab+' набрано'); L.push('• '+(e&&e.em?e.em+' ':'')+p.name+': '+a.join(', '))})}
   return L.join('\n');
 }
@@ -2996,7 +3013,7 @@ function shiftCanvas(d){
   y+=110; T('🏁 Итог смены',64,y,'900 88px '+F,'#F1F5FB'); y+=56; T(dayLabel(d.date.toISOString()),64,y,'700 34px '+F,'#A8B4C8');
   y+=40; var bw=(W-128-40)/3, B=[['+'+shN(d.inq),'коробок принято','#36C377'],['−'+shN(d.outq),'коробок отгружено','#7FA2FF'],[String(d.nab),'отгрузок набрано','#F2C230']];
   B.forEach(function(b,i){var X=64+i*(bw+20); rr(X,y,bw,190,28,'#18233A'); T(b[0],X+26,y+96,'900 66px '+F,b[2],bw-40); T(b[1],X+26,y+150,'700 26px '+F,'#A8B4C8',bw-40)});
-  y+=230; var L=[]; if(d.src.length) L.push('📥 Пришло: '+d.src.slice(0,4).map(function(s){return s[0]+' '+shN(s[1])}).join(' · ')); if(d.cit.length) L.push('🚚 Ушло: '+d.cit.slice(0,4).map(function(s){return s[0]+' '+shN(s[1])}).join(' · ')); L.push('📦 На складе: '+shN(d.stock)+' кор. в '+d.cells+' ячейках');
+  y+=230; var L=[]; if(d.src.length) L.push('📥 Пришло: '+d.src.slice(0,4).map(function(s){return s[0]+' '+shN(s[1])}).join(' · ')); if(d.cit.length) L.push('🚚 Ушло: '+d.cit.slice(0,4).map(function(s){return s[0]+' '+shN(s[1])}).join(' · ')+(d.pal.k?' · палет: '+d.pal.n:'')); L.push('📦 На складе: '+shN(d.stock)+' кор. в '+d.cells+' ячейках');
   rr(64,y,W-128,40+L.length*50,28,'#18233A'); L.forEach(function(t,i){T(t,94,y+64+i*50,'700 28px '+F,'#DCE4F0',W-188)}); y+=40+L.length*50+40;
   if(n){ T('Кто что сделал',64,y+10,'900 34px '+F,'#F1F5FB'); y+=34;
     d.people.slice(0,8).forEach(function(p){var e=nkOf(p.uid,p.name), a=[]; if(p.inq) a.push('+'+shN(p.inq)+' принято'); if(p.outq) a.push('−'+shN(p.outq)+' отгружено'); if(p.nab) a.push(p.nab+' набрано');
@@ -3051,7 +3068,7 @@ function renderStock0(){
             '<div class="chips">'+l.cells.map(function(c){return '<button type="button" class="chip chipbtn" data-act="mapCell" data-cell="'+esc(c.cell)+'" aria-label="Открыть ячейку '+esc(c.cell)+', '+c.qty+' кор.">'+c.cell+'<i>'+c.qty+' кор.</i></button>'}).join('')+'</div></div>';
         }).join(''):'<div class="empty">Нет на складе</div>'):'')+'</section>';
     }).join('')+'</div>'+SVC+
-    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты. Нажмите на ячейку — откроется её карточка.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.74.0</p>';
+    '<p class="note" style="margin-top:12px">Нажмите на товар — увидите его даты и ячейки, где они стоят. Число рядом с ячейкой — коробок этой даты. Нажмите на ячейку — откроется её карточка.</p>'+(canRep()?'<button class="btn ghost sm" type="button" data-act="repOpen" data-pre="stock">Остатки в PDF</button>':'')+'<p class="appver">Агроторг · версия 0.75.0</p>';
   }else if(S.view==='map'){
     h+=renderMap();
   }else{
@@ -3361,11 +3378,13 @@ function shipGroups(list){
     g.done=tk.length; g.total=g.items.length;
     g.picker=tk.length?(tk[0].chkByName||''):''; g.pickerUid=tk.length?(tk[0].chkBy||null):null;
     g.doneAt=(g.done===g.total&&tk.length)?tk[tk.length-1].chkAt:null;
+    var pm=g.items.filter(function(m){return m.pal!=null&&m.pal!==''}).sort(function(a,b){return (a.palAt||'')<(b.palAt||'')?1:-1})[0];
+    g.pal=pm?Number(pm.pal):null; g.palBy=pm?(pm.palByName||''):''; g.palUid=pm?(pm.palBy||null):null; g.palAt=pm?(pm.palAt||null):null;
   });
   return gs.reverse();
 }
 function nabState(g){
-  if(g.done===g.total) return ['ok','✓ набрал'+(g.picker?' '+nk(g.picker,g.pickerUid):'')+(g.doneAt?' '+timeKey(g.doneAt):'')];
+  if(g.done===g.total) return ['ok','✓ набрал'+(g.picker?' '+nk(g.picker,g.pickerUid):'')+(g.doneAt?' '+timeKey(g.doneAt):'')+(g.pal!=null?' · '+palTxt(g.pal):'')];
   if(g.done>0) return ['go','● набирает '+(g.picker?nk(g.picker,g.pickerUid):'')];
   return ['wait','ждёт набора'];
 }
@@ -3392,6 +3411,36 @@ function nabSection(){
   return '<section class="nabsec"><div class="nabh"><h2>Набрать</h2>'+(n?'<span class="nbadge">'+n+'</span>':'')+'</div>'+
     (gs.length?'<div class="stack nabl">'+gs.map(nabCard).join('')+'</div>':'<p class="note">Набирать нечего. Новые отгрузки появятся здесь.</p>')+'</section>';
 }
+/* ----- 0.75.0 палеты ----- */
+function palTxt(n){ return 'палет: '+(Number(n)||0) }
+/* палеты по набору отгрузок: {n — сумма, k — отгрузок с числом, t — всего отгрузок} */
+function palSum(list){ var r={n:0,k:0,t:0}; shipGroups(list).forEach(function(g){ r.t++; if(g.pal!=null){ r.n+=g.pal; r.k++ } }); return r }
+function palNote(r){ return r.k?'палет: '+r.n+(r.k<r.t?' (указано в '+r.k+' из '+r.t+' отгрузок)':''):'' }
+function tdPalSm(){ var n=0, any=false; shipGroups(moves.filter(isToday)).forEach(function(g){ if(g.pal!=null){ n+=g.pal; any=true } }); return any?'<span class="tpal">палет: '+n+'</span>':'' }
+function tdPal(){ var n=0, any=false; shipGroups(moves.filter(isToday)).forEach(function(g){ if(g.pal!=null){ n+=g.pal; any=true } }); return any?'<br>'+palTxt(n):'' }
+function palAsk(g,ctx){ return (S.palEd===g.key)||(ctx==='nab'&&g.pal==null&&S.palEd!=='-'+g.key) }
+function palBox(g,ctx){ var k=esc(g.key);
+  if(!canSave()||!palAsk(g,ctx)) return '';
+  var v=S.palEd===g.key?S.palV:'', ok=/^\d+$/.test(String(v))&&+v>=1&&+v<=99;
+  return '<div class="palbox ed'+(ctx==='nab'?' big':'')+'"><label for="palIn">Сколько получилось палет?</label>'+
+    '<div class="step palst"><button type="button" data-act="palStep" data-d="-1" aria-label="Меньше">−</button><input id="palIn" type="number" inputmode="numeric" min="1" max="99" value="'+esc(v)+'" placeholder="0" data-k="'+k+'"><button type="button" data-act="palStep" data-d="1" aria-label="Больше">+</button></div>'+
+    '<div class="palact"><button type="button" class="btn" id="palOk" data-act="palSave" data-k="'+k+'"'+(ok?'':' disabled')+'>Сохранить</button>'+
+    (g.pal!=null||ctx==='j'?'<button type="button" class="btn ghost" data-act="palNo">Отмена</button>':'<button type="button" class="btn ghost" data-act="palLater" data-k="'+k+'">Позже</button>')+'</div></div>' }
+ICP.edit='<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>';
+/* аккуратная кнопка рядом со статусом: «изменить» или «+ палеты» */
+function palChip(g,ctx){ if(!canSave()||palAsk(g,ctx)) return ''; var k=esc(g.key);
+  return g.pal!=null?'<button type="button" class="palchip" data-act="palEd" data-k="'+k+'" aria-label="Изменить число палет">'+IC('edit')+'</button>'
+    :'<button type="button" class="palchip add" data-act="palEd" data-k="'+k+'">+ палеты</button>' }
+function palBtnSync(){ var i=document.getElementById('palIn'), b=document.getElementById('palOk'); if(!i||!b) return; var v=i.value;
+  b.disabled=!(/^\d+$/.test(v)&&+v>=1&&+v<=99) }
+function palSave(k){ var g=nabFind(k), i=document.getElementById('palIn'), v=parseInt(i&&i.value,10);
+  if(!g||!canSave()||!(v>=1&&v<=99)) return;
+  var at=new Date().toISOString(), upd={pal:v,palBy:ME.uid,palByName:ME.name,palAt:at};
+  S.palEd=null;
+  return withRetry(function(){ var b=db.batch(); g.items.forEach(function(m){ b.update(db.doc('moves/'+m.id),upd) }); return b.commit() })
+    .then(function(){ toast(g.city+': '+palTxt(v)) }).catch(function(er){ toast(errText(er),true) }) }
+document.addEventListener('input',function(e){ if(e.target&&e.target.id==='palIn'){ var v=e.target.value.replace(/\D/g,'').slice(0,2); if(v!==e.target.value) e.target.value=v; S.palV=v; palBtnSync() } });
+document.addEventListener('keydown',function(e){ if(e.target&&e.target.id==='palIn'&&e.key==='Enter'){ e.preventDefault(); var b=document.getElementById('palOk'); if(b&&!b.disabled) b.click() } });
 function nabCanBack(m){return canSave()&&ME&&(m.chkBy===ME.uid||isAdm())}
 function nabRow(m){
   var ok=m.chk==='ok', op=!!(S.nabOpen&&S.nabOpen[m.id]), p=product(m.product);
@@ -3415,7 +3464,7 @@ function nabView(){
   var st=nabState(g);
   var items=g.items.slice().sort(function(a,b){return String(a.cell).replace(/\D/g,'').localeCompare(String(b.cell).replace(/\D/g,''))});
   return banner()+'<div class="nabtop"><button type="button" class="hib" data-act="nabBack" aria-label="Назад к списку"><svg class="i" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></button><h1>'+esc(g.city)+'</h1><span class="pill '+(g.done===g.total?'ok':'in')+'">'+g.done+' из '+g.total+'</span></div>'+
-    '<p class="nsub nsub2">'+nabSub(g)+'</p><span class="pst big '+st[0]+'">'+st[1]+'</span>'+
+    '<p class="nsub nsub2">'+nabSub(g)+'</p><div class="pstrow"><span class="pst big '+st[0]+'">'+st[1]+'</span>'+(g.done===g.total?palChip(g,'nab'):'')+'</div>'+(g.done===g.total?palBox(g,'nab'):'')+
     '<div class="stack nlist">'+items.map(nabRow).join('')+'</div>';
 }
 function renderOut(){ var _h=renderOut9(); var vb=vBanner('out'); if(!vb||S.pick) return _h; var k=_h.indexOf('<h1 class="wh1">'); return k<0?vb+_h:_h.slice(0,k)+vb+_h.slice(k) }
@@ -4594,6 +4643,7 @@ function reportHtml(sec){
   if(sec.out){
     h.push('<h2>Отгрузки · '+esc(repPerSpan())+'</h2>');
     h.push(outs.length?rTable([['Дата'],['Товар'],['Произведено'],['Годен до'],['Ячейка'],['Коробок',1],['Город'],['Кто внёс']],outs.map(function(m){return [dtFull(m.ts),swatch(m.product)+esc(product(m.product).short),fmtL(m.prod),fmtL(m.exp),esc(m.cell),m.qty,esc(m.city||''),esc(m.byName||'')]}),['Итого','','','','',sumQty(outs),'','']):'<p class="em">Отгрузок за период нет.</p>');
+    var rpP=palSum(outs); if(rpP.k) h.push('<p class="rpal">Отгрузок: '+rpP.t+' · '+esc(palNote(rpP))+'</p>');
   }
   if(sec.city){
     h.push('<h2>По городам · '+esc(repPerSpan())+'</h2>');
@@ -4601,7 +4651,8 @@ function reportHtml(sec){
     if(!cd.length) h.push('<p class="em">Отгрузок за период нет.</p>');
     cd.forEach(function(c){
       var rows3=[]; Object.keys(c.prods).forEach(function(k){var pr=c.prods[k]; Object.keys(pr.lots).map(function(x){return pr.lots[x]}).sort(byExp).forEach(function(l){rows3.push([swatch(pr.id)+esc(product(pr.id).short),fmtL(l.prod),fmtL(l.exp),l.qty,l.order.map(function(d){return d+' — '+l.days[d]}).join('; ')])})});
-      h.push('<h3>'+esc(c.name)+' — '+c.total+' кор.</h3>'+rTable([['Товар'],['Произведено'],['Годен до'],['Коробок',1],['Когда отгружено (коробок)']],rows3));
+      var cP=palSum(periodMoves('out').filter(function(m){return m.city===c.name}));
+      h.push('<h3>'+esc(c.name)+' — '+c.total+' кор.'+(cP.k?', палет: '+cP.n:'')+'</h3>'+rTable([['Товар'],['Произведено'],['Годен до'],['Коробок',1],['Когда отгружено (коробок)']],rows3));
     });
   }
   if(sec.misc){
@@ -4629,7 +4680,7 @@ function reportHtml(sec){
       ['Цвета остаточного срока',L.map(function(x,i){return '<span class="sw" style="background:'+x.color+'"></span>'+lv[i]}).join(' &nbsp; ')+' &nbsp; <span class="sw" style="background:'+cfg.expiredColor+'"></span>срок истёк']
     ]));
   }
-  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.74.0</div>');
+  h.push('<div class="ft">'+esc(cfg.title)+' · Авторская программа учёта · Версия: 0.75.0</div>');
   return h.join('');
 }
 /* PDF собирается прямо в программе: страницы рисуются как картинки и складываются в файл. Окно печати не нужно. */
@@ -4682,7 +4733,7 @@ function pageJpeg(inner,idx,total){
         var cx=cv.getContext('2d'); cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
         cx.drawImage(img,0,0,cv.width,cv.height);
         cx.fillStyle='#555'; cx.font=(8.5*k)+'px Arial, sans-serif'; cx.textAlign='center';
-        cx.fillText(cfg.title+' · Версия 0.74.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
+        cx.fillText(cfg.title+' · Версия 0.75.0 · стр. '+idx+' из '+total,cv.width/2,cv.height-(20*k));
         cv.toBlob(function(b){
           if(!b) return rej(new Error('jpeg'));
           b.arrayBuffer().then(function(ab){res({bytes:new Uint8Array(ab),w:cv.width,h:cv.height})},rej);
@@ -4709,7 +4760,7 @@ function buildPdf(imgs){
     obj(cid,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
     offs[iid]=len; put(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+im.bytes.length+' >>\nstream\n'); put(im.bytes); put('\nendstream\nendobj\n');
   });
-  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.74.0) >>');
+  var info=3+3*n; obj(info,'<< /Title (Agrotorg report) /Producer (Agrotorg 0.75.0) >>');
   var xr=len, t='xref\n0 '+(info+1)+'\n0000000000 65535 f \n';
   for(var id=1;id<=info;id++) t+=String(offs[id]).padStart(10,'0')+' 00000 n \n';
   put(t+'trailer\n<< /Size '+(info+1)+' /Root 1 0 R /Info '+info+' 0 R >>\nstartxref\n'+xr+'\n%%EOF');
@@ -5057,6 +5108,11 @@ document.addEventListener('click',function(e){
       return withRetry(function(){return db.doc('moves/'+nm.id).update({chk:'ok',chkBy:ME.uid,chkByName:ME.name,chkAt:new Date().toISOString()})}).then(function(){
         var g=nabFind(S.pick); toast(g&&g.done===g.total?'Набрано: '+g.city+' ✓':'Взято: '+nm.cell+' · '+nm.qty+' кор');
       }).catch(function(er){toast(errText(er),true)});
+    case 'palEd': (function(){ var g=nabFind(el.dataset.k); S.palEd=el.dataset.k; S.palV=String(g&&g.pal!=null?g.pal:''); })(); render(); setTimeout(function(){var i=document.getElementById('palIn'); if(i) i.focus()},40); return;
+    case 'palNo': S.palEd=null; return render();
+    case 'palLater': S.palEd='-'+el.dataset.k; return render();
+    case 'palStep': (function(){ var i=document.getElementById('palIn'), v=Math.max(1,Math.min(99,(parseInt(i&&i.value,10)||0)+Number(el.dataset.d))); S.palV=String(v); if(i) i.value=v; palBtnSync() })(); return;
+    case 'palSave': return palSave(el.dataset.k);
     case 'nabUndo':
       var um=moves.filter(function(x){return x.id===el.dataset.id})[0]; if(!um||!nabCanBack(um)) return;
       return withRetry(function(){return db.doc('moves/'+um.id).update({chk:'bad',chkBy:null,chkByName:null,chkAt:null})}).then(function(){toast('Вернули в «ждёт набора»: '+um.cell)}).catch(function(er){toast(errText(er),true)});
@@ -5815,6 +5871,8 @@ function mgHtml(r,sec){
   // выводы
   var W=[], unit=r.p==='wk0'||r.p==='wk1'?'неделей':r.p==='mo0'||r.p==='mo1'?'месяцем':'периодом';
   if(T.out||pT.out){ var d=T.out-pT.out; W.push(pT.out?('Отгружено '+T.out+' кор. — '+(d===0?'столько же, сколько':T.out>=pT.out*2?('в '+String(Math.round(T.out/pT.out*10)/10).replace('.',',')+' раза больше, чем'):(Math.abs(mgPct(d,pT.out))+'% '+(d>0?'больше':'меньше')+', чем'))+' за прошлый период ('+pT.out+').'):('Отгружено '+T.out+' кор.; в прошлый период отгрузок не было.')) }
+  var mP=palSum(moves.filter(function(m){ var t=Date.parse(m.ts); return kindOf(m)==='out'&&t>=r.s.getTime()&&t<r.e.getTime() }));
+  if(mP.k) W.push('Палет отгружено: <b>'+mP.n+'</b>'+(mP.k<mP.t?' (указано в '+mP.k+' из '+mP.t+' отгрузок)':'')+'.');
   var top=ids.slice().sort(function(a,b){return C.P[b].out-C.P[a].out})[0];
   if(top&&C.P[top].out&&T.out) W.push('Больше всего отгружено: <b>'+esc(product(top).name)+'</b> — '+C.P[top].out+' кор. ('+mgPct(C.P[top].out,T.out)+'% всех отгрузок).');
   var bd=null; Object.keys(C.days).forEach(function(k){ var x=C.days[k]; if(!bd||x.out>C.days[bd].out) bd=k });
@@ -6145,7 +6203,7 @@ function snapWrapViews(){
 snapWrapViews();
 window.__SN=function(code){return eval(code)}; // тестовый доступ к состоянию снимка (автотесты)
 /* ----- 0.60.1 счётчик чтений ----- */
-var APP_VER='0.74.0', DG_KEY='agro.diag', DG_LAST='agro.diagAct', DG=null, DG_SAVED=0, DG_DIRTY=false, DG_DEV='';
+var APP_VER='0.75.0', DG_KEY='agro.diag', DG_LAST='agro.diagAct', DG=null, DG_SAVED=0, DG_DIRTY=false, DG_DEV='';
 try{DG_DEV=localStorage.getItem('agro.devid')||''; if(!DG_DEV){DG_DEV=Math.random().toString(36).slice(2,8); localStorage.setItem('agro.devid',DG_DEV)}}catch(e){DG_DEV='x'}
 function dgDay(){var d=new Date(); return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())}
 function dgGet(){
@@ -7374,7 +7432,7 @@ function settingsTabs(){
   secs.forEach(function(s){s.style.display=key(s)===cur?'':'none'});
   var sv=wrap.querySelector(':scope > [data-act="saveSettings"]'); if(sv) sv.style.display=(cur==='wh'||cur==='look')?'':'none';
   bt.insertAdjacentHTML('afterend','<div class="scrollrow stabs" role="tablist">'+list.map(function(t){return '<button class="fchip" type="button" role="tab" data-act="sTab" data-t="'+t[0]+'" aria-pressed="'+(t[0]===cur)+'">'+t[1]+'</button>'}).join('')+'</div>');
-  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.74.0</p>');
+  wrap.insertAdjacentHTML('beforeend','<p class="note" style="text-align:center;margin-top:14px">Агроторг · Авторская программа учёта · Версия: 0.75.0</p>');
 }
 
 /* ---------- запросы между сотрудниками ---------- */
@@ -8264,7 +8322,7 @@ function jShipCard(g){
   var st=nabState(g), k=esc(g.key);
   return '<li class="card jsc"><div class="jh"><span class="jwho">Отгрузил <b>'+(g.who?nkp(g.who,g.uid):'—')+'</b> · '+timeKey(g.ts)+'</span><span class="mvpill">в '+esc(g.city)+'</span></div>'+
     '<div class="jp">'+pname(g.product)+'<span class="jq"><b>'+g.qty+'</b> кор</span></div>'+
-    '<span class="pst '+st[0]+'">'+st[1]+'</span>'+seEditedNote(g)+
+    '<div class="pstrow"><span class="pst '+st[0]+'">'+st[1]+'</span>'+(g.done===g.total?palChip(g,'j'):'')+'</div>'+(g.done===g.total?palBox(g,'j'):'')+seEditedNote(g)+
     '<div class="jls">'+g.items.map(function(m){return '<div class="jl"><button type="button" class="mono ircb" data-act="mapCell" data-cell="'+esc(m.cell)+'" aria-label="Ячейка '+esc(m.cell)+': действия">'+esc(m.cell)+'</button><span class="jd">'+rng(m.prod,m.exp)+'</span><span class="jn"><b>'+(Number(m.qty)||0)+'</b> кор</span></div>'}).join('')+'</div>'+
     (canSave()?(S.confirmGrp===g.key?'<div class="mv-a jfoot"><span class="note">Отменить всю отгрузку ('+g.qty+' кор)?</span><button class="btn danger sm" type="button" data-act="grpDelYes" data-k="'+k+'">Да, отменить</button><button class="btn ghost sm" type="button" data-act="grpDelNo">Нет</button></div>'
       :'<div class="mv-a4 jact"><button type="button" data-act="seOpen" data-k="'+k+'" data-f="cells">Ячейки</button><button type="button" data-act="seOpen" data-k="'+k+'" data-f="date">Даты</button><button type="button" data-act="seOpen" data-k="'+k+'" data-f="qty">Кол-во</button><button type="button" class="bad" data-act="grpDelAsk" data-k="'+k+'">Отменить</button></div>'):'')+'</li>';
